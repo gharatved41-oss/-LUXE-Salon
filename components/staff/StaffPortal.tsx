@@ -163,7 +163,7 @@ export default function StaffPortal({
   )
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row bg-[#F6EFE2] font-sans">
+    <div className="flex-1 flex flex-col md:flex-row bg-transparent font-sans">
       {/* ================================================================
           STAFF SIDEBAR NAVIGATION (Frosted Glass Sidebar)
           ================================================================ */}

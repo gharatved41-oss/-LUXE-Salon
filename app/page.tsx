@@ -349,7 +349,7 @@ function MainAppContent() {
   // Session loading check
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F6EFE2] flex items-center justify-center text-[#1C1B1A] text-xs font-mono font-bold">
+      <div className="min-h-screen bg-transparent flex items-center justify-center text-[#1C1B1A] text-xs font-mono font-bold">
         <div className="flex items-center gap-2.5 p-4 glass-card rounded-2xl shadow-glass">
           <div className="w-5 h-5 border-2 border-[#D63927] border-t-transparent rounded-full animate-spin" />
           <span>{t('verifyingSession')}</span>
@@ -373,7 +373,7 @@ function MainAppContent() {
 
   // 2. Authenticated: Render Header + Retro Radio Ambience Bar + Role-Guarded Portal
   return (
-    <div className="min-h-screen bg-[#F6EFE2] flex flex-col font-sans">
+    <div className="min-h-screen bg-transparent flex flex-col font-sans">
       {/* ================================================================
           TOPBAR: VINTAGE INDIAN SALOON BRANDING, NIMBU CHARM & ROLE TELEMETRY
           ================================================================ */}
@@ -381,8 +381,12 @@ function MainAppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo & Hanging Nimbu-Mirchi Telemetry Charm */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#F5B82E] text-[#1C1B1A] border-2 border-white flex items-center justify-center shadow-xs">
-              <Scissors size={20} />
+            <div className="w-10 h-10 rounded-xl bg-[#D63927] border-2 border-white overflow-hidden flex items-center justify-center shadow-xs shrink-0">
+              <img
+                src="/images/salon_logo.jpg"
+                alt="डिLUXE Salon Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2">

@@ -19,16 +19,17 @@
   }
 
   body {
-    background-color: var(--canvas-bg);
+    background-color: #1C1B1A;
     color: var(--ink-border);
     font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
     background-image: 
-      radial-gradient(circle at 1px 1px, rgba(28, 27, 26, 0.06) 1px, transparent 0),
-      radial-gradient(at 10% 15%, rgba(214, 57, 39, 0.04) 0px, transparent 50%),
-      radial-gradient(at 90% 10%, rgba(245, 184, 46, 0.06) 0px, transparent 50%);
-    background-size: 24px 24px, 100% 100%, 100% 100%;
+      linear-gradient(rgba(28, 27, 26, 0.42), rgba(28, 27, 26, 0.62)),
+      url('/images/homepage_bg.jpg');
+    background-size: cover;
+    background-position: center;
     background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 }
 
@@ -324,7 +325,7 @@
   box-shadow: 3px 3px 0px #1C1B1A;
 }
 
-/* 10. Retro Hard Shadows */
+/* 10. Retro Hard Shadows & Anti-Gravity Elevation */
 .shadow-kitsch {
   box-shadow: 4px 4px 0px #1C1B1A;
 }
@@ -345,7 +346,131 @@
   box-shadow: 4px 4px 0px #D63927;
 }
 
-/* 11. Retro Custom Scrollbar */
+/* ANTI-GRAVITY TINTED GLASSMORPHISM (Prompt Spec) */
+.glass-antigravity-parchment {
+  background: rgba(255, 253, 249, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid #1C1B1A;
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.6), 0 16px 32px rgba(28, 27, 26, 0.18), 4px 4px 0px #1C1B1A;
+  border-radius: 18px;
+}
+
+.glass-antigravity-haldi {
+  background: rgba(245, 184, 46, 0.90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid #1C1B1A;
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.4), 0 16px 32px rgba(28, 27, 26, 0.18), 4px 4px 0px #1C1B1A;
+  border-radius: 18px;
+}
+
+.glass-antigravity-terracotta {
+  background: rgba(214, 57, 39, 0.90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid #1C1B1A;
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.4), 0 16px 32px rgba(28, 27, 26, 0.18), 4px 4px 0px #1C1B1A;
+  border-radius: 18px;
+}
+
+.glass-antigravity-shutter {
+  background: rgba(30, 117, 184, 0.90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid #1C1B1A;
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.4), 0 16px 32px rgba(28, 27, 26, 0.18), 4px 4px 0px #1C1B1A;
+  border-radius: 18px;
+}
+
+.glass-antigravity-limca {
+  background: rgba(40, 141, 67, 0.90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid #1C1B1A;
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.4), 0 16px 32px rgba(28, 27, 26, 0.18), 4px 4px 0px #1C1B1A;
+  border-radius: 18px;
+}
+
+/* 11. 3D FLIPPABLE VIP MEMBERSHIP CARD */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* 12. MATCHBOX & RAILWAY PERFORATED TICKET EDGES */
+.ticket-jagged {
+  background: #FFFDF9;
+  border: 2px solid #1C1B1A;
+  position: relative;
+}
+
+.ticket-jagged::before,
+.ticket-jagged::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  background-color: #1C1B1A;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+.ticket-jagged::before {
+  left: -10px;
+}
+
+.ticket-jagged::after {
+  right: -10px;
+}
+
+/* 13. AUTO-RICKSHAW METER GRAPHIC & COUNTDOWN */
+@keyframes meter-ticker {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.rickshaw-meter-active {
+  animation: meter-ticker 1.2s ease-in-out infinite;
+}
+
+/* 14. STAMPED SEALS & BOUNCE ANIMATIONS */
+@keyframes stamp-drop {
+  0% {
+    opacity: 0;
+    transform: scale(2.4) rotate(-15deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.92) rotate(-4deg);
+  }
+  80% {
+    transform: scale(1.06) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1) rotate(-4deg);
+  }
+}
+
+.animate-stamp {
+  animation: stamp-drop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 15. Retro Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 9px;
   height: 9px;
@@ -365,3 +490,4 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #B81D1D;
 }
+

@@ -186,7 +186,7 @@ export default function AdminPortal({
   const yearlyRevenue = 1842600
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row bg-[#F6EFE2] font-sans">
+    <div className="flex-1 flex flex-col md:flex-row bg-transparent font-sans">
       {/* ================================================================
           ADMIN SIDEBAR NAVIGATION (Frosted Dark Glass Sidebar)
           ================================================================ */}

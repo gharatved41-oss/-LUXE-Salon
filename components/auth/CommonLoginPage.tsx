@@ -138,8 +138,12 @@ export default function CommonLoginPage() {
                 <span className="stamped-seal text-[10px]">USTAAD APPROVED</span>
               </div>
 
-              <div className="w-16 h-16 rounded-2xl bg-[#D63927] border-2 border-[#1C1B1A] text-[#FFFDF9] flex items-center justify-center shadow-kitsch-sm mx-auto mb-3">
-                <Scissors size={32} />
+              <div className="w-24 h-24 rounded-2xl bg-[#D63927] border-2 border-[#1C1B1A] overflow-hidden shadow-kitsch-sm mx-auto mb-3 flex items-center justify-center">
+                <img
+                  src="/images/salon_logo.jpg"
+                  alt="डिLUXE Salon Logo"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1C1B1A] font-hindi tracking-tight leading-tight">
                 {t('salonTitle')}

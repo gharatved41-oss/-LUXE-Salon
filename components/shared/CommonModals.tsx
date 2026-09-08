@@ -20,8 +20,8 @@ export function PaymentReceiptModal({
       <div className="neo-modal max-w-md w-full p-6 text-[#1C1B1A]">
         <div className="flex justify-between items-center pb-3 border-b-2 border-dashed border-[#1C1B1A]/30">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#288D43] text-white flex items-center justify-center border-2 border-[#1C1B1A] shadow-xs">
-              <Scissors size={18} />
+            <div className="w-9 h-9 rounded-xl bg-[#D63927] overflow-hidden flex items-center justify-center border-2 border-[#1C1B1A] shadow-xs shrink-0">
+              <img src="/images/salon_logo.jpg" alt="Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <span className="text-[10px] font-extrabold text-[#288D43] uppercase tracking-wider block font-mono">

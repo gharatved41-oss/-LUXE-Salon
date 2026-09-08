@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: 'डीलक्स उस्ताद सैलून — USTAAD Deluxe Salon Ops & Real-Time Monitor',
   description:
     'Traditional Karigari meets Precision Automation. Real-Time Salon Monitoring, Queue Management, AI Voice Telephony & Operational Audit System.',
+  icons: {
+    icon: '/images/salon_logo.jpg',
+    apple: '/images/salon_logo.jpg',
+  },
 }
 
 export const viewport: Viewport = {
@@ -28,7 +32,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased min-h-screen bg-[#F6EFE2] text-[#1C1B1A] font-sans selection:bg-[#F5B82E] selection:text-[#1C1B1A]">
+      <body className="antialiased min-h-screen text-[#1C1B1A] font-sans selection:bg-[#F5B82E] selection:text-[#1C1B1A]">
         {children}
       </body>
     </html>

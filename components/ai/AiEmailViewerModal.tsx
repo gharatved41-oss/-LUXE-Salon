@@ -74,8 +74,8 @@ export default function AiEmailViewerModal({
         <div className="p-5 space-y-4 text-xs overflow-y-auto max-h-[440px] bg-transparent">
           {/* Email Branding Hero */}
           <div className="p-4 bg-[#1C1B1A] rounded-xl text-white text-center space-y-1.5 border-2 border-[#1C1B1A] shadow-kitsch-sm">
-            <div className="w-10 h-10 rounded-xl bg-[#F5B82E] text-[#1C1B1A] border-2 border-white flex items-center justify-center mx-auto shadow-xs">
-              <Scissors size={20} />
+            <div className="w-12 h-12 rounded-xl bg-[#D63927] border-2 border-white overflow-hidden flex items-center justify-center mx-auto shadow-xs">
+              <img src="/images/salon_logo.jpg" alt="Logo" className="w-full h-full object-cover" />
             </div>
             <h2 className="text-lg font-hindi font-bold tracking-wide text-[#F5B82E]">
               {isEn ? 'DELUXE SALON & SPA' : 'डीलक्स उस्ताद सैलून & स्पा'}
