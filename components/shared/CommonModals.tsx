@@ -16,11 +16,11 @@ export function PaymentReceiptModal({
   const isEn = language === 'en'
 
   return (
-    <div className="fixed inset-0 bg-[#1C1B1A]/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
-      <div className="neo-modal max-w-md w-full p-6 text-[#1C1B1A]">
-        <div className="flex justify-between items-center pb-3 border-b-2 border-dashed border-[#1C1B1A]/30">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
+      <div className="glass-modal max-w-md w-full p-6 text-[#1C1B1A]">
+        <div className="flex justify-between items-center pb-3 border-b border-white/60">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#D63927] overflow-hidden flex items-center justify-center border-2 border-[#1C1B1A] shadow-xs shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-white/40 backdrop-blur-md overflow-hidden flex items-center justify-center border border-white/80 shadow-sm shrink-0">
               <img src="/images/salon_logo.jpg" alt="Logo" className="w-full h-full object-cover" />
             </div>
             <div>
@@ -34,7 +34,7 @@ export function PaymentReceiptModal({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-[#5C564E] hover:text-[#1C1B1A] rounded-lg border border-[#1C1B1A]/20 hover:bg-[#E8DAC1]"
+            className="p-2 text-[#5C564E] hover:text-[#1C1B1A] rounded-xl border border-white/80 hover:bg-white/60 backdrop-blur-md transition-all cursor-pointer"
             aria-label="Close modal"
           >
             <X size={18} />
@@ -114,7 +114,7 @@ export function PaymentReceiptModal({
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 pt-3 border-t-2 border-dashed border-[#1C1B1A]/20">
+        <div className="flex justify-end gap-2 pt-3 border-t border-white/60">
           <button
             type="button"
             onClick={onClose}

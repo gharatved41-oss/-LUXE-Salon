@@ -83,19 +83,19 @@ export default function MembershipCard3D({
   return (
     <div className="flex flex-col items-center">
       {/* Interactive Tier Switcher Tabs */}
-      <div className="mb-4 inline-flex items-center gap-1.5 p-1 bg-[#1C1B1A]/85 backdrop-blur-md rounded-2xl border-2 border-[#1C1B1A] shadow-kitsch-sm">
+      <div className="mb-4 inline-flex items-center gap-1.5 p-1.5 bg-white/60 backdrop-blur-xl rounded-2xl border border-white/80 shadow-md">
         {(['Silver', 'Gold', 'Shahi Ustaad'] as PassTier[]).map((tier) => (
           <button
             key={tier}
             onClick={(e) => handleSelectTier(tier, e)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
               activeTier === tier
                 ? tier === 'Shahi Ustaad'
-                  ? 'bg-[#D63927] text-white border-2 border-white shadow-xs'
+                  ? 'bg-[#D63927] text-white shadow-sm'
                   : tier === 'Gold'
-                  ? 'bg-[#F5B82E] text-[#1C1B1A] border-2 border-[#1C1B1A] shadow-xs'
-                  : 'bg-[#FFFDF9] text-[#1C1B1A] border-2 border-[#1C1B1A] shadow-xs'
-                : 'text-[#E8DAC1] hover:text-white'
+                  ? 'bg-[#F5B82E] text-[#1C1B1A] shadow-sm'
+                  : 'bg-white text-[#1C1B1A] border border-white/80 shadow-sm'
+                : 'text-[#5C564E] hover:text-[#1C1B1A] hover:bg-white/40'
             }`}
           >
             {tier === 'Shahi Ustaad' ? '👑 Shahi' : tier === 'Gold' ? '⭐ Gold' : '🛡️ Silver'}
@@ -110,7 +110,7 @@ export default function MembershipCard3D({
         title="Click or Tap to Flip Membership Card"
       >
         <div
-          className={`relative w-full h-full transform-style-3d transition-transform duration-700 rounded-2xl ${
+          className={`relative w-full h-full transform-style-3d transition-transform duration-700 rounded-3xl ${
             isFlipped ? 'rotate-y-180' : ''
           }`}
         >
@@ -118,65 +118,56 @@ export default function MembershipCard3D({
               CARD FRONT FACE (Frosted Gold / Terracotta / Parchment Glass)
               ================================================================ */}
           <div
-            className={`absolute inset-0 backface-hidden w-full h-full rounded-2xl border-2 border-[#1C1B1A] p-4 flex flex-col justify-between overflow-hidden ${tierDetails.bgGlow} bg-gradient-to-br ${tierDetails.color}`}
+            className={`absolute inset-0 backface-hidden w-full h-full rounded-3xl border border-white/80 p-5 flex flex-col justify-between overflow-hidden ${tierDetails.bgGlow} bg-gradient-to-br ${tierDetails.color} backdrop-blur-2xl`}
             style={{
               boxShadow:
-                'inset 1.5px 1.5px 0px rgba(255,255,255,0.6), 0 20px 40px rgba(28,27,26,0.2), 4px 4px 0px #1C1B1A',
+                'inset 1.5px 1.5px 3px rgba(255,255,255,0.9), inset -1.5px -1.5px 3px rgba(255,255,255,0.25), 0 20px 40px -10px rgba(0,0,0,0.15)',
             }}
           >
-            {/* Subtle vintage watermark texture */}
-            <div className="absolute inset-0 bg-[radial-gradient(#1C1B1A_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
+            {/* Subtle frosted sheen overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-white/30 pointer-events-none" />
 
             {/* Top Row: Wordmark Brand + Flip Icon */}
             <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-[#1C1B1A] border border-white/40 overflow-hidden flex items-center justify-center shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-white/40 backdrop-blur-md border border-white/80 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
                   <img src="/images/salon_logo.jpg" alt="Logo" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <h4 className="font-hindi font-bold text-sm tracking-wide text-[#1C1B1A] leading-tight">
-                    डिLuxe VIP Pass
+                    डिLuxe Salon VIP Pass
                   </h4>
-                  <span className="text-[9px] font-mono uppercase tracking-widest text-[#1C1B1A]/80 block">
-                    USTAAD SALON OPS • 1984
+                  <span className="text-[9px] font-mono tracking-wider text-[#1C1B1A]/85 block font-bold">
+                    लाइन में नहीं, ठाठ में बैठो। • ESTD 1984
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#1C1B1A] text-[#F5B82E] text-[10px] font-mono font-bold border border-white/30 shadow-xs">
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/50 text-[#F5B82E] text-[10px] font-mono font-bold border border-white/40 shadow-sm backdrop-blur-md">
                 <RotateCw size={11} className="group-hover:rotate-180 transition-transform duration-500" />
                 <span>FLIP</span>
               </div>
             </div>
 
-            {/* Middle Section: Brass SIM Chip Motif + Barber Chair Emboss */}
-            <div className="flex items-center justify-between my-auto relative z-10 px-1">
-              {/* Brass Electronic SIM Chip */}
-              <div className="w-11 h-8 rounded-md bg-gradient-to-br from-[#E2B35B] via-[#FFF1BD] to-[#B88728] border border-[#1C1B1A] shadow-inner relative overflow-hidden flex items-center justify-center">
-                <div className="w-full h-[1px] bg-[#1C1B1A]/40 absolute top-2.5" />
-                <div className="w-full h-[1px] bg-[#1C1B1A]/40 absolute bottom-2.5" />
-                <div className="h-full w-[1px] bg-[#1C1B1A]/40 absolute left-3.5" />
-                <div className="h-full w-[1px] bg-[#1C1B1A]/40 absolute right-3.5" />
-                <div className="w-3 h-3 rounded-full border border-[#1C1B1A]/40" />
-              </div>
-
-              {/* Tier Badge Pill */}
-              <div className="flex flex-col items-end">
-                <span
-                  className={`text-[10px] font-mono font-extrabold px-2.5 py-0.5 rounded-full border border-[#1C1B1A] shadow-xs ${tierDetails.badgeColor}`}
-                >
-                  {tierDetails.name}
+            {/* Middle Row: Holographic Tier Seal */}
+            <div className="relative z-10 flex items-center justify-between">
+              <div>
+                <span className={`text-[10px] font-mono font-extrabold px-2.5 py-0.5 rounded-full ${tierDetails.badgeColor} border border-white/60 shadow-xs uppercase tracking-wider`}>
+                  {tierDetails.name.split(' ')[0]} PASS
                 </span>
-                <span className="text-[9px] font-mono font-bold text-[#1C1B1A] mt-0.5 tracking-tight">
+                <p className="text-[11px] font-mono font-bold text-[#1C1B1A] mt-1 drop-shadow-xs">
                   {tierDetails.discount}
-                </span>
+                </p>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-white/35 backdrop-blur-md border border-white/80 flex items-center justify-center shadow-inner">
+                <Crown size={24} className="text-[#1C1B1A]" />
               </div>
             </div>
 
-            {/* Bottom Row: Member Info + Expiry + Stamp */}
-            <div className="flex items-end justify-between relative z-10 pt-1 border-t border-[#1C1B1A]/20">
+            {/* Bottom Row: Member Info + Expiry */}
+            <div className="relative z-10 flex items-end justify-between pt-2 border-t border-white/40">
               <div>
-                <span className="text-[8px] font-mono uppercase text-[#1C1B1A]/70 block">MEMBER NAME</span>
+                <span className="text-[8px] font-mono uppercase text-[#1C1B1A]/70 block">CARD HOLDER</span>
                 <p className="text-xs font-extrabold text-[#1C1B1A] tracking-wide font-mono uppercase">
                   {memberName}
                 </p>
@@ -196,17 +187,17 @@ export default function MembershipCard3D({
           </div>
 
           {/* ================================================================
-              CARD BACK FACE (Khadi Parchment Frosted Surface + QR Code)
+              CARD BACK FACE (Liquid Glass Frosted Surface + QR Code)
               ================================================================ */}
           <div
-            className="absolute inset-0 backface-hidden rotate-y-180 w-full h-full rounded-2xl bg-[#FFFDF9] border-2 border-[#1C1B1A] p-4 flex flex-col justify-between overflow-hidden shadow-kitsch-lg"
+            className="absolute inset-0 backface-hidden rotate-y-180 w-full h-full rounded-3xl bg-white/80 backdrop-blur-2xl border border-white/90 p-5 flex flex-col justify-between overflow-hidden shadow-xl"
             style={{
               boxShadow:
-                'inset 1px 1px 0px rgba(255,255,255,0.8), 0 20px 40px rgba(28,27,26,0.2), 4px 4px 0px #1C1B1A',
+                'inset 1.5px 1.5px 3px rgba(255,255,255,1), inset -1.5px -1.5px 3px rgba(255,255,255,0.3), 0 24px 48px -10px rgba(0,0,0,0.12)',
             }}
           >
-            {/* Halftone Black Magnetic Strip */}
-            <div className="-mx-4 -mt-1 h-9 bg-[#1C1B1A] border-y border-[#1C1B1A] flex items-center justify-between px-4">
+            {/* Frosted Magnetic Strip */}
+            <div className="-mx-5 -mt-2 h-9 bg-black/80 backdrop-blur-md border-y border-white/20 flex items-center justify-between px-5">
               <span className="text-[9px] font-mono text-[#F5B82E] tracking-widest font-bold">
                 USTAAD PASS SECURE CHIP // ENCRYPTED
               </span>
@@ -214,19 +205,19 @@ export default function MembershipCard3D({
             </div>
 
             {/* Back Content: QR Code + Perks Matrix */}
-            <div className="flex items-center gap-3 py-1">
+            <div className="flex items-center gap-3.5 py-1">
               {/* Scannable Check-In QR Box */}
-              <div className="p-1.5 bg-white border-2 border-[#1C1B1A] rounded-xl shadow-xs shrink-0 flex flex-col items-center">
-                <div className="w-16 h-16 bg-[#1C1B1A] rounded flex items-center justify-center text-white relative">
-                  <QrCode size={48} className="text-[#F5B82E]" />
+              <div className="p-2 bg-white/90 border border-white/80 rounded-2xl shadow-sm shrink-0 flex flex-col items-center">
+                <div className="w-16 h-16 bg-[#1C1B1A] rounded-xl flex items-center justify-center text-white relative">
+                  <QrCode size={46} className="text-[#F5B82E]" />
                 </div>
-                <span className="text-[7px] font-mono font-bold text-[#1C1B1A] mt-0.5 uppercase">
+                <span className="text-[7.5px] font-mono font-bold text-[#1C1B1A] mt-1 uppercase">
                   TAP AT CHAIR
                 </span>
               </div>
 
               {/* VIP Entitlements List */}
-              <div className="flex-1 space-y-1 text-[10px] font-mono text-[#1C1B1A]">
+              <div className="flex-1 space-y-1 text-[10.5px] font-mono text-[#1C1B1A]">
                 <div className="flex items-center gap-1.5 font-bold text-[#D63927]">
                   <Zap size={11} className="shrink-0" />
                   <span className="truncate">{tierDetails.tatkal}</span>
@@ -247,7 +238,7 @@ export default function MembershipCard3D({
             </div>
 
             {/* Playful Micro-print Disclaimer */}
-            <div className="pt-1.5 border-t border-dashed border-[#1C1B1A]/20 flex items-center justify-between text-[7.5px] font-mono text-[#5C564E]">
+            <div className="pt-2 border-t border-dashed border-[#1C1B1A]/15 flex items-center justify-between text-[8px] font-mono text-[#5C564E]">
               <span>Terms subject to Ustaad chai break timings. Valid across all 4 Chairs.</span>
               <span className="font-bold text-[#1C1B1A]">ESTD 1984</span>
             </div>

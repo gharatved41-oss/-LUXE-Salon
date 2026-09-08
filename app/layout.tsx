@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'डीलक्स उस्ताद सैलून — USTAAD Deluxe Salon Ops & Real-Time Monitor',
+  title: 'डिLuxe Salon — लाइन में नहीं, ठाठ में बैठो।',
   description:
-    'Traditional Karigari meets Precision Automation. Real-Time Salon Monitoring, Queue Management, AI Voice Telephony & Operational Audit System.',
+    'डिLuxe Salon — लाइन में नहीं, ठाठ में बैठो। Real-Time Salon Monitoring, Dynamic Queue Management, AI Voice Telephony & Operational Audit System.',
   icons: {
     icon: '/images/salon_logo.jpg',
     apple: '/images/salon_logo.jpg',

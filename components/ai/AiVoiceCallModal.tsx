@@ -69,15 +69,15 @@ export default function AiVoiceCallModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-[#1C1B1A]/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
-      <div className="neo-modal max-w-md w-full p-6 sm:p-8 text-[#1C1B1A] text-center relative overflow-hidden">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
+      <div className="glass-modal max-w-md w-full p-6 sm:p-8 text-[#1C1B1A] text-center relative overflow-hidden">
         {/* Top Telemetry Header (PCO Style) */}
-        <div className="flex items-center justify-between pb-4 border-b-2 border-dashed border-[#1C1B1A]/30 text-xs">
+        <div className="flex items-center justify-between pb-4 border-b border-white/60 text-xs">
           <span className="flex items-center gap-1.5 text-[#288D43] font-extrabold uppercase tracking-wider font-mono">
             <span className="w-2.5 h-2.5 rounded-full bg-[#288D43] animate-ping" />
             AI Voice Call Active (STD/PCO)
           </span>
-          <span className="font-mono bg-[#F5B82E] border-2 border-[#1C1B1A] px-2.5 py-0.5 rounded text-[#1C1B1A] font-extrabold shadow-xs">
+          <span className="font-mono bg-white/70 border border-white/80 px-2.5 py-0.5 rounded-full text-[#1C1B1A] font-extrabold shadow-xs">
             00:{callDuration < 10 ? `0${callDuration}` : callDuration}
           </span>
         </div>
@@ -85,10 +85,10 @@ export default function AiVoiceCallModal({
         {/* Dynamic Voice Call Avatar & Waveform */}
         <div className="my-6 space-y-4">
           <div className="relative inline-block">
-            <div className="w-20 h-20 rounded-2xl bg-[#D63927] border-2 border-[#1C1B1A] text-white flex items-center justify-center shadow-kitsch mx-auto">
+            <div className="w-20 h-20 rounded-3xl glass-terracotta text-white flex items-center justify-center shadow-lg mx-auto">
               <Bot size={36} />
             </div>
-            <div className="absolute -bottom-1.5 -right-1.5 w-8 h-8 rounded-xl bg-[#288D43] border-2 border-[#1C1B1A] text-white flex items-center justify-center shadow-xs">
+            <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-xl glass-limca text-white flex items-center justify-center shadow-sm">
               <PhoneCall size={14} className="animate-pulse" />
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function AiVoiceCallModal({
             {[40, 75, 90, 60, 100, 80, 50, 95, 70, 45].map((height, i) => (
               <div
                 key={i}
-                className={`w-1.5 bg-[#D63927] border border-[#1C1B1A] rounded-full transition-all ${
+                className={`w-1.5 bg-[#D63927] rounded-full transition-all ${
                   isPlayingVoice ? 'animate-pulse' : 'opacity-30'
                 }`}
                 style={{
@@ -120,7 +120,7 @@ export default function AiVoiceCallModal({
         </div>
 
         {/* Spoken Voice Script Card */}
-        <div className="p-4 bg-[#FFF9E6] border-2 border-[#1C1B1A] rounded-xl text-left space-y-2 text-xs shadow-kitsch-sm">
+        <div className="p-4 glass-card text-left space-y-2 text-xs">
           <div className="flex items-center justify-between text-[#5C564E] text-[10px] font-extrabold uppercase tracking-wider font-mono">
             <span className="flex items-center gap-1">
               <Volume2 size={13} className="text-[#D63927]" />
@@ -135,27 +135,27 @@ export default function AiVoiceCallModal({
 
         {/* Appointment & Service Tags */}
         <div className="mt-4 grid grid-cols-2 gap-2 text-[11px] text-left font-semibold">
-          <div className="p-2.5 bg-[#FFFDF9] rounded-lg border-2 border-[#1C1B1A] shadow-xs">
+          <div className="p-3 bg-white/60 backdrop-blur-md rounded-2xl border border-white/80 shadow-xs">
             <span className="text-[#5C564E] text-[10px] uppercase block font-bold font-mono">Service</span>
             <strong className="text-[#1C1B1A] truncate block">{callRecord.serviceName}</strong>
           </div>
-          <div className="p-2.5 bg-[#FFFDF9] rounded-lg border-2 border-[#1C1B1A] shadow-xs">
+          <div className="p-3 bg-white/60 backdrop-blur-md rounded-2xl border border-white/80 shadow-xs">
             <span className="text-[#5C564E] text-[10px] uppercase block font-bold font-mono">Barber Stylist</span>
             <strong className="text-[#1C1B1A] truncate block">{callRecord.staffName} ({callRecord.station})</strong>
           </div>
         </div>
 
         {/* Call Action Controls */}
-        <div className="mt-6 flex items-center justify-center gap-3 pt-4 border-t-2 border-dashed border-[#1C1B1A]/30">
+        <div className="mt-6 flex items-center justify-center gap-3 pt-4 border-t border-white/60">
           <button
             onClick={handleReplayVoice}
-            className="px-4 py-2.5 btn-kitsch-haldi text-xs flex items-center gap-1.5"
+            className="px-4 py-2.5 btn-kitsch-haldi text-xs flex items-center gap-1.5 cursor-pointer"
           >
             <RotateCcw size={14} /> Replay Voice
           </button>
           <button
             onClick={handleEndCall}
-            className="px-5 py-2.5 bg-[#B81D1D] hover:bg-[#8F1616] text-white border-2 border-[#1C1B1A] shadow-kitsch-sm rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer active:translate-x-0.5 active:translate-y-0.5"
+            className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white border border-white/40 shadow-sm rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
           >
             <PhoneOff size={14} /> {isEn ? 'End Call' : 'End Call (कॉल समाप्त)'}
           </button>

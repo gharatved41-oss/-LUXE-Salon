@@ -167,10 +167,10 @@ export default function StaffPortal({
       {/* ================================================================
           STAFF SIDEBAR NAVIGATION (Frosted Glass Sidebar)
           ================================================================ */}
-      <aside className="w-full md:w-64 bg-[#FFFDF9]/80 backdrop-blur-xl border-r border-[#1C1B1A]/12 p-4 flex flex-col justify-between shrink-0 shadow-xs">
+      <aside className="w-full md:w-64 glass-panel p-4 flex flex-col justify-between shrink-0 shadow-sm">
         <div className="space-y-5">
           {/* Staff Member Frosted Pill */}
-          <div className="p-3 bg-[#FFF9E6]/85 backdrop-blur-md border border-[#F5B82E]/40 rounded-2xl shadow-2xs">
+          <div className="p-3 bg-white/60 backdrop-blur-md border border-white/80 rounded-2xl shadow-xs">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#288D43] text-white font-bold flex items-center justify-center text-sm border border-white/40 shadow-xs">
                 {user?.name ? user.name.slice(0, 2).toUpperCase() : 'ST'}
@@ -197,10 +197,10 @@ export default function StaffPortal({
           <nav className="space-y-1 text-xs font-bold">
             <button
               onClick={() => setActiveTab('dashboard')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'dashboard'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <LayoutDashboard size={15} />
@@ -209,10 +209,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('appointments')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'appointments'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <Calendar size={15} />
@@ -221,10 +221,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('checkin')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'checkin'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <UserCheck size={15} />
@@ -233,10 +233,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('walkins')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'walkins'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <UserPlus size={15} />
@@ -245,25 +245,25 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('queue')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'queue'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <Clock size={15} />
               <span>{isEn ? 'Live Queue' : t('staffNavQueue')}</span>
-              <span className="ml-auto px-1.5 py-0.2 rounded text-[10px] bg-[#D63927] text-white font-mono font-bold">
+              <span className="ml-auto px-1.5 py-0.2 rounded-full text-[10px] bg-[#D63927] text-white font-mono font-bold">
                 {queue.filter((q) => q.status !== 'Completed').length}
               </span>
             </button>
 
             <button
               onClick={() => setActiveTab('customers')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'customers'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <Search size={15} />
@@ -272,10 +272,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('bookings')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'bookings'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <BookOpen size={15} />
@@ -284,10 +284,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('payments')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'payments'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <CreditCard size={15} />
@@ -296,10 +296,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('refunds')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'refunds'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <RotateCcw size={15} />
@@ -308,10 +308,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('availability')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'availability'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <Activity size={15} />
@@ -320,10 +320,10 @@ export default function StaffPortal({
 
             <button
               onClick={() => setActiveTab('profile')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeTab === 'profile'
-                  ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
-                  : 'bg-transparent text-[#1C1B1A] border-transparent hover:bg-[#FFFDF9]/70 hover:border-[#1C1B1A]/15'
+                  ? 'btn-kitsch-haldi font-bold shadow-sm'
+                  : 'text-[#1C1B1A] hover:bg-white/60'
               }`}
             >
               <User size={15} />

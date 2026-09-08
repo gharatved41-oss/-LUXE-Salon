@@ -375,13 +375,13 @@ function MainAppContent() {
   return (
     <div className="min-h-screen bg-transparent flex flex-col font-sans">
       {/* ================================================================
-          TOPBAR: VINTAGE INDIAN SALOON BRANDING, NIMBU CHARM & ROLE TELEMETRY
+          TOPBAR: LIQUID GLASS VINTAGE BRANDING, NIMBU CHARM & ROLE TELEMETRY
           ================================================================ */}
-      <header className="bg-[#1C1B1A] text-[#FFFDF9] border-b-2 border-[#1C1B1A] sticky top-0 z-30 shadow-kitsch">
+      <header className="bg-black/60 backdrop-blur-2xl text-[#FFFDF9] border-b border-white/20 sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo & Hanging Nimbu-Mirchi Telemetry Charm */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#D63927] border-2 border-white overflow-hidden flex items-center justify-center shadow-xs shrink-0">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#E04230] to-[#B81D1D] border border-white/60 overflow-hidden flex items-center justify-center shadow-sm shrink-0">
               <img
                 src="/images/salon_logo.jpg"
                 alt="डिLUXE Salon Logo"
@@ -397,12 +397,12 @@ function MainAppContent() {
                   • {t('salonSubtitle')}
                 </span>
                 <span
-                  className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase border ${
+                  className={`text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full uppercase border ${
                     user.role === 'admin'
-                      ? 'bg-[#F5B82E] text-[#1C1B1A] border-white'
+                      ? 'bg-gradient-to-r from-[#FAC446] to-[#F5B82E] text-[#1C1B1A] border-white/60'
                       : user.role === 'staff'
-                      ? 'bg-[#288D43] text-white border-white'
-                      : 'bg-[#D63927] text-white border-white'
+                      ? 'bg-gradient-to-r from-[#31A852] to-[#288D43] text-white border-white/60'
+                      : 'bg-gradient-to-r from-[#E04230] to-[#D63927] text-white border-white/60'
                   }`}
                 >
                   {roleDisplay} {t('portalSuffix')}
@@ -411,11 +411,11 @@ function MainAppContent() {
               <div className="flex items-center gap-2 mt-0.5">
                 {/* Nimbu-Mirchi Hanging Charm Tooltip */}
                 <div
-                  className="nimbu-charm cursor-pointer flex items-center gap-1 text-[11px] font-mono text-[#E8DAC1]"
+                  className="nimbu-charm cursor-pointer flex items-center gap-1.5 text-[11px] font-mono text-[#E8DAC1] bg-white/10 px-2 py-0.5 rounded-lg border border-white/15"
                   title={t('telemetryTooltip')}
                 >
                   <span className="text-sm">🍋🌶️</span>
-                  <span className="text-[10px] text-[#288D43] font-bold">{t('telemetry')}</span>
+                  <span className="text-[10px] text-[#31A852] font-bold">{t('telemetry')}</span>
                 </div>
               </div>
             </div>
@@ -429,7 +429,7 @@ function MainAppContent() {
             {user.role === 'admin' && (
               <button
                 onClick={() => setIsAdminAiModalOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F5B82E] text-[#1C1B1A] border-2 border-white text-xs font-bold shadow-xs hover:bg-[#e5a820] transition-colors"
+                className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl btn-kitsch-haldi text-xs font-bold shadow-xs transition-colors"
                 title="Open AI Operational Copilot"
               >
                 <Bot size={14} className="text-[#D63927]" />
@@ -440,7 +440,7 @@ function MainAppContent() {
             {user.role === 'customer' && (
               <button
                 onClick={() => setIsCustomerAiModalOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F5B82E] text-[#1C1B1A] border-2 border-white text-xs font-bold shadow-xs hover:bg-[#e5a820] transition-colors"
+                className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl btn-kitsch-haldi text-xs font-bold shadow-xs transition-colors"
                 title="Open AI Concierge"
               >
                 <Sparkles size={14} className="text-[#D63927]" />
@@ -455,7 +455,7 @@ function MainAppContent() {
 
             <button
               onClick={logout}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#B81D1D] hover:bg-[#961717] text-white border-2 border-white/30 text-xs font-bold transition-colors shadow-xs"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-br from-[#E04230] to-[#B81D1D] hover:opacity-90 text-white border border-white/40 text-xs font-bold transition-all shadow-xs"
               title={t('logout')}
             >
               <LogOut size={14} />
@@ -466,15 +466,15 @@ function MainAppContent() {
       </header>
 
       {/* ================================================================
-          DELUXE SALOON RETRO RADIO AMBIENCE BAR (Inspiration: deluxesalonmusic.in)
+          DELUXE SALOON RETRO RADIO AMBIENCE BAR (Frosted Glass Ambience)
           ================================================================ */}
-      <div className="bg-[#FFF9E6] border-b-2 border-[#1C1B1A] px-4 py-2 flex flex-wrap items-center justify-between text-xs text-[#1C1B1A] shadow-xs">
+      <div className="bg-white/50 backdrop-blur-xl border-b border-white/60 px-4 py-2 flex flex-wrap items-center justify-between text-xs text-[#1C1B1A] shadow-xs">
         <div className="flex items-center gap-2 font-mono">
-          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#D63927] text-white rounded font-bold border border-[#1C1B1A]">
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-gradient-to-r from-[#E04230] to-[#D63927] text-white rounded-full font-bold border border-white/40 shadow-xs">
             <Radio size={12} className={isRadioPlaying ? 'animate-pulse' : ''} />
             <span>{t('radioTitle')}</span>
           </div>
-          <span className="font-serif italic hidden md:inline">
+          <span className="font-serif italic hidden md:inline text-[#1C1B1A]/80">
             &ldquo;{t('radioTagline')}&rdquo;
           </span>
         </div>
@@ -484,7 +484,7 @@ function MainAppContent() {
           <select
             value={activeRadioStation}
             onChange={(e) => setActiveRadioStation(e.target.value)}
-            className="p-1 bg-white border border-[#1C1B1A] rounded text-[11px] font-bold outline-none"
+            className="p-1.5 bg-white/80 border border-white/80 rounded-xl text-[11px] font-bold outline-none shadow-xs"
           >
             {radioStations.map((st) => (
               <option key={st} value={st}>
@@ -494,7 +494,7 @@ function MainAppContent() {
           </select>
           <button
             onClick={() => setIsRadioPlaying(!isRadioPlaying)}
-            className="p-1 bg-[#1C1B1A] text-[#F5B82E] rounded border border-white/40 shadow-xs"
+            className="p-1.5 bg-black/70 text-[#F5B82E] rounded-xl border border-white/20 shadow-xs hover:bg-black cursor-pointer"
             title={isRadioPlaying ? 'Mute Radio' : 'Unmute Radio'}
           >
             {isRadioPlaying ? <Volume2 size={13} /> : <VolumeX size={13} />}

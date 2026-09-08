@@ -107,16 +107,14 @@ export default function CommonLoginPage() {
     <div
       className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 relative overflow-hidden font-body selection:bg-[#F5B82E] selection:text-[#1C1B1A] bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: `linear-gradient(rgba(28, 27, 26, 0.45), rgba(28, 27, 26, 0.65)), url('/images/homepage_bg.jpg')`,
+        backgroundImage: `url('/images/homepage_bg.jpg')`,
         backgroundColor: '#F6EFE2',
       }}
     >
-      {/* Decorative Retro Halftone / Vignette Overlays */}
-      <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#1C1B1A]/30 to-[#1C1B1A]/70 pointer-events-none" />
 
       {/* Top Header Row with Retro Signboard & Language Switcher */}
       <div className="mb-4 flex items-center justify-between w-full max-w-lg px-1 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#FFFDF9] border-2 border-[#1C1B1A] shadow-kitsch text-xs font-bold text-[#1C1B1A]">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/80 shadow-kitsch-sm text-xs font-bold text-[#1C1B1A]">
           <span className="nimbu-charm text-base">🍋🌶️</span>
           <span className="font-hindi tracking-wide text-sm font-extrabold">{t('salonTitle')}</span>
           <span className="text-[#D63927] font-mono">• ESTD 1984</span>
@@ -124,21 +122,21 @@ export default function CommonLoginPage() {
         <LanguageSwitcher variant="glass" />
       </div>
 
-      {/* Main Centered Matchbox Neo-Brutalist Card */}
+      {/* Main Centered Liquid Glassmorphism Card */}
       <div className="max-w-lg w-full mx-auto relative z-10">
-        <div className="bg-[#FFFDF9] border-3 border-[#1C1B1A] rounded-2xl shadow-kitsch-lg overflow-hidden relative">
+        <div className="glass-modal overflow-hidden relative">
           
           {/* Top Barber Pole Ribbon Stripe */}
-          <div className="h-2.5 barber-stripe-accent border-b-2 border-[#1C1B1A]" />
+          <div className="h-2 barber-stripe-accent opacity-90" />
 
           <div className="p-6 sm:p-8">
             {/* Header Branding & Rubber Stamp */}
-            <div className="text-center mb-6 pb-4 border-b-2 border-dashed border-[#1C1B1A]/30 relative">
+            <div className="text-center mb-6 pb-4 border-b border-white/60 relative">
               <div className="absolute -top-3 right-0 sm:right-2">
                 <span className="stamped-seal text-[10px]">USTAAD APPROVED</span>
               </div>
 
-              <div className="w-24 h-24 rounded-2xl bg-[#D63927] border-2 border-[#1C1B1A] overflow-hidden shadow-kitsch-sm mx-auto mb-3 flex items-center justify-center">
+              <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-[#E04230] to-[#B81D1D] border-2 border-white/80 overflow-hidden shadow-kitsch mx-auto mb-3 flex items-center justify-center">
                 <img
                   src="/images/salon_logo.jpg"
                   alt="डिLUXE Salon Logo"
@@ -148,14 +146,14 @@ export default function CommonLoginPage() {
               <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1C1B1A] font-hindi tracking-tight leading-tight">
                 {t('salonTitle')}
               </h1>
-              <div className="inline-block px-3 py-0.5 mt-1 bg-[#F5B82E] border-2 border-[#1C1B1A] rounded-md shadow-xs">
-                <span className="text-xs font-extrabold text-[#1C1B1A] uppercase tracking-wider font-mono">
+              <p className="text-sm font-hindi font-bold text-[#D63927] mt-1 tracking-wide">
+                &ldquo;{t('salonSubtitle')}&rdquo;
+              </p>
+              <div className="inline-block px-3.5 py-1 mt-2 bg-gradient-to-r from-[#FAC446] to-[#F5B82E] border border-white/70 rounded-full shadow-xs">
+                <span className="text-[11px] font-extrabold text-[#1C1B1A] uppercase tracking-wider font-mono">
                   {t('loginHeading')}
                 </span>
               </div>
-              <p className="text-xs text-[#5C564E] mt-2 font-medium">
-                {t('loginSubheading')}
-              </p>
             </div>
 
             {/* Error Message Alert */}
@@ -307,14 +305,14 @@ export default function CommonLoginPage() {
               </span>
             </div>
 
-            {/* Quick-Fill Demonstration Accounts Box (Retro PCO Signboard Style) */}
-            <div className="mt-5 p-3.5 bg-[#FFF9E6] border-2 border-[#1C1B1A] rounded-xl shadow-kitsch-sm">
-              <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-[#1C1B1A]/20">
+            {/* Quick-Fill Demonstration Accounts Box (Frosted Glass Container) */}
+            <div className="mt-5 p-4 bg-white/40 backdrop-blur-md border border-white/70 rounded-2xl shadow-sm">
+              <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-black/10">
                 <span className="text-[11px] font-extrabold text-[#1C1B1A] uppercase tracking-wider flex items-center gap-1.5 font-mono">
                   <KeyRound size={14} className="text-[#D63927]" />
-                  <span>{t('quickDemoPills')} (STD / PCO)</span>
+                  <span>{t('quickDemoPills')} (Quick Access)</span>
                 </span>
-                <span className="text-[9px] font-extrabold px-1.5 py-0.5 bg-[#F5B82E] border border-[#1C1B1A] rounded font-mono text-[#1C1B1A]">
+                <span className="text-[9px] font-extrabold px-2 py-0.5 bg-gradient-to-r from-[#FAC446] to-[#F5B82E] border border-white/70 rounded-full font-mono text-[#1C1B1A]">
                   1-CLICK LOGIN
                 </span>
               </div>
@@ -322,7 +320,7 @@ export default function CommonLoginPage() {
                 <button
                   type="button"
                   onClick={() => handleQuickFill('rahul@customer.com')}
-                  className="p-2 bg-[#FFFDF9] hover:bg-[#1E75B8] hover:text-white border-2 border-[#1C1B1A] rounded-lg text-[#1C1B1A] transition-all shadow-xs text-center group active:translate-x-0.5 active:translate-y-0.5"
+                  className="p-2.5 bg-white/75 hover:bg-[#1E75B8] hover:text-white border border-white/80 rounded-xl text-[#1C1B1A] transition-all shadow-xs text-center group active:scale-95"
                   title="Rahul Sharma (Customer)"
                 >
                   <span className="block font-extrabold text-[#1E75B8] group-hover:text-white">{t('demoCustomer')}</span>
@@ -331,7 +329,7 @@ export default function CommonLoginPage() {
                 <button
                   type="button"
                   onClick={() => handleQuickFill('suresh@salonops.com')}
-                  className="p-2 bg-[#FFFDF9] hover:bg-[#288D43] hover:text-white border-2 border-[#1C1B1A] rounded-lg text-[#1C1B1A] transition-all shadow-xs text-center group active:translate-x-0.5 active:translate-y-0.5"
+                  className="p-2.5 bg-white/75 hover:bg-[#288D43] hover:text-white border border-white/80 rounded-xl text-[#1C1B1A] transition-all shadow-xs text-center group active:scale-95"
                   title="Suresh Kumar (Staff Stylist)"
                 >
                   <span className="block font-extrabold text-[#288D43] group-hover:text-white">{t('demoStaff')}</span>
@@ -340,7 +338,7 @@ export default function CommonLoginPage() {
                 <button
                   type="button"
                   onClick={() => handleQuickFill('admin@salonops.com')}
-                  className="p-2 bg-[#FFFDF9] hover:bg-[#D63927] hover:text-white border-2 border-[#1C1B1A] rounded-lg text-[#1C1B1A] transition-all shadow-xs text-center group active:translate-x-0.5 active:translate-y-0.5"
+                  className="p-2.5 bg-white/75 hover:bg-[#D63927] hover:text-white border border-white/80 rounded-xl text-[#1C1B1A] transition-all shadow-xs text-center group active:scale-95"
                   title="Aarav Patel (Admin / Manager)"
                 >
                   <span className="block font-extrabold text-[#D63927] group-hover:text-white">{t('demoAdmin')}</span>
@@ -353,21 +351,21 @@ export default function CommonLoginPage() {
         </div>
 
         {/* Security & Authenticity Footer Badge */}
-        <div className="mt-4 text-center text-xs text-[#FFFDF9] flex items-center justify-center gap-2 font-mono bg-[#1C1B1A]/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/20 shadow-xs">
+        <div className="mt-4 text-center text-xs text-[#FFFDF9] flex items-center justify-center gap-2 font-mono bg-black/40 backdrop-blur-xl px-4 py-2 rounded-full border border-white/20 shadow-sm">
           <ShieldCheck size={15} className="text-[#F5B82E]" />
           <span>Encrypted Session • Ustaad Precision Salon Engine v2.8</span>
         </div>
       </div>
 
       {/* ================================================================
-          MODAL: CUSTOMER ACCOUNT REGISTRATION (Neo-Brutalist Modal)
+          MODAL: CUSTOMER ACCOUNT REGISTRATION (Liquid Glass Modal)
           ================================================================ */}
       {isRegisterModalOpen && (
-        <div className="fixed inset-0 bg-[#1C1B1A]/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
-          <div className="neo-modal max-w-md w-full p-6 text-[#1C1B1A]">
-            <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-[#1C1B1A]/30">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
+          <div className="glass-modal max-w-md w-full p-6 text-[#1C1B1A]">
+            <div className="flex items-center justify-between pb-3 border-b border-white/60">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-[#D63927] text-white flex items-center justify-center border-2 border-[#1C1B1A] shadow-xs">
+                <div className="w-10 h-10 rounded-2xl bg-[#D63927] text-white flex items-center justify-center border border-white/80 shadow-xs">
                   <User size={18} />
                 </div>
                 <div>
@@ -377,14 +375,14 @@ export default function CommonLoginPage() {
               </div>
               <button
                 onClick={() => setIsRegisterModalOpen(false)}
-                className="text-[#5C564E] hover:text-[#1C1B1A] p-1.5 rounded-lg border border-[#1C1B1A]/20 hover:bg-[#E8DAC1]"
+                className="text-[#5C564E] hover:text-[#1C1B1A] p-2 rounded-xl border border-white/80 hover:bg-white/60 backdrop-blur-md transition-all cursor-pointer"
               >
                 <X size={18} />
               </button>
             </div>
 
             {regError && (
-              <div className="mt-3 p-2.5 bg-[#FFF0F0] border-2 border-[#B81D1D] rounded-lg text-[#B81D1D] text-xs flex items-center gap-2 font-bold shadow-xs">
+              <div className="mt-3 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-[#B81D1D] text-xs flex items-center gap-2 font-bold shadow-xs">
                 <AlertCircle size={14} className="shrink-0" />
                 <span>{regError}</span>
               </div>
@@ -394,14 +392,14 @@ export default function CommonLoginPage() {
               <div>
                 <label className="block text-[#1C1B1A] mb-1 font-extrabold font-mono uppercase text-[10px]">Full Name / पूरा नाम</label>
                 <div className="relative">
-                  <User size={14} className="absolute left-3 top-3 text-[#5C564E]" />
+                  <User size={14} className="absolute left-3.5 top-3 text-[#5C564E]" />
                   <input
                     type="text"
                     required
                     placeholder="e.g. Priya Sharma"
                     value={regName}
                     onChange={(e) => setRegName(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2.5 neo-input text-[#1C1B1A] focus:outline-none"
+                    className="w-full pl-9 pr-3 py-2.5 glass-input text-[#1C1B1A] focus:outline-none"
                   />
                 </div>
               </div>
@@ -409,14 +407,14 @@ export default function CommonLoginPage() {
               <div>
                 <label className="block text-[#1C1B1A] mb-1 font-extrabold font-mono uppercase text-[10px]">Email Address</label>
                 <div className="relative">
-                  <Mail size={14} className="absolute left-3 top-3 text-[#5C564E]" />
+                  <Mail size={14} className="absolute left-3.5 top-3 text-[#5C564E]" />
                   <input
                     type="email"
                     required
                     placeholder="priya@example.com"
                     value={regEmail}
                     onChange={(e) => setRegEmail(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2.5 neo-input text-[#1C1B1A] focus:outline-none"
+                    className="w-full pl-9 pr-3 py-2.5 glass-input text-[#1C1B1A] focus:outline-none"
                   />
                 </div>
               </div>
@@ -424,14 +422,14 @@ export default function CommonLoginPage() {
               <div>
                 <label className="block text-[#1C1B1A] mb-1 font-extrabold font-mono uppercase text-[10px]">Phone Number (For AI Arrival Calls)</label>
                 <div className="relative">
-                  <Phone size={14} className="absolute left-3 top-3 text-[#5C564E]" />
+                  <Phone size={14} className="absolute left-3.5 top-3 text-[#5C564E]" />
                   <input
                     type="tel"
                     required
                     placeholder="+91 98765 43210"
                     value={regPhone}
                     onChange={(e) => setRegPhone(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2.5 neo-input text-[#1C1B1A] focus:outline-none"
+                    className="w-full pl-9 pr-3 py-2.5 glass-input text-[#1C1B1A] focus:outline-none"
                   />
                 </div>
               </div>
@@ -445,7 +443,7 @@ export default function CommonLoginPage() {
                     placeholder="••••••••"
                     value={regPassword}
                     onChange={(e) => setRegPassword(e.target.value)}
-                    className="w-full px-3 py-2.5 neo-input text-[#1C1B1A] focus:outline-none"
+                    className="w-full px-3 py-2.5 glass-input text-[#1C1B1A] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -456,23 +454,23 @@ export default function CommonLoginPage() {
                     placeholder="••••••••"
                     value={regConfirmPassword}
                     onChange={(e) => setRegConfirmPassword(e.target.value)}
-                    className="w-full px-3 py-2.5 neo-input text-[#1C1B1A] focus:outline-none"
+                    className="w-full px-3 py-2.5 glass-input text-[#1C1B1A] focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div className="pt-3 border-t-2 border-dashed border-[#1C1B1A]/20 flex justify-end gap-2">
+              <div className="pt-3 border-t border-white/60 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsRegisterModalOpen(false)}
-                  className="px-4 py-2 btn-kitsch-secondary text-xs"
+                  className="px-4 py-2 btn-kitsch-secondary text-xs cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSigningIn}
-                  className="px-4 py-2 btn-kitsch-primary text-xs"
+                  className="px-4 py-2 btn-kitsch-primary text-xs cursor-pointer"
                 >
                   {isSigningIn ? 'Registering...' : 'Register Account'}
                 </button>
@@ -483,19 +481,19 @@ export default function CommonLoginPage() {
       )}
 
       {/* ================================================================
-          MODAL: FORGOT PASSWORD (Neo-Brutalist Modal)
+          MODAL: FORGOT PASSWORD (Liquid Glass Modal)
           ================================================================ */}
       {isForgotPasswordOpen && (
-        <div className="fixed inset-0 bg-[#1C1B1A]/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
-          <div className="neo-modal max-w-sm w-full p-6 text-[#1C1B1A]">
-            <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-[#1C1B1A]/30">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
+          <div className="glass-modal max-w-sm w-full p-6 text-[#1C1B1A]">
+            <div className="flex items-center justify-between pb-3 border-b border-white/60">
               <h3 className="text-sm font-extrabold text-[#1C1B1A] font-hindi">पासवर्ड रीसेट (Password Reset)</h3>
               <button
                 onClick={() => {
                   setIsForgotPasswordOpen(false)
                   setForgotSubmitted(false)
                 }}
-                className="text-[#5C564E] hover:text-[#1C1B1A] p-1.5 rounded-lg border border-[#1C1B1A]/20 hover:bg-[#E8DAC1]"
+                className="text-[#5C564E] hover:text-[#1C1B1A] p-2 rounded-xl border border-white/80 hover:bg-white/60 backdrop-blur-md transition-all cursor-pointer"
               >
                 <X size={16} />
               </button>
@@ -503,7 +501,7 @@ export default function CommonLoginPage() {
 
             {forgotSubmitted ? (
               <div className="my-5 text-center space-y-2">
-                <div className="w-12 h-12 rounded-xl bg-[#288D43] border-2 border-[#1C1B1A] text-white mx-auto flex items-center justify-center shadow-kitsch-sm">
+                <div className="w-12 h-12 rounded-2xl bg-[#288D43] text-white mx-auto flex items-center justify-center shadow-md">
                   <CheckCircle2 size={24} />
                 </div>
                 <h4 className="font-extrabold text-[#1C1B1A] text-sm">Reset Instructions Sent</h4>
@@ -518,28 +516,36 @@ export default function CommonLoginPage() {
                 </p>
                 <div>
                   <label className="block text-[#1C1B1A] mb-1 font-extrabold font-mono uppercase text-[10px]">Account Email</label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your email"
-                    value={forgotEmail}
-                    onChange={(e) => setForgotEmail(e.target.value)}
-                    className="w-full px-3 py-2.5 neo-input text-[#1C1B1A] focus:outline-none"
-                  />
+                  <div className="relative">
+                    <Mail size={14} className="absolute left-3.5 top-3 text-[#5C564E]" />
+                    <input
+                      type="email"
+                      required
+                      placeholder="e.g. rahul@example.com"
+                      value={forgotEmail}
+                      onChange={(e) => setForgotEmail(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2.5 glass-input text-[#1C1B1A] focus:outline-none"
+                    />
+                  </div>
                 </div>
-                <div className="pt-2 flex justify-end gap-2">
+
+                <div className="pt-3 border-t border-white/60 flex justify-end gap-2">
                   <button
                     type="button"
-                    onClick={() => setIsForgotPasswordOpen(false)}
-                    className="px-4 py-2 btn-kitsch-secondary text-xs"
+                    onClick={() => {
+                      setIsForgotPasswordOpen(false)
+                      setForgotSubmitted(false)
+                    }}
+                    className="px-4 py-2 btn-kitsch-secondary text-xs cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 btn-kitsch-haldi text-xs"
+                    disabled={isSigningIn}
+                    className="px-4 py-2 btn-kitsch-primary text-xs cursor-pointer"
                   >
-                    Send Reset Link
+                    {isSigningIn ? 'Sending...' : 'Send Reset Link'}
                   </button>
                 </div>
               </form>

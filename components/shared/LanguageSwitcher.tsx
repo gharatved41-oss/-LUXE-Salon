@@ -62,7 +62,7 @@ export default function LanguageSwitcher({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FFFDF9] border-2 border-[#1C1B1A] text-xs font-bold text-[#1C1B1A] hover:bg-[#F6EFE2] transition-all cursor-pointer shadow-kitsch-sm"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/80 text-xs font-bold text-[#1C1B1A] hover:bg-white/90 transition-all cursor-pointer shadow-kitsch-sm"
           title={t('changeLanguage')}
         >
           <Globe size={14} className="text-[#D63927]" />
@@ -72,8 +72,8 @@ export default function LanguageSwitcher({
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-1.5 w-44 rounded-xl neo-modal z-50 py-1.5 shadow-kitsch-lg animate-fadeIn">
-            <div className="px-3 py-1 border-b-2 border-dashed border-[#1C1B1A]/20 text-[10px] font-mono uppercase text-[#5C564E] font-bold">
+          <div className="absolute right-0 mt-1.5 w-48 rounded-2xl glass-modal z-50 py-2 shadow-kitsch-lg animate-fadeIn overflow-hidden">
+            <div className="px-3.5 py-1 border-b border-black/10 text-[10px] font-mono uppercase text-[#5C564E] font-bold">
               {t('selectLanguage')}
             </div>
             {SUPPORTED_LANGUAGES.map((lang) => (
@@ -81,10 +81,10 @@ export default function LanguageSwitcher({
                 key={lang.code}
                 type="button"
                 onClick={() => handleSelect(lang.code)}
-                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-left transition-colors ${
+                className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-bold text-left transition-all ${
                   language === lang.code
-                    ? 'bg-[#D63927] text-white'
-                    : 'text-[#1C1B1A] hover:bg-[#F5B82E]/20'
+                    ? 'bg-gradient-to-r from-[#E04230] to-[#D63927] text-white shadow-xs'
+                    : 'text-[#1C1B1A] hover:bg-white/60'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -109,7 +109,7 @@ export default function LanguageSwitcher({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#2B2927] hover:bg-[#383532] text-[#FFFDF9] border border-white/20 text-xs font-bold transition-all shadow-xs cursor-pointer"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#FFFDF9] border border-white/25 text-xs font-bold transition-all shadow-xs cursor-pointer backdrop-blur-md"
         title={t('changeLanguage')}
       >
         <Globe size={13} className="text-[#F5B82E]" />
@@ -119,8 +119,8 @@ export default function LanguageSwitcher({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-1.5 w-44 rounded-xl bg-[#1C1B1A] text-[#FFFDF9] z-50 py-1.5 shadow-kitsch-lg border-2 border-[#F5B82E] animate-fadeIn font-sans">
-          <div className="px-3 py-1 border-b border-white/10 text-[9px] font-mono uppercase text-[#E8DAC1] font-bold">
+        <div className="absolute right-0 mt-1.5 w-48 rounded-2xl bg-black/80 backdrop-blur-2xl text-[#FFFDF9] z-50 py-2 shadow-kitsch-lg border border-white/30 animate-fadeIn font-sans overflow-hidden">
+          <div className="px-3.5 py-1 border-b border-white/10 text-[9px] font-mono uppercase text-[#E8DAC1] font-bold">
             {t('languageSelection')}
           </div>
           {SUPPORTED_LANGUAGES.map((lang) => (
@@ -128,9 +128,9 @@ export default function LanguageSwitcher({
               key={lang.code}
               type="button"
               onClick={() => handleSelect(lang.code)}
-              className={`w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-left transition-colors ${
+              className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-bold text-left transition-all ${
                 language === lang.code
-                  ? 'bg-[#F5B82E] text-[#1C1B1A]'
+                  ? 'bg-gradient-to-r from-[#FAC446] to-[#F5B82E] text-[#1C1B1A] shadow-xs'
                   : 'text-white hover:bg-white/10'
               }`}
             >

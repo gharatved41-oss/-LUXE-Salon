@@ -21,14 +21,14 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 export const TRANSLATIONS = {
   en: {
     // Brand & Header
-    salonTitle: 'Deluxe Ustaad Salon',
-    salonSubtitle: 'Deluxe Salon Ops',
+    salonTitle: 'डिLuxe Salon',
+    salonSubtitle: 'लाइन में नहीं, ठाठ में बैठो।',
     telemetry: 'LIVE TELEMETRY',
     telemetryTooltip: 'Live Telemetry 99.9% Uptime Active • Protected System',
     portalSuffix: 'Portal',
     logout: 'Sign Out',
     radioTitle: 'Salon Radio 98.3 FM',
-    radioTagline: 'From Classic Nostalgia to Retro Lo-Fi — Melodies of Deluxe Salon',
+    radioTagline: 'लाइन में नहीं, ठाठ में बैठो।',
     station: 'Station',
     verifyingSession: 'Verifying Session...',
     changeLanguage: 'Language',
@@ -195,14 +195,14 @@ export const TRANSLATIONS = {
 
   hi: {
     // Brand & Header
-    salonTitle: 'डीलक्स उस्ताद सैलून',
-    salonSubtitle: 'डीलक्स सैलून ऑप्स',
+    salonTitle: 'डिLuxe Salon',
+    salonSubtitle: 'लाइन में नहीं, ठाठ में बैठो।',
     telemetry: 'लाइव टेलीमेट्री',
     telemetryTooltip: 'बुरी नज़र से रक्षा • 99.9% लाइव अपटाइम सक्रिय',
     portalSuffix: 'पटल',
     logout: 'लॉग आउट',
     radioTitle: 'सैलून रेडियो 98.3 FM',
-    radioTagline: 'तानसेन से लेकर रफी साहब तक — डीलक्स सैलून की मीठी धुनें',
+    radioTagline: 'लाइन में नहीं, ठाठ में बैठो।',
     station: 'स्टेशन',
     verifyingSession: 'सत्यापन जारी है...',
     changeLanguage: 'भाषा',
@@ -369,14 +369,14 @@ export const TRANSLATIONS = {
 
   mr: {
     // Brand & Header
-    salonTitle: 'डीलक्स उस्ताद सलून',
-    salonSubtitle: 'डीलक्स सलून ऑप्स',
+    salonTitle: 'डिLuxe Salon',
+    salonSubtitle: 'लाइन में नहीं, ठाठ में बैठो।',
     telemetry: 'थेट टेलिमेट्री',
     telemetryTooltip: 'दृष्ट न लागो • ९९.९% थेट अपटाइम सुरू आहे',
     portalSuffix: 'विभाग',
     logout: 'लॉग आऊट',
     radioTitle: 'सलून रेडिओ ९८.३ FM',
-    radioTagline: 'तानसेन ते रफी साहेब — डीलक्स सलूनच्या सुरेल धून',
+    radioTagline: 'लाइन में नहीं, ठाठ में बैठो।',
     station: 'स्थानक',
     verifyingSession: 'सत्यापन चालू आहे...',
     changeLanguage: 'भाषा',
@@ -543,14 +543,14 @@ export const TRANSLATIONS = {
 
   gu: {
     // Brand & Header
-    salonTitle: 'ડીલક્સ ઉસ્તાદ સલૂન',
-    salonSubtitle: 'ડીલક્સ સલૂન ઓપ્સ',
+    salonTitle: 'डिLuxe Salon',
+    salonSubtitle: 'लाइन में नहीं, ठाठ में बैठो।',
     telemetry: 'લાઈવ ટેલિમેટ્રી',
     telemetryTooltip: 'નજરથી સુરક્ષા • ૯૯.૯% લાઈવ અપટાઇમ સક્રિય',
     portalSuffix: 'વિભાગ',
     logout: 'લૉગ આઉટ',
     radioTitle: 'સલૂન રેડિયો ૯૮.૩ FM',
-    radioTagline: 'તાનસેનથી રફી સાહેબ સુધી — ડીલક્સ સલૂનની મધુર ધૂનો',
+    radioTagline: 'लाइन में नहीं, ठाठ में बैठो।',
     station: 'સ્ટેશન',
     verifyingSession: 'ચકાસણી ચાલુ છે...',
     changeLanguage: 'ભાષા',
