@@ -129,11 +129,11 @@ export function askCustomerAi(
     q.includes('can i book')
   ) {
     return {
-      text: `✂️ **Yes, absolutely! We have open slots available today!**\n\n• **Executive Haircut & Styling:** ₹350 (40 mins)\n• **Next Available Slot:** Today at **02:30 PM**, **04:00 PM**, or **05:30 PM**\n• **Top Stylists Available:** Master Stylist Suresh Kumar (⭐4.9) & Senior Stylist Imran Khan (⭐4.9)\n\nWould you like me to book your haircut slot right away?`,
+      text: `✂️ **Yes, absolutely! We have open haircut slots available today!**\n\n• **Classic Regular Cut:** ₹150 Adults | ₹100 Kids | ₹120 Seniors *(Silver: ₹127, Gold: ₹112, Shahi Ustaad: ₹97)*\n• **Ustaad Fade / Modern Crop:** ₹250 Adults | ₹150 Kids *(Silver: ₹212, Gold: ₹187, Shahi Ustaad: ₹162)*\n• **Next Available Slot:** Today at **02:30 PM**, **04:00 PM**, or **05:30 PM**\n• **Top Stylists Available:** Master Stylist Suresh Kumar (⭐4.9) & Senior Stylist Imran Khan (⭐4.9)\n\nWould you like me to book your slot right away?`,
       quickActions: [
         { label: '📅 Book 02:30 PM Slot', action: 'book-shortcut', payload: { time: '02:30 PM', serviceId: 'srv-1' } },
         { label: '⭐ Book with Suresh Kumar (+₹50)', action: 'book-preferred', payload: { staffId: 'stf-1' } },
-        { label: '📋 View All Services', action: 'view-services' },
+        { label: '📋 View All 16 Services & Age Rates', action: 'view-services' },
       ],
     }
   }
@@ -142,7 +142,7 @@ export function askCustomerAi(
   if (q.includes('wait') || q.includes('queue') || q.includes('time') || q.includes('token')) {
     const waitingCount = state.queue.filter((i) => i.status === 'Waiting').length
     return {
-      text: `⏳ **Live Salon Queue Status:**\n\n• **Current Queue Length:** ${waitingCount} clients in line\n• **Estimated Wait Time for Walk-Ins:** **~15 to 23 minutes**\n• **Chairs Active:** Station 1 (Suresh), Station 3 (Imran)\n\nTip: You can check in right now through your customer dashboard to reserve your digital token before arriving!`,
+      text: `⏳ **Live Salon Queue Status:**\n\n• **Current Queue Length:** ${waitingCount} clients in line\n• **Estimated Wait Time for Walk-Ins:** **~15 to 20 minutes**\n• **Active Stations:** Station 1 (Suresh), Station 3 (Imran)\n\nTip: You can check in right now through your customer dashboard to reserve your digital token before arriving!`,
       quickActions: [
         { label: '🎟️ Check My Queue Status', action: 'view-queue' },
         { label: '✨ Check In Now', action: 'self-checkin' },
@@ -151,22 +151,22 @@ export function askCustomerAi(
   }
 
   // Treatment recommendations
-  if (q.includes('spa') || q.includes('facial') || q.includes('shave') || q.includes('recommend')) {
+  if (q.includes('spa') || q.includes('facial') || q.includes('shave') || q.includes('recommend') || q.includes('combo')) {
     return {
-      text: `💆 **Our Most Popular Luxury Treatments Today:**\n\n1. **Intense Repair Hair Spa (₹800 • 50 mins):** Keratin protein infusion & ozone steam therapy.\n2. **Anti-Pollution Charcoal Facial (₹650 • 45 mins):** Deep pore cleansing and steam.\n3. **Royal Hot Towel Shave (₹200 • 25 mins):** Straight razor shave with warm essential oils.\n\n*Members save 20% on all Spa & Facial services with our Monthly Pass!*`,
+      text: `💆 **Our Most Popular Luxury Treatments & Combos Today:**\n\n1. **The Ustaad Royal Combo (Cut + Shave + Facial + Champi):** ₹850 Adults | ₹750 Seniors *(Pass Holders: Silver ₹722, Gold ₹637, Shahi Ustaad ₹552)*\n2. **Deluxe Gold Radiance Facial:** ₹750 Adults | ₹650 Seniors *(45 mins)*\n3. **Herbal Glow Facial:** ₹450 Adults | ₹400 Seniors *(35 mins)*\n4. **Royal Foam & Hot Towel Shave:** ₹160 Adults | ₹140 Seniors *(25 mins)*\n\n*VIP Pass Holders save up to 35% across all services!*`,
       quickActions: [
-        { label: '🎟️ View Membership Passes (Save 20%)', action: 'view-passes' },
-        { label: '📅 Book Hair Spa', action: 'book-shortcut', payload: { serviceId: 'srv-6' } },
+        { label: '🎟️ View VIP Passes (Save up to 35%)', action: 'view-passes' },
+        { label: '📅 Book Royal Combo', action: 'book-shortcut', payload: { serviceId: 'srv-16' } },
       ],
     }
   }
 
   return {
-    text: `👋 Hello! I am your **SalonOps AI Concierge**. I can help you schedule appointments, check live queue wait times, check pricing, or find the perfect stylist for you. How can I assist you today?`,
+    text: `👋 Hello! I am your **Deluxe Salon AI Concierge**. I can help you schedule appointments with transparent age-tiered pricing (Kids, Adults, Seniors), check live queue wait times, or calculate your VIP pass discounts (Silver 15%, Gold 25%, Shahi Ustaad 35%). How can I assist you today?`,
     quickActions: [
-      { label: '✂️ Book Haircut (₹350)', action: 'book-shortcut', payload: { serviceId: 'srv-1' } },
+      { label: '✂️ Book Classic Cut (₹150)', action: 'book-shortcut', payload: { serviceId: 'srv-1' } },
       { label: '⏳ Check Live Wait Time', action: 'view-queue' },
-      { label: '👑 View VIP Membership Passes', action: 'view-passes' },
+      { label: '👑 View VIP Passes & Rates', action: 'view-passes' },
     ],
   }
 }

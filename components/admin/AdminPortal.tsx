@@ -47,6 +47,8 @@ import {
   UserAccountItem,
   DispatchedEmail,
   MembershipPass,
+  ServiceCategory,
+  getPassDiscountedPrice,
   initialUserAccounts,
   initialMembershipPasses,
 } from '@/lib/types'
@@ -114,10 +116,13 @@ export default function AdminPortal({
   // User accounts list state
   const [userAccounts, setUserAccounts] = useState<UserAccountItem[]>(initialUserAccounts)
   const [membershipPasses, setMembershipPasses] = useState<MembershipPass[]>(initialMembershipPasses)
+  const [selectedCatalogCategory, setSelectedCatalogCategory] = useState<string>('All')
   const [newServiceName, setNewServiceName] = useState('')
-  const [newServicePrice, setNewServicePrice] = useState(400)
-  const [newServiceDuration, setNewServiceDuration] = useState(30)
-  const [newServiceCategory, setNewServiceCategory] = useState<'Hair' | 'Grooming' | 'Spa' | 'Facial'>('Hair')
+  const [newServiceCategory, setNewServiceCategory] = useState<ServiceCategory>('Haircuts')
+  const [newServiceDuration, setNewServiceDuration] = useState(20)
+  const [newServiceKidsPrice, setNewServiceKidsPrice] = useState('100')
+  const [newServiceAdultPrice, setNewServiceAdultPrice] = useState('150')
+  const [newServiceSeniorPrice, setNewServiceSeniorPrice] = useState('120')
   const [serviceSuccessMsg, setServiceSuccessMsg] = useState('')
 
   // AI Optimizer State
@@ -140,21 +145,28 @@ export default function AdminPortal({
     e.preventDefault()
     if (!newServiceName.trim()) return
 
+    const kids = newServiceKidsPrice.trim() !== '' && newServiceKidsPrice !== '—' ? Number(newServiceKidsPrice) : null
+    const adult = Number(newServiceAdultPrice) || 150
+    const senior = newServiceSeniorPrice.trim() !== '' && newServiceSeniorPrice !== '—' ? Number(newServiceSeniorPrice) : null
+
     const newSrv: ServiceItem = {
-      id: `srv-${Date.now().toString().slice(-3)}`,
+      id: `srv-${Date.now().toString().slice(-4)}`,
       name: newServiceName,
       category: newServiceCategory,
       durationMinutes: Number(newServiceDuration),
       bufferMinutes: 5,
-      price: Number(newServicePrice),
+      price: adult,
+      kidsPrice: kids,
+      adultPrice: adult,
+      seniorPrice: senior,
       description: 'Custom salon treatment added by administrator',
       active: true,
     }
 
     onAddService(newSrv)
-    setServiceSuccessMsg(`Service "${newSrv.name}" added successfully!`)
+    setServiceSuccessMsg(`Service "${newSrv.name}" added successfully with age-tiered rates!`)
     setNewServiceName('')
-    setTimeout(() => setServiceSuccessMsg(''), 2500)
+    setTimeout(() => setServiceSuccessMsg(''), 3000)
   }
 
   // Run AI Queue Optimizer
@@ -1017,10 +1029,21 @@ export default function AdminPortal({
         {activeTab === 'services' && (
           <div className="space-y-6">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
-                {isEn ? 'Service Catalog Management' : 'सेवा सूची प्रबंधन / Service Catalog'}
-              </h2>
-              <p className="text-xs text-[#5C564E]">Add treatments, update pricing, and adjust buffer durations.</p>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                    {isEn ? 'Service Catalog & Age-Tier Matrix' : 'सेवा सूची एवं आयु-आधारित दर तालिका'}
+                  </h2>
+                  <p className="text-xs text-[#5C564E]">
+                    Manage 16 salon treatments, age-tiered rates (Kids, Adults, Seniors), pass holder discounts, and queue buffer durations.
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="font-mono text-xs font-bold text-[#D63927] bg-[#F6EFE2] px-2.5 py-1 rounded-lg border border-[#1C1B1A]/15">
+                    16 Live Salon Services
+                  </span>
+                </div>
+              </div>
             </div>
 
             {serviceSuccessMsg && (
@@ -1029,96 +1052,341 @@ export default function AdminPortal({
               </div>
             )}
 
-            {/* Add Service Form */}
-            <form onSubmit={handleAddServiceSubmit} className="glass-panel p-5 grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
-              <div className="sm:col-span-2">
-                <label className="block text-[#1C1B1A] mb-1 font-bold">
-                  {isEn ? 'Service Name' : 'सेवा का नाम / Service Name'}
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Keratin Glow Treatment"
-                  value={newServiceName}
-                  onChange={(e) => setNewServiceName(e.target.value)}
-                  className="w-full p-2 glass-input font-bold"
-                />
+            {/* Add Service Form with Age Tier Inputs */}
+            <form onSubmit={handleAddServiceSubmit} className="glass-panel p-5 space-y-4 text-xs">
+              <div className="border-b border-[#1C1B1A]/10 pb-2">
+                <strong className="text-[#1C1B1A] text-sm font-hindi block">
+                  {isEn ? 'Add New Treatment to Catalog' : 'नई सेवा जोड़ें / Add New Treatment'}
+                </strong>
+                <span className="text-[#5C564E] text-[11px]">Specify durations, category, and age-tiered rates.</span>
               </div>
-              <div>
-                <label className="block text-[#1C1B1A] mb-1 font-bold">
-                  {isEn ? 'Price (₹)' : 'मूल्य / Price (₹)'}
-                </label>
-                <input
-                  type="number"
-                  required
-                  value={newServicePrice}
-                  onChange={(e) => setNewServicePrice(Number(e.target.value))}
-                  className="w-full p-2 glass-input font-bold"
-                />
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="sm:col-span-2">
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Service Name' : 'सेवा का नाम / Service Name'}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Keratin Glow Hair Treatment"
+                    value={newServiceName}
+                    onChange={(e) => setNewServiceName(e.target.value)}
+                    className="w-full p-2 glass-input font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Category' : 'श्रेणी / Category'}
+                  </label>
+                  <select
+                    value={newServiceCategory}
+                    onChange={(e) => setNewServiceCategory(e.target.value as ServiceCategory)}
+                    className="w-full p-2 glass-input font-bold"
+                  >
+                    <option value="Haircuts">Haircuts</option>
+                    <option value="Beard & Shave">Beard & Shave</option>
+                    <option value="Moustache">Moustache</option>
+                    <option value="Facial & Skin">Facial & Skin</option>
+                    <option value="Signature Combos">Signature Combos</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label className="block text-[#1C1B1A] mb-1 font-bold">
-                  {isEn ? 'Duration (mins)' : 'अवधि / Duration (m)'}
-                </label>
-                <input
-                  type="number"
-                  required
-                  value={newServiceDuration}
-                  onChange={(e) => setNewServiceDuration(Number(e.target.value))}
-                  className="w-full p-2 glass-input font-bold"
-                />
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Duration (mins)' : 'अवधि (मिनट) / Duration'}
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min={5}
+                    max={180}
+                    value={newServiceDuration}
+                    onChange={(e) => setNewServiceDuration(Number(e.target.value))}
+                    className="w-full p-2 glass-input font-mono font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Kids (<12) Price (₹)' : 'बच्चों की दर (Kids <12)'}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 100 or leave blank if excluded"
+                    value={newServiceKidsPrice}
+                    onChange={(e) => setNewServiceKidsPrice(e.target.value)}
+                    className="w-full p-2 glass-input font-mono font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Adults (13–59) Price (₹)' : 'वयस्क दर (Adults 13–59)'}
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={newServiceAdultPrice}
+                    onChange={(e) => setNewServiceAdultPrice(e.target.value)}
+                    className="w-full p-2 glass-input font-mono font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Seniors (60+) Price (₹)' : 'वरिष्ठ दर (Seniors 60+)'}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 120 or leave blank"
+                    value={newServiceSeniorPrice}
+                    onChange={(e) => setNewServiceSeniorPrice(e.target.value)}
+                    className="w-full p-2 glass-input font-mono font-bold"
+                  />
+                </div>
               </div>
-              <div className="flex items-end">
+
+              <div className="flex justify-end pt-2">
                 <button
                   type="submit"
-                  className="w-full py-2.5 btn-kitsch-primary text-xs font-bold"
+                  className="btn-kitsch-primary px-5 py-2 text-xs font-bold flex items-center gap-1.5"
                 >
-                  {isEn ? 'Add Service' : 'सेवा जोड़ें / Add Service'}
+                  <Plus size={14} /> {isEn ? 'Save Treatment to Catalog' : 'सेवा सहेजें / Save Treatment'}
                 </button>
               </div>
             </form>
 
-            {/* Services List */}
-            <div className="glass-panel divide-y divide-[#1C1B1A]/10 text-xs">
-              {services.map((s) => (
-                <div key={s.id} className="p-4 flex items-center justify-between">
-                  <div>
-                    <strong className="text-[#1C1B1A] font-bold">{s.name}</strong>
-                    <span className="text-[#5C564E] ml-2 font-mono">({s.category} • {s.durationMinutes} mins)</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono font-bold text-[#D63927] text-base">₹{s.price}</span>
-                    <button
-                      onClick={() => onToggleService(s.id)}
-                      className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold border ${
-                        s.active ? 'bg-[#288D43]/10 text-[#288D43] border-[#288D43]/40' : 'bg-[#F6EFE2] text-[#5C564E] border-[#1C1B1A]/20'
-                      }`}
-                    >
-                      {s.active ? 'ACTIVE' : 'DISABLED'}
-                    </button>
-                  </div>
-                </div>
+            {/* Category Filter Tabs */}
+            <div className="flex flex-wrap items-center gap-2">
+              {['All', 'Haircuts', 'Beard & Shave', 'Moustache', 'Facial & Skin', 'Signature Combos'].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCatalogCategory(cat)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+                    selectedCatalogCategory === cat
+                      ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
+                      : 'bg-[#FFFDF9]/80 text-[#1C1B1A] border-[#1C1B1A]/15 hover:bg-[#F6EFE2]'
+                  }`}
+                >
+                  {cat}
+                </button>
               ))}
+            </div>
+
+            {/* Complete 16-Service Matrix Table */}
+            <div className="glass-panel overflow-x-auto shadow-xs">
+              <table className="w-full text-left text-xs border-collapse min-w-[850px]">
+                <thead>
+                  <tr className="bg-[#1C1B1A] text-[#F5B82E] font-mono text-[11px] border-b border-[#1C1B1A]/20">
+                    <th className="p-3">Category</th>
+                    <th className="p-3">Service Name</th>
+                    <th className="p-3">Duration</th>
+                    <th className="p-3">Kids (&lt;12)</th>
+                    <th className="p-3">Adults (13–59)</th>
+                    <th className="p-3">Seniors (60+)</th>
+                    <th className="p-3 text-[#288D43]">Silver (15%)</th>
+                    <th className="p-3 text-[#288D43]">Gold (25%)</th>
+                    <th className="p-3 text-[#288D43]">Shahi (35%)</th>
+                    <th className="p-3 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#1C1B1A]/10 font-mono text-[#1C1B1A]">
+                  {services
+                    .filter((s) => selectedCatalogCategory === 'All' || s.category === selectedCatalogCategory)
+                    .map((s) => {
+                      const adult = s.adultPrice || s.price
+                      const silver = getPassDiscountedPrice(adult, 'Silver')
+                      const gold = getPassDiscountedPrice(adult, 'Gold')
+                      const shahi = getPassDiscountedPrice(adult, 'Shahi Ustaad')
+
+                      return (
+                        <tr key={s.id} className="hover:bg-[#F6EFE2]/60 transition-colors">
+                          <td className="p-3 font-sans font-bold text-[#5C564E]">{s.category}</td>
+                          <td className="p-3 font-sans font-bold text-[#1C1B1A]">
+                            {s.name}
+                            {s.description && (
+                              <span className="block text-[10px] font-normal text-[#5C564E] font-mono">
+                                {s.description}
+                              </span>
+                            )}
+                          </td>
+                          <td className="p-3 text-[#5C564E]">{s.durationMinutes} mins</td>
+                          <td className="p-3 font-bold">
+                            {s.kidsPrice !== null && s.kidsPrice !== undefined ? (
+                              <span className="text-[#1C1B1A]">₹{s.kidsPrice}</span>
+                            ) : (
+                              <span className="text-[#5C564E]/50">—</span>
+                            )}
+                          </td>
+                          <td className="p-3 font-bold text-[#D63927]">₹{adult}</td>
+                          <td className="p-3 font-bold">
+                            {s.seniorPrice !== null && s.seniorPrice !== undefined ? (
+                              <span className="text-[#1C1B1A]">₹{s.seniorPrice}</span>
+                            ) : (
+                              <span className="text-[#5C564E]/50">—</span>
+                            )}
+                          </td>
+                          <td className="p-3 text-[#288D43] font-bold">₹{silver}</td>
+                          <td className="p-3 text-[#288D43] font-bold">₹{gold}</td>
+                          <td className="p-3 text-[#288D43] font-bold">₹{shahi}</td>
+                          <td className="p-3 text-center">
+                            <button
+                              onClick={() => onToggleService(s.id)}
+                              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border transition-all ${
+                                s.active
+                                  ? 'bg-[#288D43]/15 text-[#288D43] border-[#288D43]/40 hover:bg-[#288D43]/25'
+                                  : 'bg-[#F6EFE2] text-[#5C564E] border-[#1C1B1A]/20 hover:bg-gray-200'
+                              }`}
+                            >
+                              {s.active ? 'ACTIVE' : 'DISABLED'}
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
 
-        {/* ==================== TAB 10: PRICING ==================== */}
+        {/* ==================== TAB 10: PRICING & POLICY RULES ==================== */}
         {activeTab === 'pricing' && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="glass-panel p-4">
               <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
-                {isEn ? 'Pricing & Stylist Surcharge Rules' : 'दर एवं उस्ताद सरचार्ज नीति / Pricing Rules'}
+                {isEn ? 'Salon Pricing Structure & Policy Rules' : 'मूल्य निर्धारण संरचना एवं नीति नियम'}
               </h2>
-              <p className="text-xs text-[#5C564E]">Configure dynamic pricing and master barber request surcharges.</p>
+              <p className="text-xs text-[#5C564E]">
+                Official configuration for Age-Tiered matrices, VIP Membership pass discounts, and Stylist surcharges.
+              </p>
             </div>
+
+            {/* AGE-TIER POLICY CARDS */}
+            <div className="glass-panel p-5 space-y-4 text-xs">
+              <div className="flex items-center gap-2 border-b border-[#1C1B1A]/10 pb-2 text-[#1C1B1A] font-bold text-sm font-hindi">
+                <ShieldCheck size={18} className="text-[#288D43]" />
+                <span>{isEn ? 'Age-Tier Pricing Structure Notes' : 'आयु-वर्ग दर संरचना नियम'}</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 bg-[#F6EFE2]/80 rounded-xl border border-[#1C1B1A]/15 space-y-1.5">
+                  <strong className="text-sm font-bold text-[#1C1B1A] block">
+                    👶 Kids (Under 12)
+                  </strong>
+                  <p className="text-[11px] text-[#5C564E] leading-relaxed">
+                    Discounted on basic styling (₹100–₹150). Complex blade work, straight razors, and hot towel treatments are strictly excluded for safety.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-[#F6EFE2]/80 rounded-xl border border-[#1C1B1A]/15 space-y-1.5">
+                  <strong className="text-sm font-bold text-[#1C1B1A] block">
+                    👨 Adults (13–59)
+                  </strong>
+                  <p className="text-[11px] text-[#5C564E] leading-relaxed">
+                    Standard salon benchmark rate across all 16 treatments (₹40–₹850). Serves as base price for VIP membership discounts.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-[#F6EFE2]/80 rounded-xl border border-[#1C1B1A]/15 space-y-1.5">
+                  <strong className="text-sm font-bold text-[#1C1B1A] block">
+                    👴 Seniors (60+)
+                  </strong>
+                  <p className="text-[11px] text-[#5C564E] leading-relaxed">
+                    15%–20% courtesy discount across classic haircuts, traditional blade shaves, facials, and grooming combos.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 bg-[#1E75B8]/10 border border-[#1E75B8]/30 rounded-xl text-[#1E75B8] text-xs font-mono font-bold">
+                ⏱️ <b>Slot System Compatibility:</b> Every service is assigned a standard duration buffer (10 to 45 minutes) to sync directly with your real-time queue algorithm and automated wait-time predictions.
+              </div>
+            </div>
+
+            {/* VIP PASS HOLDER COMPARISON MATRIX TABLE */}
+            <div className="glass-panel p-5 space-y-4 text-xs">
+              <div className="flex items-center gap-2 border-b border-[#1C1B1A]/10 pb-2 text-[#1C1B1A] font-bold text-sm font-hindi">
+                <Crown size={18} className="text-[#F5B82E]" />
+                <span>{isEn ? 'VIP Membership Pass Holder Rate Matrix' : 'वीआईपी पास धारक रियायती दर तालिका'}</span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[#1C1B1A] text-[#F5B82E] font-mono text-[11px]">
+                      <th className="p-3">Service Category</th>
+                      <th className="p-3">Regular Rate</th>
+                      <th className="p-3 text-[#288D43]">Silver (15% Off)</th>
+                      <th className="p-3 text-[#288D43]">Gold (25% Off)</th>
+                      <th className="p-3 text-[#288D43]">Shahi Ustaad (35% Off)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#1C1B1A]/10 font-mono text-[#1C1B1A]">
+                    <tr className="hover:bg-[#F6EFE2]/60">
+                      <td className="p-3 font-sans font-bold">Classic Regular Cut</td>
+                      <td className="p-3 font-bold text-[#D63927]">₹150</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹127</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹112</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹97</td>
+                    </tr>
+                    <tr className="hover:bg-[#F6EFE2]/60">
+                      <td className="p-3 font-sans font-bold">Ustaad Fade / Modern Crop</td>
+                      <td className="p-3 font-bold text-[#D63927]">₹250</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹212</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹187</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹162</td>
+                    </tr>
+                    <tr className="hover:bg-[#F6EFE2]/60">
+                      <td className="p-3 font-sans font-bold">Royal Hot Towel Shave</td>
+                      <td className="p-3 font-bold text-[#D63927]">₹160</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹136</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹120</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹104</td>
+                    </tr>
+                    <tr className="hover:bg-[#F6EFE2]/60">
+                      <td className="p-3 font-sans font-bold">Designer Beard Styling</td>
+                      <td className="p-3 font-bold text-[#D63927]">₹180</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹153</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹135</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹117</td>
+                    </tr>
+                    <tr className="hover:bg-[#F6EFE2]/60">
+                      <td className="p-3 font-sans font-bold">Herbal Glow Facial</td>
+                      <td className="p-3 font-bold text-[#D63927]">₹450</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹382</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹337</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹292</td>
+                    </tr>
+                    <tr className="hover:bg-[#F6EFE2]/60">
+                      <td className="p-3 font-sans font-bold">The Ustaad Royal Combo</td>
+                      <td className="p-3 font-bold text-[#D63927]">₹850</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹722</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹637</td>
+                      <td className="p-3 text-[#288D43] font-bold">₹552</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* STYLIST SURCHARGES */}
             <div className="p-5 glass-panel text-xs space-y-3">
+              <div className="border-b border-[#1C1B1A]/10 pb-2">
+                <strong className="text-[#1C1B1A] text-sm font-hindi block">
+                  {isEn ? 'Dynamic Surcharges & Custom Barber Add-ons' : 'डायनामिक सरचार्ज एवं विशेष कारीगर शुल्क'}
+                </strong>
+              </div>
+
               <div className="p-3 bg-[#F6EFE2]/75 backdrop-blur-sm border border-[#1C1B1A]/15 rounded-xl flex justify-between items-center shadow-xs">
                 <div>
                   <strong className="text-[#1C1B1A] block">
                     {isEn ? 'Master Stylist Request Fee' : 'उस्ताद कारीगर विशेष शुल्क / Master Stylist Fee'}
                   </strong>
-                  <span className="text-[#5C564E] text-[11px]">Applied when client specifically locks a Master Stylist</span>
+                  <span className="text-[#5C564E] text-[11px]">Applied when client specifically selects and locks an Ustaad Master Stylist</span>
                 </div>
                 <span className="font-mono font-bold text-[#D63927] text-sm">+₹50.00 Fixed</span>
               </div>
@@ -1127,7 +1395,7 @@ export default function AdminPortal({
                   <strong className="text-[#1C1B1A] block">
                     {isEn ? 'Weekend Peak Surcharge' : 'सप्ताहांत भीड़ सरचार्ज / Weekend Peak Surcharge'}
                   </strong>
-                  <span className="text-[#5C564E] text-[11px]">Applied on Saturdays & Sundays (04:00 PM - 08:00 PM)</span>
+                  <span className="text-[#5C564E] text-[11px]">Applied automatically on Saturdays & Sundays (04:00 PM - 08:00 PM)</span>
                 </div>
                 <span className="font-mono font-bold text-[#1E75B8] text-sm">+10% Auto-Applied</span>
               </div>

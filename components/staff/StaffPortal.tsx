@@ -39,6 +39,10 @@ import {
   RefundRequest,
   ReceiptData,
   StaffAvailability,
+  AgeTier,
+  PassTier,
+  calculateServicePrice,
+  getPassDiscountedPrice,
 } from '@/lib/types'
 
 interface StaffPortalProps {
@@ -92,7 +96,10 @@ export default function StaffPortal({
   const [walkInPhone, setWalkInPhone] = useState('')
   const [walkInService, setWalkInService] = useState(services[0]?.name || '')
   const [walkInStaff, setWalkInStaff] = useState(staff[0]?.name || '')
+  const [walkInAgeTier, setWalkInAgeTier] = useState<AgeTier>('Adults')
+  const [walkInPassTier, setWalkInPassTier] = useState<PassTier>('None')
   const [walkInSuccessMsg, setWalkInSuccessMsg] = useState('')
+  const [walkInErrorMsg, setWalkInErrorMsg] = useState('')
 
   // Search state for check-in / customer search
   const [searchQuery, setSearchQuery] = useState('')
@@ -108,11 +115,20 @@ export default function StaffPortal({
         s.phone === user?.phone
     ) || staff[0]
 
+  const selectedWalkInSrv = services.find((s) => s.name === walkInService) || services[0]
+  const walkInBasePrice = selectedWalkInSrv ? calculateServicePrice(selectedWalkInSrv, walkInAgeTier) : 0
+  const walkInFinalPrice = walkInBasePrice !== null ? getPassDiscountedPrice(walkInBasePrice, walkInPassTier) : null
+
   // Handlers
   const handleWalkInSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!walkInName.trim() || !walkInPhone.trim()) return
+    if (walkInBasePrice === null || walkInFinalPrice === null) {
+      setWalkInErrorMsg(`Safety Alert: "${walkInService}" is restricted/excluded for ${walkInAgeTier}.`)
+      return
+    }
 
+    const duration = selectedWalkInSrv?.durationMinutes || 20
     const newWalkIn: QueueItem = {
       token: `W-${Math.floor(10 + Math.random() * 90)}`,
       customerName: walkInName,
@@ -120,18 +136,22 @@ export default function StaffPortal({
       serviceName: walkInService,
       staffName: walkInStaff,
       assignedStation: staff.find((s) => s.name === walkInStaff)?.station || 'Station 1',
-      estimatedWaitMinutes: 23,
-      waitBreakdown: 'Calculated by AI (Queue #2 • 18m service + 5m buffer)',
+      estimatedWaitMinutes: duration + 5,
+      waitBreakdown: `Calculated by AI (${duration}m service + 5m buffer)`,
       status: 'Waiting',
       isWalkIn: true,
       joinedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      ageTier: walkInAgeTier,
+      passTier: walkInPassTier,
+      calculatedPrice: walkInFinalPrice,
     }
 
     onAddWalkIn(newWalkIn)
-    setWalkInSuccessMsg(`Token ${newWalkIn.token} issued to ${newWalkIn.customerName}! AI wait: ~23m`)
+    setWalkInSuccessMsg(`Token ${newWalkIn.token} issued to ${newWalkIn.customerName} (₹${walkInFinalPrice} • ${walkInAgeTier} • ${walkInPassTier !== 'None' ? walkInPassTier + ' Pass' : 'Regular'})! AI wait: ~${newWalkIn.estimatedWaitMinutes}m`)
     setWalkInName('')
     setWalkInPhone('')
-    setTimeout(() => setWalkInSuccessMsg(''), 3000)
+    setWalkInErrorMsg('')
+    setTimeout(() => setWalkInSuccessMsg(''), 4000)
   }
 
   // Filtered Appointments for Quick Check-In
@@ -598,12 +618,22 @@ export default function StaffPortal({
               <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi mt-1.5">
                 {isEn ? 'Register Walk-In Customer' : 'वॉक-इन ग्राहक पर्ची बनाएं / Register Walk-In'}
               </h2>
+              <p className="text-xs text-[#5C564E] mt-0.5">
+                Fast counter intake with automated age-tiered pricing matrix, pass holder rates, and AI slot buffer sync.
+              </p>
             </div>
 
             {walkInSuccessMsg && (
               <div className="mb-4 p-3 bg-[#288D43]/10 text-[#288D43] border border-[#288D43]/30 rounded-xl text-xs flex items-center gap-2 font-bold">
                 <CheckCircle2 size={16} />
                 <span>{walkInSuccessMsg}</span>
+              </div>
+            )}
+
+            {walkInErrorMsg && (
+              <div className="mb-4 p-3 bg-[#D63927]/10 text-[#D63927] border border-[#D63927]/30 rounded-xl text-xs flex items-center gap-2 font-bold">
+                <AlertCircle size={16} />
+                <span>{walkInErrorMsg}</span>
               </div>
             )}
 
@@ -636,23 +666,88 @@ export default function StaffPortal({
                 />
               </div>
 
+              {/* Age Tier Segmented Selector */}
+              <div>
+                <label className="block text-[#1C1B1A] mb-1.5">
+                  {isEn ? 'Select Customer Age Category' : 'आयु वर्ग चुनें / Age Category'}
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {(['Adults', 'Kids', 'Seniors'] as AgeTier[]).map((tier) => (
+                    <button
+                      key={tier}
+                      type="button"
+                      onClick={() => {
+                        setWalkInAgeTier(tier)
+                        setWalkInErrorMsg('')
+                      }}
+                      className={`py-2 px-2.5 rounded-xl border text-center font-bold text-xs transition-all ${
+                        walkInAgeTier === tier
+                          ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
+                          : 'bg-[#F6EFE2]/80 text-[#1C1B1A] border-[#1C1B1A]/20 hover:bg-white'
+                      }`}
+                    >
+                      <span className="block font-bold">
+                        {tier === 'Kids' ? 'Kids' : tier === 'Adults' ? 'Adults' : 'Seniors'}
+                      </span>
+                      <span className="text-[10px] font-mono opacity-80 block">
+                        {tier === 'Kids' ? '< 12 Yrs' : tier === 'Adults' ? '13–59 Yrs' : '60+ Yrs'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Service Selection */}
               <div>
                 <label className="block text-[#1C1B1A] mb-1">
                   {isEn ? 'Select Service' : 'सेवा चुनें / Select Service'}
                 </label>
                 <select
                   value={walkInService}
-                  onChange={(e) => setWalkInService(e.target.value)}
+                  onChange={(e) => {
+                    setWalkInService(e.target.value)
+                    setWalkInErrorMsg('')
+                  }}
                   className="w-full p-2.5 glass-input"
                 >
-                  {services.map((s) => (
-                    <option key={s.id} value={s.name}>
-                      {s.name} — ₹{s.price} ({s.durationMinutes}m)
-                    </option>
-                  ))}
+                  {services.map((s) => {
+                    const priceForCurrentTier = calculateServicePrice(s, walkInAgeTier)
+                    return (
+                      <option key={s.id} value={s.name}>
+                        {s.name} ({s.category} • {s.durationMinutes}m) — {priceForCurrentTier !== null ? `₹${priceForCurrentTier}` : 'N/A for ' + walkInAgeTier}
+                      </option>
+                    )
+                  })}
                 </select>
               </div>
 
+              {/* VIP Membership Pass Selection */}
+              <div>
+                <label className="block text-[#1C1B1A] mb-1.5">
+                  {isEn ? 'Customer VIP Pass Status' : 'वीआईपी सदस्यता पास / VIP Membership Pass'}
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {(['None', 'Silver', 'Gold', 'Shahi Ustaad'] as PassTier[]).map((pass) => (
+                    <button
+                      key={pass}
+                      type="button"
+                      onClick={() => setWalkInPassTier(pass)}
+                      className={`p-2 rounded-xl border text-center text-xs font-bold transition-all ${
+                        walkInPassTier === pass
+                          ? 'bg-[#1C1B1A] text-[#F5B82E] border-[#1C1B1A] shadow-xs'
+                          : 'bg-[#F6EFE2]/80 text-[#1C1B1A] border-[#1C1B1A]/20 hover:bg-white'
+                      }`}
+                    >
+                      <span className="block font-bold">{pass}</span>
+                      <span className="text-[10px] font-mono text-[#288D43] block">
+                        {pass === 'None' ? 'Standard' : pass === 'Silver' ? '15% Off' : pass === 'Gold' ? '25% Off' : '35% Off'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Stylist Selection */}
               <div>
                 <label className="block text-[#1C1B1A] mb-1">
                   {isEn ? 'Assign Stylist' : 'कारीगर आवंटित करें / Assign Stylist'}
@@ -670,13 +765,42 @@ export default function StaffPortal({
                 </select>
               </div>
 
-              <div className="p-3 bg-[#1E75B8]/10 border border-[#1E75B8]/30 rounded-xl text-[#1E75B8] text-xs font-mono font-bold">
-                🤖 <b>AI PREDICTION ALGORITHM:</b> Auto-estimates ~23 minutes wait time based on Station 1 throughput.
-              </div>
+              {/* Price & Duration Summary Box */}
+              {walkInBasePrice === null ? (
+                <div className="p-3 bg-[#D63927]/10 border border-[#D63927]/30 rounded-xl text-[#D63927] text-xs font-mono font-bold flex items-center gap-2">
+                  <AlertCircle size={15} />
+                  <span>
+                    ⚠️ Safety Policy: &ldquo;{walkInService}&rdquo; is excluded for {walkInAgeTier}. Please pick an alternative service.
+                  </span>
+                </div>
+              ) : (
+                <div className="p-3.5 bg-[#FFF9E6]/90 border border-[#F5B82E]/40 rounded-xl space-y-1.5 font-mono text-xs">
+                  <div className="flex justify-between text-[#5C564E]">
+                    <span>Base {walkInAgeTier} Rate:</span>
+                    <span>₹{walkInBasePrice}.00</span>
+                  </div>
+                  {walkInPassTier !== 'None' && (
+                    <div className="flex justify-between text-[#288D43]">
+                      <span>{walkInPassTier} Pass Discount:</span>
+                      <span>-₹{(walkInBasePrice - (walkInFinalPrice || 0))}.00</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-sm font-bold text-[#1C1B1A] pt-1.5 border-t border-[#1C1B1A]/10">
+                    <span>Final Walk-In Bill:</span>
+                    <span className="text-[#D63927] text-base">₹{walkInFinalPrice}.00</span>
+                  </div>
+                  <div className="text-[10px] text-[#1E75B8] pt-1">
+                    ⏱️ Duration: {selectedWalkInSrv?.durationMinutes} mins (+ 5m buffer sync with slot algorithm)
+                  </div>
+                </div>
+              )}
 
               <button
                 type="submit"
-                className="w-full py-3 btn-kitsch-haldi text-xs font-bold"
+                disabled={walkInBasePrice === null}
+                className={`w-full py-3 text-xs font-bold ${
+                  walkInBasePrice === null ? 'bg-gray-300 text-gray-500 cursor-not-allowed rounded-xl' : 'btn-kitsch-haldi'
+                }`}
               >
                 {isEn ? 'Issue Token & Add to Queue' : 'टोकन जारी करें एवं कतार में जोड़ें / Issue Token'}
               </button>

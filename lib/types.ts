@@ -12,15 +12,94 @@ export type QueueStatus = 'Waiting' | 'Called' | 'In Service' | 'Completed' | 'S
 
 export type StaffAvailability = 'Available' | 'Busy' | 'On Break' | 'On Leave'
 
+export type ServiceCategory =
+  | 'Haircuts'
+  | 'Beard & Shave'
+  | 'Moustache'
+  | 'Facial & Skin'
+  | 'Signature Combos'
+  | 'Hair'
+  | 'Grooming'
+  | 'Spa'
+  | 'Facial'
+
+export type AgeTier = 'Adults' | 'Kids' | 'Seniors'
+export type PassTier = 'None' | 'Silver' | 'Gold' | 'Shahi Ustaad'
+
 export interface ServiceItem {
   id: string
   name: string
-  category: 'Hair' | 'Grooming' | 'Spa' | 'Facial'
+  category: ServiceCategory
   durationMinutes: number
   bufferMinutes: number
-  price: number
+  price: number // Base / Adult (13–59) price
+  adultPrice: number // Adults (13–59)
+  kidsPrice?: number | null // Kids (Under 12)
+  seniorPrice?: number | null // Seniors (60+)
   description: string
   active: boolean
+}
+
+export function getPassDiscountedPrice(basePrice: number, tier: PassTier): number {
+  if (tier === 'Silver') return Math.floor(basePrice * 0.85)
+  if (tier === 'Gold') return Math.floor(basePrice * 0.75)
+  if (tier === 'Shahi Ustaad') return Math.floor(basePrice * 0.65)
+  return basePrice
+}
+
+export function calculateServicePrice(
+  service: ServiceItem,
+  ageTier: AgeTier = 'Adults',
+  passTier: PassTier = 'None'
+): {
+  basePrice: number
+  isEligible: boolean
+  ineligibleReason?: string
+  discountAmount: number
+  finalPrice: number
+  discountPercent: number
+} {
+  let basePrice = service.adultPrice || service.price
+  let isEligible = true
+  let ineligibleReason = undefined
+
+  if (ageTier === 'Kids') {
+    if (service.kidsPrice === null || service.kidsPrice === undefined) {
+      isEligible = false
+      ineligibleReason = 'Excluded for Kids (Under 12) for safety'
+      basePrice = service.adultPrice || service.price
+    } else {
+      basePrice = service.kidsPrice
+    }
+  } else if (ageTier === 'Seniors') {
+    if (service.seniorPrice === null || service.seniorPrice === undefined) {
+      isEligible = false
+      ineligibleReason = 'Not offered for Seniors (60+)'
+      basePrice = service.adultPrice || service.price
+    } else {
+      basePrice = service.seniorPrice
+    }
+  }
+
+  let discountPercent = 0
+  if (passTier === 'Silver') discountPercent = 15
+  else if (passTier === 'Gold') discountPercent = 25
+  else if (passTier === 'Shahi Ustaad') discountPercent = 35
+
+  const discountAmount = isEligible && discountPercent > 0
+    ? Math.round(basePrice * (discountPercent / 100))
+    : 0
+  
+  const finalPrice = Math.max(0, basePrice - discountAmount)
+
+  return {
+    basePrice,
+    isEligible,
+    ineligibleReason,
+    discountAmount,
+    finalPrice,
+    discountPercent,
+  }
 }
 
 export interface StaffMember {
@@ -50,6 +129,8 @@ export interface Appointment {
   time: string
   durationMinutes: number
   price: number
+  ageTier?: AgeTier
+  passTier?: PassTier
   preferredStylistFee?: number
   membershipDiscount?: number
   finalPrice?: number
@@ -76,6 +157,9 @@ export interface QueueItem {
   status: QueueStatus
   isWalkIn: boolean
   joinedAt: string
+  ageTier?: AgeTier
+  passTier?: PassTier
+  calculatedPrice?: number
 }
 
 export interface AuditLogEntry {
@@ -110,6 +194,8 @@ export interface ReceiptData {
   serviceName: string
   staffName: string
   amount: number
+  ageTier?: AgeTier
+  passTier?: PassTier
   preferredStylistFee?: number
   membershipDiscount?: number
   paymentMethod: string
@@ -164,12 +250,14 @@ export interface DispatchedEmail {
 
 export interface MembershipPass {
   id: string
-  type: 'Monthly Pass' | 'Annual VIP Pass'
+  type: string
+  tierName: PassTier
+  discountPercent: number
   price: number
   billingPeriod: string
   features: string[]
   activeCustomersCount: number
-  status: 'Active' | 'Featured'
+  status: 'Active' | 'Featured' | 'Popular'
 }
 
 export interface CustomerProfileMemory {
@@ -188,64 +276,221 @@ export interface CustomerProfileMemory {
 
 // Seed Data
 export const initialServices: ServiceItem[] = [
+  // 1. Haircuts
   {
     id: 'srv-1',
-    name: 'Executive Haircut & Styling',
-    category: 'Hair',
-    durationMinutes: 40,
+    name: 'Classic Regular Cut',
+    category: 'Haircuts',
+    durationMinutes: 20,
     bufferMinutes: 5,
-    price: 350,
-    description: 'Precision scissor cut, styling, hair wash and blow dry',
+    price: 150,
+    adultPrice: 150,
+    kidsPrice: 100,
+    seniorPrice: 120,
+    description: 'Precision scissor and clipper cut, neat neckline taper and blow dry',
     active: true,
   },
   {
     id: 'srv-2',
-    name: 'Royal Hot Towel Shave',
-    category: 'Grooming',
-    durationMinutes: 25,
+    name: 'Ustaad Fade / Modern Crop',
+    category: 'Haircuts',
+    durationMinutes: 30,
     bufferMinutes: 5,
-    price: 200,
-    description: 'Pre-shave oil, hot towel wrap, straight razor shave, and cooling balm',
+    price: 250,
+    adultPrice: 250,
+    kidsPrice: 150,
+    seniorPrice: null,
+    description: 'High/mid skin fade, textured crop, sharp temple alignment',
     active: true,
   },
   {
     id: 'srv-3',
-    name: 'Beard Sculpting & Razor Line',
-    category: 'Grooming',
-    durationMinutes: 20,
+    name: 'Scissor Cut & Layering',
+    category: 'Haircuts',
+    durationMinutes: 30,
     bufferMinutes: 5,
-    price: 150,
-    description: 'Beard trimming, shaping, straight razor edge definition',
+    price: 220,
+    adultPrice: 220,
+    kidsPrice: 140,
+    seniorPrice: 180,
+    description: 'Full handcrafted scissor cut, volume layering & texturizing',
     active: true,
   },
   {
     id: 'srv-4',
-    name: 'Ayurvedic Champi Head Massage',
-    category: 'Spa',
-    durationMinutes: 20,
+    name: 'Head Shave (Blade / Razor)',
+    category: 'Haircuts',
+    durationMinutes: 25,
     bufferMinutes: 5,
-    price: 180,
-    description: 'Herbal Brahmi oil pressure-point head and shoulder massage',
+    price: 160,
+    adultPrice: 160,
+    kidsPrice: null,
+    seniorPrice: 130,
+    description: 'Smooth precision straight razor head shave with warm lather & cooling lotion',
     active: true,
   },
+
+  // 2. Beard & Shave
   {
     id: 'srv-5',
-    name: 'Anti-Pollution Charcoal Facial',
-    category: 'Facial',
-    durationMinutes: 45,
-    bufferMinutes: 10,
-    price: 650,
-    description: 'Deep pore cleansing, exfoliation, steam, and charcoal mask',
+    name: 'Classic Straight-Razor Shave',
+    category: 'Beard & Shave',
+    durationMinutes: 15,
+    bufferMinutes: 5,
+    price: 90,
+    adultPrice: 90,
+    kidsPrice: null,
+    seniorPrice: 80,
+    description: 'Traditional warm lather straight razor shave & alum block finish',
     active: true,
   },
   {
     id: 'srv-6',
-    name: 'Intense Repair Hair Spa',
-    category: 'Spa',
-    durationMinutes: 50,
+    name: 'Royal Foam & Hot Towel Shave',
+    category: 'Beard & Shave',
+    durationMinutes: 25,
+    bufferMinutes: 5,
+    price: 160,
+    adultPrice: 160,
+    kidsPrice: null,
+    seniorPrice: 140,
+    description: 'Pre-shave essential oil, double hot towel wrap, razor shave & soothing balm',
+    active: true,
+  },
+  {
+    id: 'srv-7',
+    name: 'Beard Trim & Outline (Machine)',
+    category: 'Beard & Shave',
+    durationMinutes: 15,
+    bufferMinutes: 5,
+    price: 100,
+    adultPrice: 100,
+    kidsPrice: null,
+    seniorPrice: 90,
+    description: 'Clipper length graduation and crisp cheek/neckline definition',
+    active: true,
+  },
+  {
+    id: 'srv-8',
+    name: 'Designer Beard Styling & Shape',
+    category: 'Beard & Shave',
+    durationMinutes: 25,
+    bufferMinutes: 5,
+    price: 180,
+    adultPrice: 180,
+    kidsPrice: null,
+    seniorPrice: null,
+    description: 'Sharp precision razor sculpt, gradient beard fade, organic beard butter',
+    active: true,
+  },
+
+  // 3. Moustache
+  {
+    id: 'srv-9',
+    name: 'Classic Trim & Clean-up',
+    category: 'Moustache',
+    durationMinutes: 10,
+    bufferMinutes: 5,
+    price: 40,
+    adultPrice: 40,
+    kidsPrice: null,
+    seniorPrice: 40,
+    description: 'Precise scissors trim, upper lip alignment & styling',
+    active: true,
+  },
+  {
+    id: 'srv-10',
+    name: 'Royal Handlebar Styling & Wax',
+    category: 'Moustache',
+    durationMinutes: 15,
+    bufferMinutes: 5,
+    price: 80,
+    adultPrice: 80,
+    kidsPrice: null,
+    seniorPrice: 70,
+    description: 'Traditional moustache shaping with organic beeswax twist & hold',
+    active: true,
+  },
+
+  // 4. Facial & Skin
+  {
+    id: 'srv-11',
+    name: 'Classic De-Tan & Scrub',
+    category: 'Facial & Skin',
+    durationMinutes: 20,
+    bufferMinutes: 5,
+    price: 250,
+    adultPrice: 250,
+    kidsPrice: null,
+    seniorPrice: 200,
+    description: 'Sun damage de-tan pack, gentle walnut scrub & skin tone refresher',
+    active: true,
+  },
+  {
+    id: 'srv-12',
+    name: 'Herbal Glow Facial',
+    category: 'Facial & Skin',
+    durationMinutes: 35,
+    bufferMinutes: 5,
+    price: 450,
+    adultPrice: 450,
+    kidsPrice: null,
+    seniorPrice: 400,
+    description: 'Ayurvedic herbal extract massage, steam, clay mask & radiance serum',
+    active: true,
+  },
+  {
+    id: 'srv-13',
+    name: 'Deluxe Gold Radiance Facial',
+    category: 'Facial & Skin',
+    durationMinutes: 45,
     bufferMinutes: 10,
-    price: 800,
-    description: 'Keratin protein infusion, ozone steam therapy, and deep conditioning',
+    price: 750,
+    adultPrice: 750,
+    kidsPrice: null,
+    seniorPrice: 650,
+    description: '24K gold foil infused massage cream, deep steam, peel-off mask & hydration',
+    active: true,
+  },
+  {
+    id: 'srv-14',
+    name: 'Charcoal Blackhead Clean-up',
+    category: 'Facial & Skin',
+    durationMinutes: 25,
+    bufferMinutes: 5,
+    price: 300,
+    adultPrice: 300,
+    kidsPrice: null,
+    seniorPrice: 250,
+    description: 'Ozone steam, blackhead extraction, active bamboo charcoal pore mask',
+    active: true,
+  },
+
+  // 5. Signature Combos
+  {
+    id: 'srv-15',
+    name: 'Haircut + Beard Groom + Wash',
+    category: 'Signature Combos',
+    durationMinutes: 40,
+    bufferMinutes: 10,
+    price: 320,
+    adultPrice: 320,
+    kidsPrice: null,
+    seniorPrice: 260,
+    description: 'Classic regular cut, beard outline trim, deep clarifying hair wash and styling',
+    active: true,
+  },
+  {
+    id: 'srv-16',
+    name: 'The Ustaad Royal (Cut + Shave + Facial + Champi)',
+    category: 'Signature Combos',
+    durationMinutes: 60,
+    bufferMinutes: 10,
+    price: 850,
+    adultPrice: 850,
+    kidsPrice: null,
+    seniorPrice: 750,
+    description: 'Complete royal grooming experience: Haircut + Hot Towel Shave + Herbal Facial + 15m Champi',
     active: true,
   },
 ]
@@ -315,15 +560,18 @@ export const initialAppointments: Appointment[] = [
     customerName: 'Rahul Sharma',
     customerPhone: '+91 98901 23456',
     serviceId: 'srv-1',
-    serviceName: 'Executive Haircut & Styling',
+    serviceName: 'Classic Regular Cut',
     staffId: 'stf-1',
     staffName: 'Suresh Kumar',
     date: '2026-09-08',
     time: '09:30 AM',
-    durationMinutes: 40,
-    price: 350,
+    durationMinutes: 20,
+    price: 150,
+    ageTier: 'Adults',
+    passTier: 'Silver',
+    membershipDiscount: 23,
     preferredStylistFee: 50,
-    finalPrice: 400,
+    finalPrice: 177,
     paymentStatus: 'Paid',
     paymentMethod: 'UPI',
     status: 'In Service',
@@ -337,15 +585,17 @@ export const initialAppointments: Appointment[] = [
     id: 'APT-1002',
     customerName: 'Rohan Kapoor',
     customerPhone: '+91 98902 23456',
-    serviceId: 'srv-3',
-    serviceName: 'Beard Sculpting & Razor Line',
+    serviceId: 'srv-8',
+    serviceName: 'Designer Beard Styling & Shape',
     staffId: 'stf-3',
     staffName: 'Imran Khan',
     date: '2026-09-08',
     time: '10:00 AM',
-    durationMinutes: 20,
-    price: 150,
-    finalPrice: 150,
+    durationMinutes: 25,
+    price: 180,
+    ageTier: 'Adults',
+    passTier: 'None',
+    finalPrice: 180,
     paymentStatus: 'Paid',
     paymentMethod: 'Card',
     status: 'In Service',
@@ -359,15 +609,18 @@ export const initialAppointments: Appointment[] = [
     id: 'APT-1003',
     customerName: 'Ishita Shah',
     customerPhone: '+91 98903 34567',
-    serviceId: 'srv-6',
-    serviceName: 'Intense Repair Hair Spa',
+    serviceId: 'srv-13',
+    serviceName: 'Deluxe Gold Radiance Facial',
     staffId: 'stf-2',
     staffName: 'Ramesh Verma',
     date: '2026-09-08',
     time: '10:30 AM',
-    durationMinutes: 50,
-    price: 800,
-    finalPrice: 800,
+    durationMinutes: 45,
+    price: 750,
+    ageTier: 'Adults',
+    passTier: 'Gold',
+    membershipDiscount: 188,
+    finalPrice: 562,
     paymentStatus: 'Paid',
     paymentMethod: 'UPI',
     status: 'Checked-in',
@@ -380,15 +633,17 @@ export const initialAppointments: Appointment[] = [
     id: 'APT-1004',
     customerName: 'Ananya Rao',
     customerPhone: '+91 98904 45678',
-    serviceId: 'srv-5',
-    serviceName: 'Anti-Pollution Charcoal Facial',
+    serviceId: 'srv-14',
+    serviceName: 'Charcoal Blackhead Clean-up',
     staffId: 'stf-4',
     staffName: 'Vicky Patil',
     date: '2026-09-08',
     time: '11:15 AM',
-    durationMinutes: 45,
-    price: 650,
-    finalPrice: 650,
+    durationMinutes: 25,
+    price: 300,
+    ageTier: 'Adults',
+    passTier: 'None',
+    finalPrice: 300,
     paymentStatus: 'Paid',
     paymentMethod: 'UPI',
     status: 'Confirmed',
@@ -398,15 +653,17 @@ export const initialAppointments: Appointment[] = [
     id: 'APT-1005',
     customerName: 'Amit Desai',
     customerPhone: '+91 98905 56789',
-    serviceId: 'srv-2',
-    serviceName: 'Royal Hot Towel Shave',
+    serviceId: 'srv-6',
+    serviceName: 'Royal Foam & Hot Towel Shave',
     staffId: 'stf-1',
     staffName: 'Suresh Kumar',
     date: '2026-09-08',
     time: '11:30 AM',
     durationMinutes: 25,
-    price: 200,
-    finalPrice: 200,
+    price: 160,
+    ageTier: 'Adults',
+    passTier: 'None',
+    finalPrice: 160,
     paymentStatus: 'Pending',
     status: 'Pending',
     createdAt: '2026-09-08',
@@ -419,7 +676,7 @@ export const initialQueue: QueueItem[] = [
     appointmentId: 'APT-1001',
     customerName: 'Rahul Sharma',
     customerPhone: '+91 98901 23456',
-    serviceName: 'Executive Haircut & Styling',
+    serviceName: 'Classic Regular Cut',
     staffName: 'Suresh Kumar',
     assignedStation: 'Station 1',
     estimatedWaitMinutes: 0,
@@ -427,13 +684,16 @@ export const initialQueue: QueueItem[] = [
     status: 'In Service',
     isWalkIn: false,
     joinedAt: '09:25 AM',
+    ageTier: 'Adults',
+    passTier: 'Silver',
+    calculatedPrice: 127,
   },
   {
     token: 'T-02',
     appointmentId: 'APT-1002',
     customerName: 'Rohan Kapoor',
     customerPhone: '+91 98902 23456',
-    serviceName: 'Beard Sculpting',
+    serviceName: 'Designer Beard Styling',
     staffName: 'Imran Khan',
     assignedStation: 'Station 3',
     estimatedWaitMinutes: 0,
@@ -441,13 +701,16 @@ export const initialQueue: QueueItem[] = [
     status: 'In Service',
     isWalkIn: false,
     joinedAt: '09:55 AM',
+    ageTier: 'Adults',
+    passTier: 'None',
+    calculatedPrice: 180,
   },
   {
     token: 'T-03',
     appointmentId: 'APT-1003',
     customerName: 'Ishita Shah',
     customerPhone: '+91 98903 34567',
-    serviceName: 'Hair Spa',
+    serviceName: 'Deluxe Gold Facial',
     staffName: 'Ramesh Verma',
     assignedStation: 'Station 2',
     estimatedWaitMinutes: 5,
@@ -455,33 +718,42 @@ export const initialQueue: QueueItem[] = [
     status: 'Called',
     isWalkIn: false,
     joinedAt: '10:15 AM',
+    ageTier: 'Adults',
+    passTier: 'Gold',
+    calculatedPrice: 562,
   },
   {
     token: 'W-04',
     customerName: 'Deepak Verma',
     customerPhone: '+91 98911 22334',
-    serviceName: 'Royal Shave',
+    serviceName: 'Royal Hot Towel Shave',
     staffName: 'Suresh Kumar',
     assignedStation: 'Station 1',
-    estimatedWaitMinutes: 23,
-    waitBreakdown: 'Queue #2 • 18m remaining on T-01 + 5m buffer',
+    estimatedWaitMinutes: 20,
+    waitBreakdown: 'Queue #2 • 15m remaining on T-01 + 5m buffer',
     status: 'Waiting',
     isWalkIn: true,
     joinedAt: '10:20 AM',
+    ageTier: 'Adults',
+    passTier: 'None',
+    calculatedPrice: 160,
   },
   {
     token: 'T-05',
     appointmentId: 'APT-1004',
     customerName: 'Ananya Rao',
     customerPhone: '+91 98904 45678',
-    serviceName: 'Charcoal Facial',
+    serviceName: 'Charcoal Blackhead Clean-up',
     staffName: 'Vicky Patil',
     assignedStation: 'Station 4',
-    estimatedWaitMinutes: 35,
+    estimatedWaitMinutes: 30,
     waitBreakdown: 'Queue #3 • Station 4 preparing after break',
     status: 'Waiting',
     isWalkIn: false,
     joinedAt: '10:25 AM',
+    ageTier: 'Adults',
+    passTier: 'None',
+    calculatedPrice: 300,
   },
 ]
 
@@ -511,7 +783,7 @@ export const initialAuditLogs: AuditLogEntry[] = [
     role: 'Staff',
     category: 'Queue',
     action: 'Walk-In Registered',
-    details: 'Added walk-in Deepak Verma (Token W-04) for Royal Shave (AI estimated wait: 23 mins)',
+    details: 'Added walk-in Deepak Verma (Token W-04) for Royal Shave (AI estimated wait: 20 mins)',
   },
   {
     id: 'LOG-500',
@@ -529,9 +801,9 @@ export const initialRefunds: RefundRequest[] = [
     id: 'REF-8801',
     appointmentId: 'APT-0992',
     customerName: 'Gaurav Mehta',
-    serviceName: 'Executive Haircut & Styling',
-    paidAmount: 350,
-    refundAmount: 350,
+    serviceName: 'Classic Regular Cut',
+    paidAmount: 150,
+    refundAmount: 150,
     reason: 'Flight delayed - cancelled 3 hours prior',
     tier: '100% Full Refund (>60m)',
     status: 'Pending Review',
@@ -541,9 +813,9 @@ export const initialRefunds: RefundRequest[] = [
     id: 'REF-8800',
     appointmentId: 'APT-0985',
     customerName: 'Pooja Hegde',
-    serviceName: 'Intense Repair Hair Spa',
-    paidAmount: 800,
-    refundAmount: 640,
+    serviceName: 'The Ustaad Royal Combo',
+    paidAmount: 850,
+    refundAmount: 680,
     reason: 'Emergency meeting - cancelled 40m prior',
     tier: '80% Tier 2 (30-60m)',
     status: 'Approved',
@@ -597,33 +869,64 @@ export const initialUserAccounts: UserAccountItem[] = [
 
 export const initialMembershipPasses: MembershipPass[] = [
   {
-    id: 'pass-monthly-01',
-    type: 'Monthly Pass',
-    price: 999,
+    id: 'pass-silver-01',
+    type: 'Silver Pass (15% Off)',
+    tierName: 'Silver',
+    discountPercent: 15,
+    price: 499,
     billingPeriod: '/ Month',
     features: [
-      'Unlimited Executive Scissor Haircuts',
-      '2 Free Royal Shaves / Beard Trims per month',
-      '20% Off all Luxury Hair Spa & Facials',
-      'Free Station Espresso & Priority Slot Booking',
+      '15% Flat Discount across all Hair, Shave & Skin Services',
+      'Classic Regular Cut: ₹127 (Reg ₹150)',
+      'Royal Hot Towel Shave: ₹136 (Reg ₹160)',
+      'Herbal Glow Facial: ₹382 (Reg ₹450)',
+      'Digital Priority Queue check-in from mobile',
+      'Complimentary Station Espresso',
     ],
-    activeCustomersCount: 48,
+    activeCustomersCount: 38,
     status: 'Active',
   },
   {
-    id: 'pass-annual-02',
-    type: 'Annual VIP Pass',
-    price: 7999,
-    billingPeriod: '/ Year',
+    id: 'pass-gold-02',
+    type: 'Gold Pass (25% Off)',
+    tierName: 'Gold',
+    discountPercent: 25,
+    price: 999,
+    billingPeriod: '/ Month',
     features: [
-      'All Monthly Pass benefits included for 12 months',
-      'Zero Wait-Time VIP Priority Queue Skipping',
-      '1 Free Intense Repair Hair Spa every month (₹9,600 value)',
-      'Dedicated Star Stylist assignment with ₹0 preference fee',
-      '2 Free Guest Grooming Passes per quarter',
+      '25% Flat Discount across ALL Services & Combos',
+      'Classic Regular Cut: ₹112 (Reg ₹150)',
+      'Ustaad Fade / Modern Crop: ₹187 (Reg ₹250)',
+      'Designer Beard Styling: ₹135 (Reg ₹180)',
+      'Herbal Glow Facial: ₹337 (Reg ₹450)',
+      'The Ustaad Royal Combo: ₹637 (Reg ₹850)',
+      '1 Free Beard Trim or Moustache Styling per month',
+      'Zero Wait-Time Priority Queue allocation',
     ],
-    activeCustomersCount: 22,
+    activeCustomersCount: 64,
     status: 'Featured',
+  },
+  {
+    id: 'pass-shahi-03',
+    type: 'Shahi Ustaad Pass (35% Off)',
+    tierName: 'Shahi Ustaad',
+    discountPercent: 35,
+    price: 1999,
+    billingPeriod: '/ Month',
+    features: [
+      '35% Maximum VIP Discount on every service & combo',
+      'Classic Regular Cut: ₹97 (Reg ₹150)',
+      'Ustaad Fade / Modern Crop: ₹162 (Reg ₹250)',
+      'Royal Hot Towel Shave: ₹104 (Reg ₹160)',
+      'Designer Beard Styling: ₹117 (Reg ₹180)',
+      'Herbal Glow Facial: ₹292 (Reg ₹450)',
+      'The Ustaad Royal Combo: ₹552 (Reg ₹850)',
+      'Dedicated Master Stylist Suresh Kumar with ₹0 preference fee',
+      'VIP lounge access & complimentary head champi massage',
+      '2 Free Guest Grooming Passes per month',
+    ],
+    activeCustomersCount: 29,
+    status: 'Popular',
   },
 ]
 
@@ -634,11 +937,11 @@ export const initialCustomerMemoryDatabase: Record<string, CustomerProfileMemory
     phone: '+91 98901 23456',
     totalVisits: 6,
     lastVisitDate: '1 month ago (Aug 8, 2026)',
-    lastServiceName: 'Royal Hot Towel Shave',
+    lastServiceName: 'Classic Regular Cut',
     lastStaffName: 'Suresh Kumar',
-    preferredCategory: 'Grooming & Hair',
+    preferredCategory: 'Haircuts',
     favoriteStylist: 'Suresh Kumar',
-    activePass: 'Monthly Pass Active',
+    activePass: 'Silver Pass (15% Off)',
     lifetimeSpent: 3450,
   },
   'ishita@customer.com': {
@@ -647,10 +950,11 @@ export const initialCustomerMemoryDatabase: Record<string, CustomerProfileMemory
     phone: '+91 98903 34567',
     totalVisits: 4,
     lastVisitDate: '3 weeks ago (Aug 18, 2026)',
-    lastServiceName: 'Anti-Pollution Charcoal Facial',
+    lastServiceName: 'Deluxe Gold Radiance Facial',
     lastStaffName: 'Ramesh Verma',
-    preferredCategory: 'Spa & Facial',
+    preferredCategory: 'Facial & Skin',
     favoriteStylist: 'Ramesh Verma',
+    activePass: 'Gold Pass (25% Off)',
     lifetimeSpent: 2800,
   },
 }
@@ -660,12 +964,12 @@ export const initialDispatchedEmails: DispatchedEmail[] = [
     id: 'EML-901',
     recipientEmail: 'rahul@customer.com',
     recipientName: 'Rahul Sharma',
-    subject: 'Your SalonOps Receipt & Thank You for Visiting!',
-    serviceName: 'Executive Haircut & Styling',
+    subject: 'Your Deluxe Salon Receipt & Service Summary — ₹177.00',
+    serviceName: 'Classic Regular Cut',
     staffName: 'Suresh Kumar',
-    amountPaid: 400,
+    amountPaid: 177,
     customerMemoryNote:
-      'Thank you for returning to SalonOps, Rahul! It has been 1 month since your last visit on Aug 8 for Royal Shave. We appreciate your loyalty and hope you loved today’s haircut with Master Stylist Suresh Kumar.',
+      'Thank you for returning to Deluxe Salon, Rahul! It has been 1 month since your last visit on Aug 8 for Royal Shave. We appreciate your Silver Pass loyalty and hope you loved today’s Classic Regular Cut with Master Stylist Suresh Kumar.',
     timestamp: 'Today 09:35 AM',
     status: 'Delivered',
   },
@@ -676,11 +980,11 @@ export const initialAiCalls: AiCallRecord[] = [
     id: 'CALL-101',
     customerName: 'Ishita Shah',
     customerPhone: '+91 98903 34567',
-    serviceName: 'Intense Repair Hair Spa',
+    serviceName: 'Deluxe Gold Radiance Facial',
     staffName: 'Ramesh Verma',
     station: 'Station 2',
     spokenMessage:
-      'Hello Ishita Shah, this is an automated update from Salon Monitoring System. Your appointment for Intense Repair Hair Spa with stylist Ramesh Verma will begin in 5 minutes at Station 2. Please proceed to the styling chair.',
+      'Hello Ishita Shah, this is an automated update from Salon Monitoring System. Your appointment for Deluxe Gold Radiance Facial with stylist Ramesh Verma will begin in 5 minutes at Station 2. Please proceed to the styling chair.',
     timestamp: 'Today 10:15 AM',
     status: 'Completed',
     durationSeconds: 14,

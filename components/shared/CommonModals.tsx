@@ -70,6 +70,18 @@ export function PaymentReceiptModal({
               <span className="text-[#5C564E]">Service Rendered:</span>
               <b>{receipt.serviceName}</b>
             </div>
+            {receipt.ageTier && (
+              <div className="flex justify-between text-[#5C564E]">
+                <span>Age Category:</span>
+                <b className="text-[#1C1B1A]">{receipt.ageTier}</b>
+              </div>
+            )}
+            {receipt.passTier && receipt.passTier !== 'None' && (
+              <div className="flex justify-between text-[#1E75B8]">
+                <span>VIP Pass Tier:</span>
+                <b className="font-bold">{receipt.passTier} Pass</b>
+              </div>
+            )}
             <div className="flex justify-between">
               <span className="text-[#5C564E]">{isEn ? 'Stylist:' : 'Stylist / Karigar:'}</span>
               <b>{receipt.staffName}</b>
@@ -82,7 +94,7 @@ export function PaymentReceiptModal({
             ) : null}
             {receipt.membershipDiscount ? (
               <div className="flex justify-between text-[#288D43]">
-                <span>Monthly Pass Perk (20% Off):</span>
+                <span>VIP Pass Discount:</span>
                 <b>-₹{receipt.membershipDiscount}.00</b>
               </div>
             ) : null}
