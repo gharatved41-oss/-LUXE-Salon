@@ -35,6 +35,8 @@ import {
   PhoneCall,
 } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
+import { useLanguage } from '@/lib/language'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import {
   Appointment,
   QueueItem,
@@ -84,6 +86,7 @@ export default function AdminPortal({
   onApplyQueueOptimization,
 }: AdminPortalProps) {
   const { user, logout } = useAuth()
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState<
     | 'dashboard'
     | 'appointments'
@@ -177,16 +180,24 @@ export default function AdminPortal({
       <aside className="w-full md:w-64 glass-dark text-[#FFFDF9] p-4 flex flex-col justify-between shrink-0 shadow-sm">
         <div className="space-y-5">
           {/* Admin Profile Frosted Pill */}
-          <div className="p-3 bg-white/10 backdrop-blur-md border border-[#F5B82E]/40 rounded-2xl flex items-center gap-3 shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-[#F5B82E] text-[#1C1B1A] font-bold flex items-center justify-center text-sm border border-white/60 shadow-xs">
-              {user?.name ? user.name.slice(0, 2).toUpperCase() : 'AD'}
+          <div className="p-3 bg-white/10 backdrop-blur-md border border-[#F5B82E]/40 rounded-2xl shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#F5B82E] text-[#1C1B1A] font-bold flex items-center justify-center text-sm border border-white/60 shadow-xs">
+                {user?.name ? user.name.slice(0, 2).toUpperCase() : 'AD'}
+              </div>
+              <div className="overflow-hidden flex-1">
+                <span className="text-[10px] font-mono font-bold text-[#F5B82E] uppercase tracking-wider block">
+                  {t('roleAdmin')} • EXECUTIVE ADMIN
+                </span>
+                <h4 className="text-xs font-bold text-white truncate">{user?.name}</h4>
+                <span className="text-[11px] font-mono text-[#E8DAC1] truncate block">General Manager</span>
+              </div>
             </div>
-            <div className="overflow-hidden">
-              <span className="text-[10px] font-mono font-bold text-[#F5B82E] uppercase tracking-wider block">
-                प्रबंधक • EXECUTIVE ADMIN
-              </span>
-              <h4 className="text-xs font-bold text-white truncate">{user?.name}</h4>
-              <span className="text-[11px] font-mono text-[#E8DAC1] truncate block">General Manager</span>
+
+            {/* Language Switcher in Admin Sidebar */}
+            <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-[#E8DAC1]">{t('changeLanguage')}:</span>
+              <LanguageSwitcher variant="header" />
             </div>
           </div>
 
@@ -196,7 +207,7 @@ export default function AdminPortal({
             className="w-full p-2.5 btn-kitsch-primary flex items-center justify-center gap-2 group text-xs font-bold"
           >
             <Bot size={16} className="text-[#F5B82E] group-hover:rotate-12 transition-transform" />
-            <span className="font-hindi tracking-wide text-sm">उस्ताद AI सहायक / AI Copilot</span>
+            <span className="font-hindi tracking-wide text-sm">{t('aiCopilot')}</span>
           </button>
 
           {/* Navigation Menu */}
@@ -210,7 +221,7 @@ export default function AdminPortal({
               }`}
             >
               <LayoutDashboard size={15} />
-              <span>कंट्रोल रूम / Dashboard</span>
+              <span>{t('adminNavOverview')}</span>
             </button>
 
             <button
@@ -222,7 +233,7 @@ export default function AdminPortal({
               }`}
             >
               <BarChart3 size={15} />
-              <span>बही-खाता / Business Summary</span>
+              <span>{t('adminNavBahiKhata')}</span>
             </button>
 
             <button
@@ -234,7 +245,7 @@ export default function AdminPortal({
               }`}
             >
               <Zap size={15} className="text-[#F5B82E]" />
-              <span>AI कतार अनुकूलक / AI Optimizer</span>
+              <span>{t('adminNavOptimizer')}</span>
             </button>
 
             <button
@@ -246,7 +257,7 @@ export default function AdminPortal({
               }`}
             >
               <Mail size={15} />
-              <span>AI डाक बही / AI Emails</span>
+              <span>{t('adminNavEmails')}</span>
               <span className="ml-auto px-1.5 py-0.2 rounded text-[10px] bg-[#D63927] text-white font-mono font-bold">
                 {dispatchedEmails.length}
               </span>

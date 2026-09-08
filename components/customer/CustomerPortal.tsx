@@ -30,6 +30,8 @@ import {
   PhoneCall,
 } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
+import { useLanguage } from '@/lib/language'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import {
   Appointment,
   QueueItem,
@@ -68,6 +70,7 @@ export default function CustomerPortal({
   onOpenAiChat,
 }: CustomerPortalProps) {
   const { user, logout } = useAuth()
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState<
     | 'dashboard'
     | 'services'
@@ -211,16 +214,24 @@ export default function CustomerPortal({
       <aside className="w-full md:w-64 bg-[#FFFDF9]/80 backdrop-blur-xl border-r border-[#1C1B1A]/12 p-4 flex flex-col justify-between shrink-0 shadow-xs">
         <div className="space-y-5">
           {/* Customer Profile Frosted Pill */}
-          <div className="p-3 bg-[#FFF9E6]/85 backdrop-blur-md border border-[#F5B82E]/40 rounded-2xl flex items-center gap-3 shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-[#D63927] text-white font-bold flex items-center justify-center text-sm border border-white/40 shadow-xs">
-              {user?.name ? user.name.slice(0, 2).toUpperCase() : 'CU'}
+          <div className="p-3 bg-[#FFF9E6]/85 backdrop-blur-md border border-[#F5B82E]/40 rounded-2xl shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#D63927] text-white font-bold flex items-center justify-center text-sm border border-white/40 shadow-xs">
+                {user?.name ? user.name.slice(0, 2).toUpperCase() : 'CU'}
+              </div>
+              <div className="overflow-hidden flex-1">
+                <span className="text-[10px] font-mono font-bold text-[#D63927] uppercase tracking-wider block">
+                  {t('roleCustomer')} {t('portalSuffix')}
+                </span>
+                <h4 className="text-xs font-bold text-[#1C1B1A] truncate">{user?.name}</h4>
+                <span className="text-[11px] font-mono text-[#5C564E] truncate block">{user?.email}</span>
+              </div>
             </div>
-            <div className="overflow-hidden">
-              <span className="text-[10px] font-mono font-bold text-[#D63927] uppercase tracking-wider block">
-                ग्राहक पटल • CUSTOMER
-              </span>
-              <h4 className="text-xs font-bold text-[#1C1B1A] truncate">{user?.name}</h4>
-              <span className="text-[11px] font-mono text-[#5C564E] truncate block">{user?.email}</span>
+
+            {/* Language Switcher in Customer Sidebar */}
+            <div className="mt-2.5 pt-2 border-t border-[#1C1B1A]/10 flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-[#5C564E]">{t('changeLanguage')}:</span>
+              <LanguageSwitcher variant="glass" />
             </div>
           </div>
 
@@ -230,7 +241,7 @@ export default function CustomerPortal({
             className="w-full p-2.5 btn-kitsch-haldi flex items-center justify-center gap-2 group text-xs font-bold"
           >
             <Bot size={16} className="text-[#D63927] group-hover:rotate-12 transition-transform" />
-            <span className="font-hindi tracking-wide text-sm">उस्ताद AI सहायक / Ask AI</span>
+            <span className="font-hindi tracking-wide text-sm">{t('aiConcierge')}</span>
           </button>
 
           {/* Navigation Menu */}
@@ -244,7 +255,7 @@ export default function CustomerPortal({
               }`}
             >
               <Scissors size={15} />
-              <span>मुख्य पृष्ठ / Home</span>
+              <span>{t('customerNavHome')}</span>
             </button>
 
             <button
@@ -268,7 +279,7 @@ export default function CustomerPortal({
               }`}
             >
               <Plus size={15} />
-              <span>बुकिंग करें / Book Slot</span>
+              <span>{t('customerNavBook')}</span>
             </button>
 
             <button
@@ -280,7 +291,7 @@ export default function CustomerPortal({
               }`}
             >
               <Calendar size={15} />
-              <span>मेरी बुकिंग / Appointments</span>
+              <span>{t('customerNavHistory')}</span>
               {myAppointments.length > 0 && (
                 <span className="ml-auto px-1.5 py-0.2 rounded text-[10px] bg-[#D63927] text-white font-mono font-bold">
                   {myAppointments.length}
@@ -297,7 +308,7 @@ export default function CustomerPortal({
               }`}
             >
               <Clock size={15} />
-              <span>कतार स्थिति / Live Queue</span>
+              <span>{t('yourQueueToken')}</span>
               {myQueueItem && (
                 <span className="ml-auto w-2.5 h-2.5 rounded-full bg-[#288D43] animate-ping" />
               )}
@@ -312,7 +323,7 @@ export default function CustomerPortal({
               }`}
             >
               <Crown size={15} className="text-[#F5B82E]" />
-              <span>सदस्यता / VIP Passes</span>
+              <span>{t('customerNavPass')}</span>
             </button>
 
             <button

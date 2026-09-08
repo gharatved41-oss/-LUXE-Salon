@@ -29,6 +29,8 @@ import {
   Volume2,
 } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
+import { useLanguage } from '@/lib/language'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import {
   Appointment,
   QueueItem,
@@ -69,6 +71,7 @@ export default function StaffPortal({
   onTriggerAiVoiceCall,
 }: StaffPortalProps) {
   const { user, logout } = useAuth()
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState<
     | 'dashboard'
     | 'appointments'
@@ -146,18 +149,26 @@ export default function StaffPortal({
       <aside className="w-full md:w-64 bg-[#FFFDF9]/80 backdrop-blur-xl border-r border-[#1C1B1A]/12 p-4 flex flex-col justify-between shrink-0 shadow-xs">
         <div className="space-y-5">
           {/* Staff Member Frosted Pill */}
-          <div className="p-3 bg-[#FFF9E6]/85 backdrop-blur-md border border-[#F5B82E]/40 rounded-2xl flex items-center gap-3 shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-[#288D43] text-white font-bold flex items-center justify-center text-sm border border-white/40 shadow-xs">
-              {user?.name ? user.name.slice(0, 2).toUpperCase() : 'ST'}
+          <div className="p-3 bg-[#FFF9E6]/85 backdrop-blur-md border border-[#F5B82E]/40 rounded-2xl shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#288D43] text-white font-bold flex items-center justify-center text-sm border border-white/40 shadow-xs">
+                {user?.name ? user.name.slice(0, 2).toUpperCase() : 'ST'}
+              </div>
+              <div className="overflow-hidden flex-1">
+                <span className="text-[10px] font-mono font-bold text-[#288D43] uppercase tracking-wider block">
+                  {t('roleStaff')} {t('portalSuffix')}
+                </span>
+                <h4 className="text-xs font-bold text-[#1C1B1A] truncate">{user?.name}</h4>
+                <span className="text-[11px] font-mono text-[#5C564E] truncate block">
+                  {currentStaff?.roleTitle} • {currentStaff?.station}
+                </span>
+              </div>
             </div>
-            <div className="overflow-hidden">
-              <span className="text-[10px] font-mono font-bold text-[#288D43] uppercase tracking-wider block">
-                कारीगर पटल • STAFF OPS
-              </span>
-              <h4 className="text-xs font-bold text-[#1C1B1A] truncate">{user?.name}</h4>
-              <span className="text-[11px] font-mono text-[#5C564E] truncate block">
-                {currentStaff?.roleTitle} • {currentStaff?.station}
-              </span>
+
+            {/* Language Switcher in Staff Sidebar */}
+            <div className="mt-2.5 pt-2 border-t border-[#1C1B1A]/10 flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-[#5C564E]">{t('changeLanguage')}:</span>
+              <LanguageSwitcher variant="glass" />
             </div>
           </div>
 
@@ -172,7 +183,7 @@ export default function StaffPortal({
               }`}
             >
               <LayoutDashboard size={15} />
-              <span>मुख्य कंसोल / Dashboard</span>
+              <span>{t('staffNavStations')}</span>
             </button>
 
             <button
@@ -208,7 +219,7 @@ export default function StaffPortal({
               }`}
             >
               <UserPlus size={15} />
-              <span>वॉक-इन पर्ची / Add Walk-In</span>
+              <span>{t('staffNavWalkIn')}</span>
             </button>
 
             <button
@@ -220,7 +231,7 @@ export default function StaffPortal({
               }`}
             >
               <Clock size={15} />
-              <span>कतार नियंत्रण / Floor Queue</span>
+              <span>{t('staffNavQueue')}</span>
               <span className="ml-auto px-1.5 py-0.2 rounded text-[10px] bg-[#D63927] text-white font-mono font-bold">
                 {queue.filter((q) => q.status !== 'Completed').length}
               </span>

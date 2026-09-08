@@ -20,6 +20,8 @@ import {
   VolumeX,
 } from 'lucide-react'
 import { AuthProvider, useAuth, RoleGuard } from '@/lib/auth'
+import { LanguageProvider, useLanguage } from '@/lib/language'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import CommonLoginPage from '@/components/auth/CommonLoginPage'
 import CustomerPortal from '@/components/customer/CustomerPortal'
 import StaffPortal from '@/components/staff/StaffPortal'
@@ -57,6 +59,7 @@ import {
 
 function MainAppContent() {
   const { user, isLoading, logout } = useAuth()
+  const { t, language } = useLanguage()
 
   // Real-Time Core Domain Data
   const [services, setServices] = useState<ServiceItem[]>(initialServices)
@@ -347,9 +350,9 @@ function MainAppContent() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#F6EFE2] flex items-center justify-center text-[#1C1B1A] text-xs font-mono font-bold">
-        <div className="flex items-center gap-2.5 p-4 bg-[#FFFDF9] border-2 border-[#1C1B1A] rounded-2xl shadow-kitsch">
+        <div className="flex items-center gap-2.5 p-4 glass-card rounded-2xl shadow-glass">
           <div className="w-5 h-5 border-2 border-[#D63927] border-t-transparent rounded-full animate-spin" />
-          <span>सत्यापन जारी है... / Verifying Session...</span>
+          <span>{t('verifyingSession')}</span>
         </div>
       </div>
     )
@@ -359,6 +362,14 @@ function MainAppContent() {
   if (!user) {
     return <CommonLoginPage />
   }
+
+  // Get role translation
+  const roleDisplay =
+    user.role === 'admin'
+      ? t('roleAdmin')
+      : user.role === 'staff'
+      ? t('roleStaff')
+      : t('roleCustomer')
 
   // 2. Authenticated: Render Header + Retro Radio Ambience Bar + Role-Guarded Portal
   return (
@@ -376,10 +387,10 @@ function MainAppContent() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-hindi font-bold text-[#F5B82E] text-base tracking-wide">
-                  डीलक्स उस्ताद सैलून
+                  {t('salonTitle')}
                 </span>
                 <span className="hidden sm:inline font-mono text-[10px] text-[#E8DAC1]">
-                  • DELUXE SALON OPS
+                  • {t('salonSubtitle')}
                 </span>
                 <span
                   className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase border ${
@@ -390,24 +401,27 @@ function MainAppContent() {
                       : 'bg-[#D63927] text-white border-white'
                   }`}
                 >
-                  {user.role} पटल
+                  {roleDisplay} {t('portalSuffix')}
                 </span>
               </div>
               <div className="flex items-center gap-2 mt-0.5">
                 {/* Nimbu-Mirchi Hanging Charm Tooltip */}
                 <div
                   className="nimbu-charm cursor-pointer flex items-center gap-1 text-[11px] font-mono text-[#E8DAC1]"
-                  title="बुरी नज़र से रक्षा • Live Telemetry 99.9% Uptime Active"
+                  title={t('telemetryTooltip')}
                 >
                   <span className="text-sm">🍋🌶️</span>
-                  <span className="text-[10px] text-[#288D43] font-bold">LIVE TELEMETRY</span>
+                  <span className="text-[10px] text-[#288D43] font-bold">{t('telemetry')}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* User Session & AI Quick Launchers */}
-          <div className="flex items-center gap-3">
+          {/* User Session, Language Switcher & AI Quick Launchers */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Global Language Switcher Dropdown */}
+            <LanguageSwitcher variant="header" />
+
             {user.role === 'admin' && (
               <button
                 onClick={() => setIsAdminAiModalOpen(true)}
@@ -415,7 +429,7 @@ function MainAppContent() {
                 title="Open AI Operational Copilot"
               >
                 <Bot size={14} className="text-[#D63927]" />
-                <span>AI Copilot</span>
+                <span>{t('aiCopilot')}</span>
               </button>
             )}
 
@@ -426,11 +440,11 @@ function MainAppContent() {
                 title="Open AI Concierge"
               >
                 <Sparkles size={14} className="text-[#D63927]" />
-                <span>AI Concierge</span>
+                <span>{t('aiConcierge')}</span>
               </button>
             )}
 
-            <div className="hidden sm:flex flex-col text-right font-mono">
+            <div className="hidden md:flex flex-col text-right font-mono">
               <span className="text-xs font-bold text-white">{user.name}</span>
               <span className="text-[10px] text-[#E8DAC1]">{user.email}</span>
             </div>
@@ -438,10 +452,10 @@ function MainAppContent() {
             <button
               onClick={logout}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#B81D1D] hover:bg-[#961717] text-white border-2 border-white/30 text-xs font-bold transition-colors shadow-xs"
-              title="Sign Out"
+              title={t('logout')}
             >
               <LogOut size={14} />
-              <span className="hidden sm:inline">लॉग आउट</span>
+              <span className="hidden sm:inline">{t('logout')}</span>
             </button>
           </div>
         </div>
@@ -454,15 +468,15 @@ function MainAppContent() {
         <div className="flex items-center gap-2 font-mono">
           <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#D63927] text-white rounded font-bold border border-[#1C1B1A]">
             <Radio size={12} className={isRadioPlaying ? 'animate-pulse' : ''} />
-            <span>सैलून रेडियो 98.3 FM</span>
+            <span>{t('radioTitle')}</span>
           </div>
           <span className="font-serif italic hidden md:inline">
-            &ldquo;तानसेन से लेकर रफी साहब तक — डीलक्स सैलून की मीठी धुनें&rdquo;
+            &ldquo;{t('radioTagline')}&rdquo;
           </span>
         </div>
 
         <div className="flex items-center gap-2 mt-1 sm:mt-0 font-mono">
-          <span className="text-[11px] text-[#5C564E] hidden sm:inline">स्टेशन:</span>
+          <span className="text-[11px] text-[#5C564E] hidden sm:inline">{t('station')}:</span>
           <select
             value={activeRadioStation}
             onChange={(e) => setActiveRadioStation(e.target.value)}
@@ -599,8 +613,11 @@ function MainAppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <MainAppContent />
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <MainAppContent />
+      </AuthProvider>
+    </LanguageProvider>
   )
 }
+

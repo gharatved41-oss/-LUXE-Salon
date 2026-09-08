@@ -19,9 +19,12 @@ import {
   Radio,
 } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
+import { useLanguage } from '@/lib/language'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 
 export default function CommonLoginPage() {
   const { login, registerCustomer, isSigningIn, authError, clearError } = useAuth()
+  const { t } = useLanguage()
 
   // Form States
   const [emailOrUsername, setEmailOrUsername] = useState('')
@@ -106,11 +109,14 @@ export default function CommonLoginPage() {
       <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#D63927]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-96 h-96 bg-[#F5B82E]/15 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Top Street Pop Tag (Frosted Glass Pill) */}
-      <div className="mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF9]/80 backdrop-blur-md border border-[#1C1B1A]/15 shadow-sm text-xs font-bold text-[#1C1B1A]">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#D63927] animate-ping" />
-        <span className="font-hindi tracking-wide text-sm">डीलक्स सैलून</span>
-        <span className="text-[#1E75B8] font-mono">• USTAAD SALON OPS</span>
+      {/* Top Header Row with Retro Tag & Language Switcher */}
+      <div className="mb-4 flex items-center justify-between w-full max-w-md px-1">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF9]/80 backdrop-blur-md border border-[#1C1B1A]/15 shadow-sm text-xs font-bold text-[#1C1B1A]">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#D63927] animate-ping" />
+          <span className="font-hindi tracking-wide text-sm">{t('salonTitle')}</span>
+          <span className="text-[#1E75B8] font-mono">• {t('salonSubtitle')}</span>
+        </div>
+        <LanguageSwitcher variant="glass" />
       </div>
 
       {/* Main Centered Frosted Glass Matchbox Card */}
@@ -123,13 +129,13 @@ export default function CommonLoginPage() {
               <Scissors size={28} />
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1C1B1A] font-hindi tracking-tight leading-tight">
-              डीलक्स उस्ताद सैलून
+              {t('salonTitle')}
             </h1>
             <span className="text-xs font-bold text-[#D63927] uppercase tracking-wider block font-mono mt-0.5">
-              USTAAD SALON OPS & MONITOR
+              {t('loginHeading')}
             </span>
             <p className="text-[11px] text-[#5C564E] mt-1 font-medium">
-              Traditional Karigari meets Precision Real-Time Automation
+              {t('loginSubheading')}
             </p>
           </div>
 
@@ -158,7 +164,7 @@ export default function CommonLoginPage() {
                 htmlFor="emailOrUsername"
                 className="block text-[#1C1B1A] mb-1.5 font-bold"
               >
-                Email / Username
+                {t('emailOrUserLabel')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#5C564E]">
@@ -189,7 +195,7 @@ export default function CommonLoginPage() {
                   htmlFor="password"
                   className="block text-[#1C1B1A] font-bold"
                 >
-                  Password
+                  {t('passwordLabel')}
                 </label>
                 <button
                   type="button"
@@ -238,7 +244,7 @@ export default function CommonLoginPage() {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 rounded border-[#1C1B1A]/30 text-[#D63927] focus:ring-[#D63927] accent-[#D63927]"
                 />
-                <span className="text-xs text-[#1C1B1A] font-medium">Remember me on this station</span>
+                <span className="text-xs text-[#1C1B1A] font-medium">{t('rememberMe')}</span>
               </label>
             </div>
 
@@ -251,11 +257,11 @@ export default function CommonLoginPage() {
               {isSigningIn ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Signing In & Identifying Role...</span>
+                  <span>{t('signingIn')}</span>
                 </>
               ) : (
                 <>
-                  <span>Sign In / प्रवेश करें</span>
+                  <span>{t('signInButton')}</span>
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </>
               )}
@@ -265,7 +271,7 @@ export default function CommonLoginPage() {
           {/* Secondary Option: Customer Registration */}
           <div className="mt-6 pt-5 border-t border-dashed border-[#1C1B1A]/20 text-center">
             <p className="text-xs text-[#1C1B1A]/80 font-medium">
-              New client to Ustaad Salon?{' '}
+              {t('registerPrompt')}{' '}
               <button
                 type="button"
                 onClick={() => {
@@ -274,11 +280,11 @@ export default function CommonLoginPage() {
                 }}
                 className="text-[#D63927] hover:text-[#1C1B1A] font-bold underline underline-offset-4 decoration-2 transition-all"
               >
-                Create Customer Account
+                {t('signUpButton')}
               </button>
             </p>
-            <span className="text-[10px] text-[#5C564E] block mt-1">
-              Staff and Admin credentials are provisioned by salon management.
+            <span className="text-[10px] text-[#5C564E] block mt-1 font-mono">
+              {t('secureNotice')}
             </span>
           </div>
 
@@ -287,9 +293,9 @@ export default function CommonLoginPage() {
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] font-bold text-[#1C1B1A] uppercase tracking-wider flex items-center gap-1.5 font-mono">
                 <KeyRound size={13} className="text-[#D63927]" />
-                <span>Demo 1-Click Login</span>
+                <span>{t('quickDemoPills')}</span>
               </span>
-              <span className="text-[9px] font-bold text-[#5C564E] font-mono">Auto Role Check</span>
+              <span className="text-[9px] font-bold text-[#5C564E] font-mono">1-Click</span>
             </div>
             <div className="grid grid-cols-3 gap-1.5 text-[10px] font-bold">
               <button
@@ -298,7 +304,7 @@ export default function CommonLoginPage() {
                 className="p-2 bg-[#FFFDF9]/90 hover:bg-[#1E75B8] hover:text-white border border-[#1C1B1A]/15 rounded-lg text-[#1C1B1A] transition-all shadow-xs text-center group"
                 title="Rahul Sharma (Customer)"
               >
-                <span className="block text-[#1E75B8] group-hover:text-white">Customer</span>
+                <span className="block text-[#1E75B8] group-hover:text-white">{t('demoCustomer')}</span>
                 <span className="text-[9px] opacity-75 truncate block font-mono">rahul@...</span>
               </button>
               <button
@@ -307,7 +313,7 @@ export default function CommonLoginPage() {
                 className="p-2 bg-[#FFFDF9]/90 hover:bg-[#288D43] hover:text-white border border-[#1C1B1A]/15 rounded-lg text-[#1C1B1A] transition-all shadow-xs text-center group"
                 title="Suresh Kumar (Staff Stylist)"
               >
-                <span className="block text-[#288D43] group-hover:text-white">Staff Barber</span>
+                <span className="block text-[#288D43] group-hover:text-white">{t('demoStaff')}</span>
                 <span className="text-[9px] opacity-75 truncate block font-mono">suresh@...</span>
               </button>
               <button
@@ -316,7 +322,7 @@ export default function CommonLoginPage() {
                 className="p-2 bg-[#FFFDF9]/90 hover:bg-[#D63927] hover:text-white border border-[#1C1B1A]/15 rounded-lg text-[#1C1B1A] transition-all shadow-xs text-center group"
                 title="Aarav Patel (Admin / Manager)"
               >
-                <span className="block text-[#D63927] group-hover:text-white">Admin</span>
+                <span className="block text-[#D63927] group-hover:text-white">{t('demoAdmin')}</span>
                 <span className="text-[9px] opacity-75 truncate block font-mono">admin@...</span>
               </button>
             </div>
