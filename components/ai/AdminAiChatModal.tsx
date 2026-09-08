@@ -19,6 +19,7 @@ import {
   AuditLogEntry,
 } from '@/lib/types'
 import { askAdminAi } from '@/lib/aiEngine'
+import { useLanguage } from '@/lib/language'
 
 interface AdminAiChatModalProps {
   isOpen: boolean
@@ -30,15 +31,6 @@ interface AdminAiChatModalProps {
   refunds: RefundRequest[]
   auditLogs: AuditLogEntry[]
 }
-
-const INITIAL_MESSAGES: ChatMessage[] = [
-  {
-    id: 'msg-1',
-    sender: 'ai',
-    text: `👋 **नमस्ते Admin!** I am your **Ustaad Executive Operational AI Copilot**.\n\nI continuously monitor salon chair occupancy, stylist workloads, live queues, revenue leaks, and floor throughput in real time.\n\nAsk me anything about today's operations!`,
-    timestamp: 'Just now',
-  },
-]
 
 const QUICK_PROMPTS = [
   'How busy is the salon today?',
@@ -57,7 +49,21 @@ export default function AdminAiChatModal({
   refunds,
   auditLogs,
 }: AdminAiChatModalProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES)
+  const { language } = useLanguage()
+  const isEn = language === 'en'
+
+  const initialMessages: ChatMessage[] = [
+    {
+      id: 'msg-1',
+      sender: 'ai',
+      text: isEn
+        ? `👋 **Hello Admin!** I am your **Executive Operational AI Copilot**.\n\nI continuously monitor salon chair occupancy, stylist workloads, live queues, revenue metrics, and floor throughput in real time.\n\nAsk me anything about today's operations!`
+        : `👋 **नमस्ते Admin!** I am your **Ustaad Executive Operational AI Copilot**.\n\nI continuously monitor salon chair occupancy, stylist workloads, live queues, revenue leaks, and floor throughput in real time.\n\nAsk me anything about today's operations!`,
+      timestamp: 'Just now',
+    },
+  ]
+
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
   const [inputText, setInputText] = useState('')
   const [isThinking, setIsThinking] = useState(false)
 
@@ -111,7 +117,9 @@ export default function AdminAiChatModal({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-extrabold font-hindi">उस्ताद AI Copilot (Executive Intelligence)</h3>
+                <h3 className="text-base font-extrabold font-hindi">
+                  {isEn ? 'AI Copilot (Executive Intelligence)' : 'उस्ताद AI Copilot (Executive Intelligence)'}
+                </h3>
                 <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-[#FFFDF9]/90 border border-[#1C1B1A]/20 uppercase font-mono shadow-2xs">
                   Live Feed
                 </span>

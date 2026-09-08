@@ -86,7 +86,8 @@ export default function AdminPortal({
   onApplyQueueOptimization,
 }: AdminPortalProps) {
   const { user, logout } = useAuth()
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const isEn = language === 'en'
   const [activeTab, setActiveTab] = useState<
     | 'dashboard'
     | 'appointments'
@@ -187,7 +188,7 @@ export default function AdminPortal({
               </div>
               <div className="overflow-hidden flex-1">
                 <span className="text-[10px] font-mono font-bold text-[#F5B82E] uppercase tracking-wider block">
-                  {t('roleAdmin')} • EXECUTIVE ADMIN
+                  {isEn ? 'ADMIN • EXECUTIVE ADMIN' : `${t('roleAdmin')} • EXECUTIVE ADMIN`}
                 </span>
                 <h4 className="text-xs font-bold text-white truncate">{user?.name}</h4>
                 <span className="text-[11px] font-mono text-[#E8DAC1] truncate block">General Manager</span>
@@ -272,7 +273,7 @@ export default function AdminPortal({
               }`}
             >
               <Crown size={15} />
-              <span>वीआईपी पास / VIP Passes</span>
+              <span>{isEn ? 'VIP Passes' : 'वीआईपी पास / VIP Passes'}</span>
             </button>
 
             <button
@@ -284,7 +285,7 @@ export default function AdminPortal({
               }`}
             >
               <Calendar size={15} />
-              <span>अपॉइंटमेंट्स / Bookings</span>
+              <span>{isEn ? 'Bookings' : 'अपॉइंटमेंट्स / Bookings'}</span>
             </button>
 
             <button
@@ -296,7 +297,7 @@ export default function AdminPortal({
               }`}
             >
               <Clock size={15} />
-              <span>कतार निगरानी / Queue Monitor</span>
+              <span>{isEn ? 'Queue Monitor' : 'कतार निगरानी / Queue Monitor'}</span>
             </button>
 
             <button
@@ -308,7 +309,7 @@ export default function AdminPortal({
               }`}
             >
               <Users size={15} />
-              <span>कारीगर रोस्टर / Staff Roster</span>
+              <span>{isEn ? 'Staff Roster' : 'कारीगर रोस्टर / Staff Roster'}</span>
             </button>
 
             <button
@@ -320,7 +321,7 @@ export default function AdminPortal({
               }`}
             >
               <Sparkles size={15} />
-              <span>सेवा प्रबंधन / Services</span>
+              <span>{isEn ? 'Services Catalog' : 'सेवा प्रबंधन / Services'}</span>
             </button>
 
             <button
@@ -332,7 +333,7 @@ export default function AdminPortal({
               }`}
             >
               <Tag size={15} />
-              <span>दर एवं सरचार्ज / Pricing</span>
+              <span>{isEn ? 'Pricing & Surcharges' : 'दर एवं सरचार्ज / Pricing'}</span>
             </button>
 
             <button
@@ -344,7 +345,7 @@ export default function AdminPortal({
               }`}
             >
               <Activity size={15} />
-              <span>कारीगर उपस्थिति / Shifts</span>
+              <span>{isEn ? 'Staff Shifts' : 'कारीगर उपस्थिति / Shifts'}</span>
             </button>
 
             <button
@@ -356,7 +357,7 @@ export default function AdminPortal({
               }`}
             >
               <RotateCcw size={15} />
-              <span>रिफंड स्वीकृति / Refunds</span>
+              <span>{isEn ? 'Refund Requests' : 'रिफंड स्वीकृति / Refunds'}</span>
               {refunds.filter((r) => r.status === 'Pending Review').length > 0 && (
                 <span className="ml-auto px-1.5 py-0.2 rounded text-[10px] bg-[#B81D1D] text-white font-mono font-bold">
                   {refunds.filter((r) => r.status === 'Pending Review').length}
@@ -373,7 +374,7 @@ export default function AdminPortal({
               }`}
             >
               <ShieldCheck size={15} />
-              <span>उपयोगकर्ता खाते / User Roles</span>
+              <span>{isEn ? 'User Roles' : 'उपयोगकर्ता खाते / User Roles'}</span>
             </button>
 
             <button
@@ -385,7 +386,7 @@ export default function AdminPortal({
               }`}
             >
               <FileText size={15} />
-              <span>ऑडिट लॉग / Audit Trail</span>
+              <span>{isEn ? 'Audit Trail' : 'ऑडिट लॉग / Audit Trail'}</span>
             </button>
 
             <button
@@ -397,7 +398,7 @@ export default function AdminPortal({
               }`}
             >
               <Database size={15} />
-              <span>डेटा बैकअप / Backup</span>
+              <span>{isEn ? 'Data Backup' : 'डेटा बैकअप / Backup'}</span>
             </button>
 
             <button
@@ -409,7 +410,7 @@ export default function AdminPortal({
               }`}
             >
               <Settings size={15} />
-              <span>सिस्टम सेटिंग्स / Settings</span>
+              <span>{isEn ? 'System Settings' : 'सिस्टम सेटिंग्स / Settings'}</span>
             </button>
 
             <button
@@ -421,7 +422,7 @@ export default function AdminPortal({
               }`}
             >
               <User size={15} />
-              <span>प्रोफ़ाइल / Profile</span>
+              <span>{isEn ? 'Profile' : 'प्रोफ़ाइल / Profile'}</span>
             </button>
           </nav>
         </div>
@@ -433,7 +434,7 @@ export default function AdminPortal({
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-[#B81D1D]/25 hover:bg-[#B81D1D] text-white font-bold text-xs border border-white/25 transition-colors"
           >
             <LogOut size={15} />
-            <span>लॉग आउट / Sign Out</span>
+            <span>{isEn ? 'Sign Out' : 'लॉग आउट / Sign Out'}</span>
           </button>
         </div>
       </aside>
@@ -447,7 +448,9 @@ export default function AdminPortal({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-4">
               <div>
-                <h2 className="text-xl font-bold text-[#1C1B1A] font-hindi">डीलक्स मुख्य नियंत्रण कक्ष / Executive Center</h2>
+                <h2 className="text-xl font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Executive Operations Center' : 'डीलक्स मुख्य नियंत्रण कक्ष / Executive Center'}
+                </h2>
                 <p className="text-xs text-[#5C564E]">
                   Salon-wide live telemetry, revenue metrics, and floor performance indicators.
                 </p>
@@ -456,35 +459,43 @@ export default function AdminPortal({
                 onClick={onOpenAiChat}
                 className="btn-kitsch-haldi text-xs flex items-center gap-1.5"
               >
-                <Bot size={15} /> AI सहायक शुरू करें
+                <Bot size={15} /> {isEn ? 'Launch AI Assistant' : 'AI सहायक शुरू करें'}
               </button>
             </div>
 
             {/* High-Level Financial & Telemetry Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">आज की आय / DAILY REVENUE</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'DAILY REVENUE' : 'आज की आय / DAILY REVENUE'}
+                </span>
                 <strong className="block text-xl font-bold text-[#288D43] mt-1 font-mono">
                   ₹{dailyRevenue}.00
                 </strong>
                 <span className="text-[10px] text-[#288D43] font-bold font-mono">↑ 14% vs baseline</span>
               </div>
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">कुर्सी अधिभोग / OCCUPANCY</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'STATION OCCUPANCY' : 'कुर्सी अधिभोग / OCCUPANCY'}
+                </span>
                 <strong className="block text-xl font-bold text-[#1E75B8] mt-1 font-mono">
                   {queue.filter((q) => q.status === 'In Service').length} / 4 Stations
                 </strong>
                 <span className="text-[10px] text-[#5C564E] font-mono">Active styling seats</span>
               </div>
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">कतार ग्राहक / QUEUE BACKLOG</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'QUEUE BACKLOG' : 'कतार ग्राहक / QUEUE BACKLOG'}
+                </span>
                 <strong className="block text-xl font-bold text-[#D63927] mt-1 font-mono">
                   {queue.filter((q) => q.status === 'Waiting').length} Clients
                 </strong>
                 <span className="text-[10px] text-[#D63927] font-mono">Avg wait ~18 to 23 mins</span>
               </div>
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">लंबित रिफंड / REFUNDS</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'PENDING REFUNDS' : 'लंबित रिफंड / REFUNDS'}
+                </span>
                 <strong className="block text-xl font-bold text-[#B81D1D] mt-1 font-mono">
                   {refunds.filter((r) => r.status === 'Pending Review').length} Tickets
                 </strong>
@@ -494,7 +505,9 @@ export default function AdminPortal({
 
             {/* Live Station Load Monitor */}
             <div className="glass-panel p-5">
-              <h3 className="text-sm font-bold text-[#1C1B1A] mb-4 font-hindi">लाइव सैलून कुर्सी स्थिति / Real-Time Station Telemetry</h3>
+              <h3 className="text-sm font-bold text-[#1C1B1A] mb-4 font-hindi">
+                {isEn ? 'Real-Time Station Telemetry' : 'लाइव सैलून कुर्सी स्थिति / Real-Time Station Telemetry'}
+              </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {staff.map((st) => (
                   <div key={st.id} className="p-4 bg-[#F6EFE2]/75 backdrop-blur-sm border border-[#1C1B1A]/15 rounded-xl space-y-2 text-xs shadow-xs">
@@ -528,7 +541,9 @@ export default function AdminPortal({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 glass-panel p-4">
               <div>
-                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">पारंपरिक बही-खाता एवं आय विवरण / Business Ledger</h2>
+                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Business Ledger & Revenue Statements' : 'पारंपरिक बही-खाता एवं आय विवरण / Business Ledger'}
+                </h2>
                 <p className="text-xs text-[#5C564E]">
                   Comprehensive performance analytics across daily floor intake, monthly ledger, and annual revenue.
                 </p>
@@ -544,7 +559,7 @@ export default function AdminPortal({
                       : 'border-transparent text-[#1C1B1A] hover:bg-white/60'
                   }`}
                 >
-                  📅 दैनिक / Daily
+                  {isEn ? '📅 Daily' : '📅 दैनिक / Daily'}
                 </button>
                 <button
                   onClick={() => setAnalyticsPeriod('monthly')}
@@ -554,7 +569,7 @@ export default function AdminPortal({
                       : 'border-transparent text-[#1C1B1A] hover:bg-white/60'
                   }`}
                 >
-                  📊 मासिक / Monthly
+                  {isEn ? '📊 Monthly' : '📊 मासिक / Monthly'}
                 </button>
                 <button
                   onClick={() => setAnalyticsPeriod('yearly')}
@@ -564,7 +579,7 @@ export default function AdminPortal({
                       : 'border-transparent text-[#1C1B1A] hover:bg-white/60'
                   }`}
                 >
-                  📈 वार्षिक / Yearly
+                  {isEn ? '📈 Yearly' : '📈 वार्षिक / Yearly'}
                 </button>
               </div>
             </div>
@@ -574,21 +589,27 @@ export default function AdminPortal({
               <div className="space-y-4 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">आज की कुल आय / GROSS REVENUE</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'GROSS REVENUE TODAY' : 'आज की कुल आय / GROSS REVENUE'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#288D43] mt-1 font-mono">
                       ₹{dailyRevenue}.00
                     </strong>
                     <span className="text-[11px] text-[#5C564E] font-mono mt-0.5 block">19 Services Completed</span>
                   </div>
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">कुर्सी उपयोग / OCCUPANCY RATE</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'OCCUPANCY RATE' : 'कुर्सी उपयोग / OCCUPANCY RATE'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#1E75B8] mt-1 font-mono">
                       75.0%
                     </strong>
                     <span className="text-[11px] text-[#5C564E] font-mono mt-0.5 block">Peak time: 04:30 PM - 07:30 PM</span>
                   </div>
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">अनुपस्थिति नुकसान / NO-SHOW LOSS</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'NO-SHOW LOSS' : 'अनुपस्थिति नुकसान / NO-SHOW LOSS'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#D63927] mt-1 font-mono">
                       -₹350.00
                     </strong>
@@ -597,7 +618,9 @@ export default function AdminPortal({
                 </div>
 
                 <div className="glass-panel p-6 text-xs space-y-3">
-                  <h3 className="font-bold text-[#1C1B1A] text-sm font-hindi">आज का समय अनुसार ग्राहक प्रवाह / Hourly Demand Distribution</h3>
+                  <h3 className="font-bold text-[#1C1B1A] text-sm font-hindi">
+                    {isEn ? 'Hourly Demand Distribution' : 'आज का समय अनुसार ग्राहक प्रवाह / Hourly Demand Distribution'}
+                  </h3>
                   <div className="space-y-2 font-mono">
                     <div className="flex justify-between items-center text-[#1C1B1A]">
                       <span>09:00 AM – 12:00 PM (Morning Rush)</span>
@@ -632,21 +655,27 @@ export default function AdminPortal({
               <div className="space-y-4 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">मासिक सकल आय (सितंबर)</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'Monthly Gross Revenue (September)' : 'मासिक सकल आय (सितंबर)'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#288D43] mt-1 font-mono">
                       ₹{monthlyRevenue.toLocaleString()}.00
                     </strong>
                     <span className="text-[11px] text-[#288D43] font-mono mt-0.5 block">↑ 18.4% growth vs August</span>
                   </div>
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">सक्रिय वीआईपी सदस्य / VIP PASSES</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'ACTIVE VIP MEMBERS' : 'सक्रिय वीआईपी सदस्य / VIP PASSES'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#F5B82E] mt-1 font-mono">
                       70 Members
                     </strong>
                     <span className="text-[11px] text-[#5C564E] font-mono mt-0.5 block">₹69,930 recurring revenue</span>
                   </div>
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">ग्राहक ठहराव दर / RETENTION</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'CLIENT RETENTION RATE' : 'ग्राहक ठहराव दर / RETENTION'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#1E75B8] mt-1 font-mono">
                       84.2%
                     </strong>
@@ -655,7 +684,9 @@ export default function AdminPortal({
                 </div>
 
                 <div className="glass-panel p-6 text-xs space-y-3">
-                  <h3 className="font-bold text-[#1C1B1A] text-sm font-hindi">शीर्ष 5 लाभदायक सेवाएं / Top 5 Revenue Services</h3>
+                  <h3 className="font-bold text-[#1C1B1A] text-sm font-hindi">
+                    {isEn ? 'Top 5 Revenue Services' : 'शीर्ष 5 लाभदायक सेवाएं / Top 5 Revenue Services'}
+                  </h3>
                   <div className="divide-y divide-[#1C1B1A]/10 text-[#1C1B1A] font-mono">
                     <div className="py-2.5 flex justify-between">
                       <span>1. Intense Repair Hair Spa (₹800)</span>
@@ -687,21 +718,27 @@ export default function AdminPortal({
               <div className="space-y-4 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">वार्षिक कुल आय (2026)</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'Annual Gross Revenue (2026)' : 'वार्षिक कुल आय (2026)'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#288D43] mt-1 font-mono">
                       ₹{yearlyRevenue.toLocaleString()}.00
                     </strong>
                     <span className="text-[11px] text-[#288D43] font-mono mt-0.5 block">↑ 26% YoY Annual Surge</span>
                   </div>
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">कुल संपन्न सेवाएं / TOTAL CLIENTS</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'TOTAL CLIENTS SERVED' : 'कुल संपन्न सेवाएं / TOTAL CLIENTS'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#1C1B1A] mt-1 font-mono">
                       4,820 Clients
                     </strong>
                     <span className="text-[11px] text-[#5C564E] font-mono mt-0.5 block">Zero data loss with automated backups</span>
                   </div>
                   <div className="glass-card p-5">
-                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">औसत बिल राशि / AVG TICKET</span>
+                    <span className="text-xs text-[#5C564E] font-bold font-mono uppercase">
+                      {isEn ? 'AVERAGE TICKET' : 'औसत बिल राशि / AVG TICKET'}
+                    </span>
                     <strong className="block text-2xl font-bold text-[#1E75B8] mt-1 font-mono">
                       ₹382.00
                     </strong>
@@ -718,7 +755,9 @@ export default function AdminPortal({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 glass-panel p-4">
               <div>
-                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">AI कतार एवं कारीगर भार संतुलन / AI Optimizer</h2>
+                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'AI Smart Queue & Floor Optimizer' : 'AI कतार एवं कारीगर भार संतुलन / AI Optimizer'}
+                </h2>
                 <p className="text-xs text-[#5C564E]">
                   Automated floor load balancing to eliminate bottlenecking and minimize client wait times.
                 </p>
@@ -727,7 +766,7 @@ export default function AdminPortal({
                 onClick={handleRunOptimizer}
                 className="btn-kitsch-primary text-xs flex items-center gap-1.5"
               >
-                <Zap size={15} /> AI संतुलन एल्गोरिदम चलाएं
+                <Zap size={15} /> {isEn ? 'Run AI Balancing Algorithm' : 'AI संतुलन एल्गोरिदम चलाएं'}
               </button>
             </div>
 
@@ -745,7 +784,9 @@ export default function AdminPortal({
               <div className="p-5 glass-dark text-[#FFFDF9] rounded-2xl text-xs space-y-2 shadow-sm">
                 <div className="flex items-center gap-2 text-[#F5B82E] font-bold">
                   <Bot size={16} />
-                  <span className="font-hindi tracking-wide text-sm">AI द्वारा की गई अनुकूलन कार्रवाइयां:</span>
+                  <span className="font-hindi tracking-wide text-sm">
+                    {isEn ? 'AI Optimization Actions Applied:' : 'AI द्वारा की गई अनुकूलन कार्रवाइयां:'}
+                  </span>
                 </div>
                 <ul className="space-y-1.5 text-[11px] font-mono text-[#E8DAC1]">
                   {optimizerNotes.map((note, i) => (
@@ -760,7 +801,9 @@ export default function AdminPortal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div className="glass-panel p-5 space-y-3">
-                <h3 className="font-bold text-[#1C1B1A] font-hindi">कारीगर भार स्थिति / Stylist Floor Load</h3>
+                <h3 className="font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Stylist Floor Load' : 'कारीगर भार स्थिति / Stylist Floor Load'}
+                </h3>
                 {staff.map((st) => (
                   <div key={st.id} className="p-3 bg-[#F6EFE2]/75 backdrop-blur-sm border border-[#1C1B1A]/15 rounded-xl flex justify-between items-center shadow-xs">
                     <div>
@@ -783,7 +826,9 @@ export default function AdminPortal({
               </div>
 
               <div className="glass-panel p-5 space-y-3">
-                <h3 className="font-bold text-[#1C1B1A] font-hindi">पुनर्संतुलित कतार / Rebalanced Queue</h3>
+                <h3 className="font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Rebalanced Queue' : 'पुनर्संतुलित कतार / Rebalanced Queue'}
+                </h3>
                 {queue.map((q) => (
                   <div key={q.token} className="p-3 bg-[#F6EFE2]/75 backdrop-blur-sm border border-[#1C1B1A]/15 rounded-xl flex justify-between items-center shadow-xs">
                     <div>
@@ -805,7 +850,9 @@ export default function AdminPortal({
         {activeTab === 'emails' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">प्रेषित AI डाक बही / Dispatched AI Emails Ledger</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Dispatched AI Emails Ledger' : 'प्रेषित AI डाक बही / Dispatched AI Emails Ledger'}
+              </h2>
               <p className="text-xs text-[#5C564E]">
                 Log of all automated post-service invoices sent with personalized historical customer memory notes.
               </p>
@@ -835,7 +882,7 @@ export default function AdminPortal({
                     onClick={() => onOpenEmailPreview(eml)}
                     className="btn-kitsch-secondary px-3.5 py-1.5 text-xs font-bold shrink-0"
                   >
-                    ईमेल देखें / Preview
+                    {isEn ? 'Preview Email' : 'ईमेल देखें / Preview'}
                   </button>
                 </div>
               ))}
@@ -847,7 +894,9 @@ export default function AdminPortal({
         {activeTab === 'passes' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">वीआईपी सदस्यता योजना / VIP Membership Program</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'VIP Membership Program' : 'वीआईपी सदस्यता योजना / VIP Membership Program'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Configure recurring customer passes and active member benefits.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -879,7 +928,9 @@ export default function AdminPortal({
         {activeTab === 'appointments' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">मास्टर बुकिंग बही / Master Appointments Ledger</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Master Appointments Ledger' : 'मास्टर बुकिंग बही / Master Appointments Ledger'}
+              </h2>
               <p className="text-xs text-[#5C564E]">All scheduled bookings across all chairs.</p>
             </div>
             <div className="glass-panel divide-y divide-[#1C1B1A]/10 text-xs">
@@ -909,7 +960,9 @@ export default function AdminPortal({
         {activeTab === 'queue' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">लाइव कतार निगरानी / Queue Monitor</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Live Queue Monitor' : 'लाइव कतार निगरानी / Queue Monitor'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Real-time queue across all salon stations.</p>
             </div>
             <div className="glass-panel p-5 space-y-3 text-xs">
@@ -937,7 +990,9 @@ export default function AdminPortal({
         {activeTab === 'staff' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">कारीगर रोस्टर एवं दल / Salon Staff Roster</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Salon Staff Roster' : 'कारीगर रोस्टर एवं दल / Salon Staff Roster'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Manage master barbers, stations, and shift hours.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -962,7 +1017,9 @@ export default function AdminPortal({
         {activeTab === 'services' && (
           <div className="space-y-6">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">सेवा सूची प्रबंधन / Service Catalog</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Service Catalog Management' : 'सेवा सूची प्रबंधन / Service Catalog'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Add treatments, update pricing, and adjust buffer durations.</p>
             </div>
 
@@ -975,7 +1032,9 @@ export default function AdminPortal({
             {/* Add Service Form */}
             <form onSubmit={handleAddServiceSubmit} className="glass-panel p-5 grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
               <div className="sm:col-span-2">
-                <label className="block text-[#1C1B1A] mb-1 font-bold">सेवा का नाम / Service Name</label>
+                <label className="block text-[#1C1B1A] mb-1 font-bold">
+                  {isEn ? 'Service Name' : 'सेवा का नाम / Service Name'}
+                </label>
                 <input
                   type="text"
                   required
@@ -986,7 +1045,9 @@ export default function AdminPortal({
                 />
               </div>
               <div>
-                <label className="block text-[#1C1B1A] mb-1 font-bold">मूल्य / Price (₹)</label>
+                <label className="block text-[#1C1B1A] mb-1 font-bold">
+                  {isEn ? 'Price (₹)' : 'मूल्य / Price (₹)'}
+                </label>
                 <input
                   type="number"
                   required
@@ -996,7 +1057,9 @@ export default function AdminPortal({
                 />
               </div>
               <div>
-                <label className="block text-[#1C1B1A] mb-1 font-bold">अवधि / Duration (m)</label>
+                <label className="block text-[#1C1B1A] mb-1 font-bold">
+                  {isEn ? 'Duration (mins)' : 'अवधि / Duration (m)'}
+                </label>
                 <input
                   type="number"
                   required
@@ -1010,7 +1073,7 @@ export default function AdminPortal({
                   type="submit"
                   className="w-full py-2.5 btn-kitsch-primary text-xs font-bold"
                 >
-                  सेवा जोड़ें / Add Service
+                  {isEn ? 'Add Service' : 'सेवा जोड़ें / Add Service'}
                 </button>
               </div>
             </form>
@@ -1044,20 +1107,26 @@ export default function AdminPortal({
         {activeTab === 'pricing' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">दर एवं उस्ताद सरचार्ज नीति / Pricing Rules</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Pricing & Stylist Surcharge Rules' : 'दर एवं उस्ताद सरचार्ज नीति / Pricing Rules'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Configure dynamic pricing and master barber request surcharges.</p>
             </div>
             <div className="p-5 glass-panel text-xs space-y-3">
               <div className="p-3 bg-[#F6EFE2]/75 backdrop-blur-sm border border-[#1C1B1A]/15 rounded-xl flex justify-between items-center shadow-xs">
                 <div>
-                  <strong className="text-[#1C1B1A] block">उस्ताद कारीगर विशेष शुल्क / Master Stylist Fee</strong>
+                  <strong className="text-[#1C1B1A] block">
+                    {isEn ? 'Master Stylist Request Fee' : 'उस्ताद कारीगर विशेष शुल्क / Master Stylist Fee'}
+                  </strong>
                   <span className="text-[#5C564E] text-[11px]">Applied when client specifically locks a Master Stylist</span>
                 </div>
                 <span className="font-mono font-bold text-[#D63927] text-sm">+₹50.00 Fixed</span>
               </div>
               <div className="p-3 bg-[#F6EFE2]/75 backdrop-blur-sm border border-[#1C1B1A]/15 rounded-xl flex justify-between items-center shadow-xs">
                 <div>
-                  <strong className="text-[#1C1B1A] block">सप्ताहांत भीड़ सरचार्ज / Weekend Peak Surcharge</strong>
+                  <strong className="text-[#1C1B1A] block">
+                    {isEn ? 'Weekend Peak Surcharge' : 'सप्ताहांत भीड़ सरचार्ज / Weekend Peak Surcharge'}
+                  </strong>
                   <span className="text-[#5C564E] text-[11px]">Applied on Saturdays & Sundays (04:00 PM - 08:00 PM)</span>
                 </div>
                 <span className="font-mono font-bold text-[#1E75B8] text-sm">+10% Auto-Applied</span>
@@ -1070,7 +1139,9 @@ export default function AdminPortal({
         {activeTab === 'availability' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">कारीगर उपस्थिति एवं शिफ्ट / Staff Availability</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Staff Shifts & Availability' : 'कारीगर उपस्थिति एवं शिफ्ट / Staff Availability'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Active shifts and salon schedule.</p>
             </div>
             <div className="glass-panel p-5 space-y-2 text-xs font-mono">
@@ -1088,7 +1159,9 @@ export default function AdminPortal({
         {activeTab === 'refunds' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">रिफंड मंजूरी पटल / Refund Authorization</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Refund Authorization Console' : 'रिफंड मंजूरी पटल / Refund Authorization'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Approve or reject cancellation refund requests.</p>
             </div>
             <div className="glass-panel divide-y divide-[#1C1B1A]/10 text-xs">
@@ -1117,13 +1190,13 @@ export default function AdminPortal({
                           onClick={() => onApproveRefund(ref.id)}
                           className="btn-kitsch-limca px-3 py-1.5 text-xs font-bold"
                         >
-                          मंजूर करें / Approve
+                          {isEn ? 'Approve' : 'मंजूर करें / Approve'}
                         </button>
                         <button
                           onClick={() => onRejectRefund(ref.id)}
                           className="px-3 py-1.5 bg-[#B81D1D]/10 text-[#B81D1D] hover:bg-[#B81D1D] hover:text-white border border-[#B81D1D]/30 rounded-xl text-xs font-bold transition-colors"
                         >
-                          अस्वीकार / Reject
+                          {isEn ? 'Reject' : 'अस्वीकार / Reject'}
                         </button>
                       </>
                     )}
@@ -1138,7 +1211,9 @@ export default function AdminPortal({
         {activeTab === 'users' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">उपयोगकर्ता खाते एवं भूमिकाएं / User Accounts</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'User Accounts & Roles' : 'उपयोगकर्ता खाते एवं भूमिकाएं / User Accounts'}
+              </h2>
               <p className="text-xs text-[#5C564E]">
                 Manage Staff and Admin credentials, assign RBAC permissions, and toggle active/inactive account status.
               </p>
@@ -1185,7 +1260,13 @@ export default function AdminPortal({
                           : 'btn-kitsch-limca'
                       }`}
                     >
-                      {acc.status === 'active' ? 'खाता रोकें / Deactivate' : 'सक्रिय करें / Activate'}
+                      {acc.status === 'active'
+                        ? isEn
+                          ? 'Deactivate'
+                          : 'खाता रोकें / Deactivate'
+                        : isEn
+                        ? 'Activate'
+                        : 'सक्रिय करें / Activate'}
                     </button>
                   </div>
                 </div>
@@ -1198,7 +1279,9 @@ export default function AdminPortal({
         {activeTab === 'audit' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">सिस्टम ऑडिट ट्रेल / System Audit Trail</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'System Audit Trail' : 'सिस्टम ऑडिट ट्रेल / System Audit Trail'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Immutable ledger of all salon operations, AI calls, and automated emails.</p>
             </div>
 
@@ -1226,17 +1309,21 @@ export default function AdminPortal({
         {activeTab === 'backup' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">डेटा बैकअप एवं सुरक्षा / Backup & Recovery</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Data Backup & Security' : 'डेटा बैकअप एवं सुरक्षा / Backup & Recovery'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Automated snapshots of salon ledger and customer history.</p>
             </div>
             <div className="p-6 glass-panel text-xs space-y-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <strong className="text-[#1C1B1A] block">दैनिक स्वचालित स्नैपशॉट / Daily Snapshot</strong>
+                  <strong className="text-[#1C1B1A] block">
+                    {isEn ? 'Daily Automated Snapshot' : 'दैनिक स्वचालित स्नैपशॉट / Daily Snapshot'}
+                  </strong>
                   <span className="text-[#5C564E] text-[11px] font-mono">Last encrypted backup completed today at 04:00 AM</span>
                 </div>
                 <button className="btn-kitsch-primary px-3.5 py-1.5 text-xs font-bold flex items-center gap-1.5">
-                  <Download size={14} /> बैकअप डाउनलोड करें
+                  <Download size={14} /> {isEn ? 'Download Backup' : 'बैकअप डाउनलोड करें'}
                 </button>
               </div>
             </div>
@@ -1247,24 +1334,34 @@ export default function AdminPortal({
         {activeTab === 'settings' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">सैलून सिस्टम विन्यास / System Settings</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Salon System Settings' : 'सैलून सिस्टम विन्यास / System Settings'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Operational parameters and AI engine configuration.</p>
             </div>
             <div className="p-6 glass-panel text-xs space-y-4 font-mono">
               <div className="flex justify-between items-center pb-3 border-b border-[#1C1B1A]/10">
-                <span className="font-bold text-[#1C1B1A]">सैलून समय / Salon Hours:</span>
+                <span className="font-bold text-[#1C1B1A]">
+                  {isEn ? 'Salon Operating Hours:' : 'सैलून समय / Salon Hours:'}
+                </span>
                 <span className="text-[#1C1B1A] font-bold">09:00 AM – 09:00 PM</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-[#1C1B1A]/10">
-                <span className="font-bold text-[#1C1B1A]">अधिकतम दैनिक टोकन / Max Tokens:</span>
+                <span className="font-bold text-[#1C1B1A]">
+                  {isEn ? 'Max Daily Tokens:' : 'अधिकतम दैनिक टोकन / Max Tokens:'}
+                </span>
                 <span className="text-[#1C1B1A] font-bold">25 Tokens / Day</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-[#1C1B1A]/10">
-                <span className="font-bold text-[#1C1B1A]">AI वॉयस इंजन / AI Voice Engine:</span>
+                <span className="font-bold text-[#1C1B1A]">
+                  {isEn ? 'AI Voice Engine:' : 'AI वॉयस इंजन / AI Voice Engine:'}
+                </span>
                 <span className="text-[#288D43] font-bold">Web Speech Synthesis Enabled</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="font-bold text-[#1C1B1A]">डिफ़ॉल्ट बफर समय / Buffer Time:</span>
+                <span className="font-bold text-[#1C1B1A]">
+                  {isEn ? 'Default Buffer Time:' : 'डिफ़ॉल्ट बफर समय / Buffer Time:'}
+                </span>
                 <span className="text-[#1C1B1A] font-bold">5 Minutes per service</span>
               </div>
             </div>
@@ -1274,7 +1371,9 @@ export default function AdminPortal({
         {/* ==================== TAB 17: PROFILE ==================== */}
         {activeTab === 'profile' && (
           <div className="max-w-xl mx-auto glass-panel p-6 shadow-glass-lg space-y-4 text-xs font-mono">
-            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">प्रबंधक प्रोफ़ाइल / Admin Profile</h2>
+            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+              {isEn ? 'Administrator Profile' : 'प्रबंधक प्रोफ़ाइल / Admin Profile'}
+            </h2>
             <div className="space-y-3">
               <div className="p-3 bg-[#F6EFE2]/80 rounded-xl border border-[#1C1B1A]/15 flex justify-between">
                 <span className="text-[#5C564E]">Name:</span>

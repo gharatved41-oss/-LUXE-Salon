@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { AiCallRecord } from '@/lib/types'
 import { speakAiVoice } from '@/lib/aiEngine'
+import { useLanguage } from '@/lib/language'
 
 interface AiVoiceCallModalProps {
   callRecord: AiCallRecord | null
@@ -22,6 +23,8 @@ export default function AiVoiceCallModal({
   onClose,
   onAcknowledge,
 }: AiVoiceCallModalProps) {
+  const { language } = useLanguage()
+  const isEn = language === 'en'
   const [isPlayingVoice, setIsPlayingVoice] = useState(true)
   const [callDuration, setCallDuration] = useState(0)
 
@@ -154,7 +157,7 @@ export default function AiVoiceCallModal({
             onClick={handleEndCall}
             className="px-5 py-2 bg-[#B81D1D] hover:bg-[#8F1616] text-white border border-white/40 shadow-sm rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all"
           >
-            <PhoneOff size={14} /> End Call (कॉल समाप्त)
+            <PhoneOff size={14} /> {isEn ? 'End Call' : 'End Call (कॉल समाप्त)'}
           </button>
         </div>
       </div>

@@ -17,6 +17,7 @@ import {
   StaffMember,
 } from '@/lib/types'
 import { askCustomerAi } from '@/lib/aiEngine'
+import { useLanguage } from '@/lib/language'
 
 interface CustomerAiChatModalProps {
   isOpen: boolean
@@ -29,20 +30,6 @@ interface CustomerAiChatModalProps {
   onNavigateTab?: (tab: string) => void
 }
 
-const INITIAL_MESSAGES: ChatMessage[] = [
-  {
-    id: 'cust-msg-1',
-    sender: 'ai',
-    text: `👋 **नमस्ते!** I am your **Ustaad AI Concierge**.\n\nI can help you check open booking slots for today, estimate live queue wait times, or recommend personalized treatments.\n\nHow can I help you today?`,
-    timestamp: 'Just now',
-    quickActions: [
-      { label: '✂️ Can I book a haircut today?', action: 'ask-haircut' },
-      { label: '⏳ What is the live wait time?', action: 'ask-wait' },
-      { label: '👑 Luxury Spa & Facials', action: 'ask-spa' },
-    ],
-  },
-]
-
 export default function CustomerAiChatModal({
   isOpen,
   onClose,
@@ -53,7 +40,26 @@ export default function CustomerAiChatModal({
   onTriggerBooking,
   onNavigateTab,
 }: CustomerAiChatModalProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES)
+  const { language } = useLanguage()
+  const isEn = language === 'en'
+
+  const initialMessages: ChatMessage[] = [
+    {
+      id: 'cust-msg-1',
+      sender: 'ai',
+      text: isEn
+        ? `👋 **Hello!** I am your **AI Concierge**.\n\nI can help you check open booking slots for today, estimate live queue wait times, or recommend personalized treatments.\n\nHow can I help you today?`
+        : `👋 **नमस्ते!** I am your **Ustaad AI Concierge**.\n\nI can help you check open booking slots for today, estimate live queue wait times, or recommend personalized treatments.\n\nHow can I help you today?`,
+      timestamp: 'Just now',
+      quickActions: [
+        { label: '✂️ Can I book a haircut today?', action: 'ask-haircut' },
+        { label: '⏳ What is the live wait time?', action: 'ask-wait' },
+        { label: '👑 Luxury Spa & Facials', action: 'ask-spa' },
+      ],
+    },
+  ]
+
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
   const [inputText, setInputText] = useState('')
   const [isThinking, setIsThinking] = useState(false)
 
@@ -131,7 +137,9 @@ export default function CustomerAiChatModal({
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <h3 className="text-base font-extrabold font-hindi">डीलक्स AI Concierge</h3>
+                <h3 className="text-base font-extrabold font-hindi">
+                  {isEn ? 'Deluxe AI Concierge' : 'डीलक्स AI Concierge'}
+                </h3>
                 <span className="w-2.5 h-2.5 rounded-full bg-[#F5B82E] animate-pulse" />
               </div>
               <p className="text-[10px] text-white/90">
@@ -216,7 +224,9 @@ export default function CustomerAiChatModal({
                 <div className="w-2 h-2 rounded-full bg-[#D63927] animate-bounce" />
                 <div className="w-2 h-2 rounded-full bg-[#D63927] animate-bounce [animation-delay:0.2s]" />
                 <div className="w-2 h-2 rounded-full bg-[#D63927] animate-bounce [animation-delay:0.4s]" />
-                <span className="text-[11px] text-[#5C564E] ml-1 font-mono">Checking open slots at Ustaad Salon...</span>
+                <span className="text-[11px] text-[#5C564E] ml-1 font-mono">
+                  {isEn ? 'Checking open salon slots...' : 'Checking open slots at Ustaad Salon...'}
+                </span>
               </div>
             </div>
           )}

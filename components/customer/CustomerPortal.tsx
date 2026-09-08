@@ -70,7 +70,8 @@ export default function CustomerPortal({
   onOpenAiChat,
 }: CustomerPortalProps) {
   const { user, logout } = useAuth()
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const isEn = language === 'en'
   const [activeTab, setActiveTab] = useState<
     | 'dashboard'
     | 'services'
@@ -267,7 +268,7 @@ export default function CustomerPortal({
               }`}
             >
               <Sparkles size={15} />
-              <span>सेवा सूची / Menu</span>
+              <span>{isEn ? 'Service Menu' : t('customerNavMenu')}</span>
             </button>
 
             <button
@@ -279,7 +280,7 @@ export default function CustomerPortal({
               }`}
             >
               <Plus size={15} />
-              <span>{t('customerNavBook')}</span>
+              <span>{isEn ? 'Book Slot' : t('customerNavBook')}</span>
             </button>
 
             <button
@@ -291,7 +292,7 @@ export default function CustomerPortal({
               }`}
             >
               <Calendar size={15} />
-              <span>{t('customerNavHistory')}</span>
+              <span>{isEn ? 'My Bookings' : t('customerNavHistory')}</span>
               {myAppointments.length > 0 && (
                 <span className="ml-auto px-1.5 py-0.2 rounded text-[10px] bg-[#D63927] text-white font-mono font-bold">
                   {myAppointments.length}
@@ -308,7 +309,7 @@ export default function CustomerPortal({
               }`}
             >
               <Clock size={15} />
-              <span>{t('yourQueueToken')}</span>
+              <span>{isEn ? 'Live Queue' : t('yourQueueToken')}</span>
               {myQueueItem && (
                 <span className="ml-auto w-2.5 h-2.5 rounded-full bg-[#288D43] animate-ping" />
               )}
@@ -323,7 +324,7 @@ export default function CustomerPortal({
               }`}
             >
               <Crown size={15} className="text-[#F5B82E]" />
-              <span>{t('customerNavPass')}</span>
+              <span>{isEn ? 'VIP Passes' : t('customerNavPass')}</span>
             </button>
 
             <button
@@ -335,7 +336,7 @@ export default function CustomerPortal({
               }`}
             >
               <CreditCard size={15} />
-              <span>रसीदें / Receipts</span>
+              <span>{isEn ? 'Receipts' : t('customerNavReceipts')}</span>
             </button>
 
             <button
@@ -347,7 +348,7 @@ export default function CustomerPortal({
               }`}
             >
               <RotateCcw size={15} />
-              <span>रिफंड / Refunds</span>
+              <span>{isEn ? 'Refunds' : t('customerNavRefunds')}</span>
             </button>
 
             <button
@@ -359,7 +360,7 @@ export default function CustomerPortal({
               }`}
             >
               <Bell size={15} />
-              <span>सूचनाएं / Alerts</span>
+              <span>{isEn ? 'Alerts' : 'सूचनाएं'}</span>
             </button>
 
             <button
@@ -371,7 +372,7 @@ export default function CustomerPortal({
               }`}
             >
               <MessageSquare size={15} />
-              <span>राय / Feedback</span>
+              <span>{isEn ? 'Feedback' : t('customerNavFeedback')}</span>
             </button>
 
             <button
@@ -383,7 +384,7 @@ export default function CustomerPortal({
               }`}
             >
               <User size={15} />
-              <span>खाता / Profile</span>
+              <span>{isEn ? 'Profile' : t('customerNavProfile')}</span>
             </button>
           </nav>
         </div>
@@ -395,7 +396,7 @@ export default function CustomerPortal({
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-[#B81D1D]/10 hover:bg-[#B81D1D] text-[#B81D1D] hover:text-white font-bold text-xs border border-[#B81D1D]/25 transition-colors"
           >
             <LogOut size={15} />
-            <span>लॉग आउट / Sign Out</span>
+            <span>{t('logout')}</span>
           </button>
         </div>
       </aside>
@@ -416,7 +417,7 @@ export default function CustomerPortal({
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="text-xs font-bold text-[#1C1B1A]">
-                      नमस्ते {user?.name}! (VIP Member • {customerMemory.totalVisits} Visits)
+                      {isEn ? `Welcome back, ${user?.name}! (VIP Member • ${customerMemory.totalVisits} Visits)` : `नमस्ते ${user?.name}! (VIP Member • ${customerMemory.totalVisits} Visits)`}
                     </h4>
                     <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-[#F5B82E] text-[#1C1B1A] border border-[#1C1B1A]/20">
                       AI MEMORY RECOGNIZED
@@ -433,10 +434,10 @@ export default function CustomerPortal({
             <div className="glass-terracotta rounded-2xl p-6 text-white shadow-glass relative overflow-hidden">
               <div className="relative z-10">
                 <span className="text-[#F5B82E] text-xs font-mono font-bold tracking-wider uppercase bg-[#1C1B1A]/80 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-white/20">
-                  डीलक्स उस्ताद सैलून • DELUXE SALON OPS
+                  {isEn ? 'DELUXE USTAAD SALON • OPERATIONS' : 'डीलक्स उस्ताद सैलून • DELUXE SALON OPS'}
                 </span>
                 <h2 className="text-2xl font-bold font-hindi mt-2 text-white">
-                  स्वागतम्, {user?.name}!
+                  {isEn ? `Welcome, ${user?.name}!` : `स्वागतम्, ${user?.name}!`}
                 </h2>
                 <p className="text-[#FFFDF9]/90 text-xs max-w-lg mt-1 font-sans">
                   Track live token queues, enjoy transparent Master Barber booking, and experience real-time AI salon management.
@@ -446,19 +447,19 @@ export default function CustomerPortal({
                     onClick={() => setActiveTab('book')}
                     className="btn-kitsch-haldi text-xs flex items-center gap-1.5"
                   >
-                    <Plus size={14} /> नई बुकिंग / Book Slot
+                    <Plus size={14} /> {isEn ? 'Book Slot' : 'नई बुकिंग'}
                   </button>
                   <button
                     onClick={() => setActiveTab('services')}
                     className="btn-kitsch-secondary text-xs"
                   >
-                    सेवा सूची / View Menu
+                    {isEn ? 'View Menu' : 'सेवा सूची'}
                   </button>
                   <button
                     onClick={onOpenAiChat}
                     className="btn-kitsch-shutter text-xs flex items-center gap-1.5"
                   >
-                    <Bot size={14} /> AI से बात करें / Chat
+                    <Bot size={14} /> {isEn ? 'Ask AI' : 'AI से बात करें'}
                   </button>
                 </div>
               </div>
@@ -470,7 +471,9 @@ export default function CustomerPortal({
                 <div className="flex items-center justify-between pb-3 border-b border-[#1C1B1A]/10">
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full bg-[#288D43] animate-ping" />
-                    <h3 className="text-sm font-bold text-[#1C1B1A] font-hindi">आपकी बारी • Live Queue Status</h3>
+                    <h3 className="text-sm font-bold text-[#1C1B1A] font-hindi">
+                      {isEn ? 'Your Turn • Live Queue Status' : 'आपकी बारी • Live Queue Status'}
+                    </h3>
                   </div>
                   <span className="px-3 py-1 rounded-lg bg-[#F5B82E] text-[#1C1B1A] text-xs font-mono font-bold border border-[#1C1B1A]/20 shadow-xs">
                     TOKEN #{myQueueItem.token}
@@ -478,15 +481,21 @@ export default function CustomerPortal({
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-center">
                   <div className="p-3 bg-[#FFFDF9]/90 backdrop-blur-sm rounded-xl border border-[#1C1B1A]/10 shadow-2xs">
-                    <span className="text-[10px] text-[#5C564E] uppercase font-bold font-mono">सेवा / SERVICE</span>
+                    <span className="text-[10px] text-[#5C564E] uppercase font-bold font-mono">
+                      {isEn ? 'SERVICE' : 'सेवा / SERVICE'}
+                    </span>
                     <strong className="block text-xs text-[#1C1B1A] mt-0.5">{myQueueItem.serviceName}</strong>
                   </div>
                   <div className="p-3 bg-[#FFFDF9]/90 backdrop-blur-sm rounded-xl border border-[#1C1B1A]/10 shadow-2xs">
-                    <span className="text-[10px] text-[#5C564E] uppercase font-bold font-mono">कारीगर / STYLIST</span>
+                    <span className="text-[10px] text-[#5C564E] uppercase font-bold font-mono">
+                      {isEn ? 'STYLIST' : 'कारीगर / STYLIST'}
+                    </span>
                     <strong className="block text-xs text-[#1C1B1A] mt-0.5">{myQueueItem.staffName} ({myQueueItem.assignedStation})</strong>
                   </div>
                   <div className="p-3 bg-[#288D43]/10 backdrop-blur-sm rounded-xl border border-[#288D43]/30">
-                    <span className="text-[10px] text-[#288D43] uppercase font-bold font-mono">स्थिति / STATUS</span>
+                    <span className="text-[10px] text-[#288D43] uppercase font-bold font-mono">
+                      {isEn ? 'STATUS' : 'स्थिति / STATUS'}
+                    </span>
                     <strong className="block text-xs text-[#288D43] mt-0.5 font-bold">{myQueueItem.status}</strong>
                   </div>
                 </div>
@@ -500,7 +509,9 @@ export default function CustomerPortal({
             ) : (
               <div className="glass-panel p-5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-xs font-bold text-[#1C1B1A]">कोई सक्रिय टोकन नहीं / No Active Queue Token</h4>
+                  <h4 className="text-xs font-bold text-[#1C1B1A]">
+                    {isEn ? 'No Active Queue Token' : 'कोई सक्रिय टोकन नहीं'}
+                  </h4>
                   <p className="text-[11px] text-[#5C564E] mt-0.5">
                     Check in for today&apos;s booking to receive your live digital token and automated arrival call.
                   </p>
@@ -509,7 +520,7 @@ export default function CustomerPortal({
                   onClick={() => setActiveTab('appointments')}
                   className="btn-kitsch-secondary text-xs"
                 >
-                  बुकिंग देखें / Appointments →
+                  {isEn ? 'View Appointments →' : 'बुकिंग देखें →'}
                 </button>
               </div>
             )}
@@ -517,12 +528,14 @@ export default function CustomerPortal({
             {/* Upcoming Appointments Summary */}
             <div className="glass-panel p-5">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#1C1B1A]/10">
-                <h3 className="text-sm font-bold text-[#1C1B1A] font-hindi">आपकी आगामी बुकिंग / Upcoming Bookings</h3>
+                <h3 className="text-sm font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Upcoming Bookings' : 'आपकी आगामी बुकिंग'}
+                </h3>
                 <button
                   onClick={() => setActiveTab('appointments')}
                   className="text-xs font-bold text-[#D63927] hover:underline"
                 >
-                  सभी देखें ({myAppointments.length}) →
+                  {isEn ? `View All (${myAppointments.length}) →` : `सभी देखें (${myAppointments.length}) →`}
                 </button>
               </div>
               {myAppointments.length === 0 ? (
@@ -541,7 +554,7 @@ export default function CustomerPortal({
                           </span>
                         </div>
                         <span className="text-[11px] text-[#5C564E] block mt-0.5 font-mono">
-                          📅 {apt.date} at {apt.time} • उस्ताद: {apt.staffName}
+                          📅 {apt.date} at {apt.time} • {isEn ? 'Stylist:' : 'उस्ताद:'} {apt.staffName}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -550,7 +563,7 @@ export default function CustomerPortal({
                             onClick={() => onCheckIn(apt.id)}
                             className="btn-kitsch-limca px-3 py-1 text-xs"
                           >
-                            हाजिरी / Check-In
+                            {isEn ? 'Check-In' : 'हाजिरी'}
                           </button>
                         )}
                         {apt.receiptId && (
@@ -571,7 +584,7 @@ export default function CustomerPortal({
                               })
                             }
                             className="p-1.5 bg-[#FFFDF9]/90 hover:bg-[#F5B82E] text-[#1C1B1A] border border-[#1C1B1A]/15 rounded-lg transition-colors shadow-2xs"
-                            title="रसीद देखें / View Receipt"
+                            title={isEn ? 'View Receipt' : 'रसीद देखें'}
                           >
                             <Receipt size={16} />
                           </button>
@@ -590,7 +603,9 @@ export default function CustomerPortal({
           <div className="space-y-4">
             <div className="glass-panel p-4 flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">डीलक्स सेवा सूची / Salon Services Catalog</h2>
+                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Salon Services Catalog' : 'डीलक्स सेवा सूची'}
+                </h2>
                 <p className="text-xs text-[#5C564E]">
                   Explore our luxury hair, grooming, and spa services with transparent pricing.
                 </p>
@@ -599,7 +614,7 @@ export default function CustomerPortal({
                 onClick={onOpenAiChat}
                 className="btn-kitsch-haldi text-xs flex items-center gap-1.5"
               >
-                <Bot size={14} /> AI से सलाह लें
+                <Bot size={14} /> {isEn ? 'Ask AI' : 'AI से सलाह लें'}
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -634,7 +649,7 @@ export default function CustomerPortal({
                       }}
                       className="btn-kitsch-primary px-3.5 py-1.5 text-xs flex items-center gap-1"
                     >
-                      बुक करें / Book Now <ChevronRight size={14} />
+                      {isEn ? 'Book Now' : 'बुक करें'} <ChevronRight size={14} />
                     </button>
                   </div>
                 </div>
@@ -648,9 +663,11 @@ export default function CustomerPortal({
           <div className="max-w-xl mx-auto glass-panel p-6 shadow-glass-lg">
             <div className="mb-5 pb-3 border-b border-[#1C1B1A]/15">
               <span className="text-[10px] font-mono font-bold text-[#D63927] uppercase tracking-wider bg-[#F6EFE2] px-2 py-0.5 rounded border border-[#1C1B1A]/15">
-                तुरंत बुकिंग • INSTANT BOOKING
+                {isEn ? 'INSTANT BOOKING' : 'तुरंत बुकिंग • INSTANT BOOKING'}
               </span>
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi mt-1.5">अपॉइंटमेंट बुक करें / Schedule Visit</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi mt-1.5">
+                {isEn ? 'Schedule Appointment' : 'अपॉइंटमेंट बुक करें / Schedule Visit'}
+              </h2>
             </div>
 
             {bookSuccessMsg && (
@@ -662,7 +679,9 @@ export default function CustomerPortal({
 
             <form onSubmit={handleBookingSubmit} className="space-y-4 text-xs font-medium text-[#1C1B1A]">
               <div>
-                <label className="block text-[#1C1B1A] mb-1 font-bold">सेवा चुनें / Select Service</label>
+                <label className="block text-[#1C1B1A] mb-1 font-bold">
+                  {isEn ? 'Select Service' : 'सेवा चुनें / Select Service'}
+                </label>
                 <select
                   value={bookServiceId}
                   onChange={(e) => setBookServiceId(e.target.value)}
@@ -678,7 +697,9 @@ export default function CustomerPortal({
 
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <label className="text-[#1C1B1A] font-bold">पसंदीदा उस्ताद / Preferred Stylist</label>
+                  <label className="text-[#1C1B1A] font-bold">
+                    {isEn ? 'Preferred Stylist' : 'पसंदीदा उस्ताद / Preferred Stylist'}
+                  </label>
                   <span className="text-[10px] text-[#D63927] font-mono font-bold">
                     ⭐ Master Stylists have +₹50 custom request fee
                   </span>
@@ -717,7 +738,7 @@ export default function CustomerPortal({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[#1C1B1A] mb-1 font-bold">तारीख / Date</label>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">{isEn ? 'Date' : 'तारीख / Date'}</label>
                   <input
                     type="date"
                     required
@@ -727,7 +748,7 @@ export default function CustomerPortal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[#1C1B1A] mb-1 font-bold">समय / Time Slot</label>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">{isEn ? 'Time Slot' : 'समय / Time Slot'}</label>
                   <select
                     value={bookTime}
                     onChange={(e) => setBookTime(e.target.value)}
@@ -744,7 +765,9 @@ export default function CustomerPortal({
               </div>
 
               <div>
-                <label className="block text-[#1C1B1A] mb-1 font-bold">भुगतान विकल्प / Payment Option</label>
+                <label className="block text-[#1C1B1A] mb-1 font-bold">
+                  {isEn ? 'Payment Option' : 'भुगतान विकल्प / Payment Option'}
+                </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
@@ -799,7 +822,9 @@ export default function CustomerPortal({
                 type="submit"
                 className="w-full py-3 btn-kitsch-primary text-sm font-bold"
               >
-                पुष्टि करें और भुगतान करें / Pay ₹{finalCalculatedPrice}.00
+                {isEn
+                  ? `Confirm & Pay ₹${finalCalculatedPrice}.00`
+                  : `पुष्टि करें और भुगतान करें / Pay ₹${finalCalculatedPrice}.00`}
               </button>
             </form>
           </div>
@@ -810,14 +835,16 @@ export default function CustomerPortal({
           <div className="space-y-4">
             <div className="glass-panel p-4 flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">मेरी बुकिंग / My Appointments</h2>
+                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'My Appointments' : 'मेरी बुकिंग / My Appointments'}
+                </h2>
                 <p className="text-xs text-[#5C564E]">View and manage your upcoming & past bookings.</p>
               </div>
               <button
                 onClick={() => setActiveTab('book')}
                 className="btn-kitsch-primary text-xs flex items-center gap-1"
               >
-                <Plus size={14} /> नई बुकिंग / New Booking
+                <Plus size={14} /> {isEn ? 'New Booking' : 'नई बुकिंग / New Booking'}
               </button>
             </div>
 
@@ -843,7 +870,7 @@ export default function CustomerPortal({
                         onClick={() => onCheckIn(apt.id)}
                         className="btn-kitsch-limca px-3 py-1.5 text-xs font-bold"
                       >
-                        हाजिरी / Self Check-In
+                        {isEn ? 'Self Check-In' : 'हाजिरी / Self Check-In'}
                       </button>
                     )}
                     {apt.status === 'Confirmed' && (
@@ -854,7 +881,7 @@ export default function CustomerPortal({
                         }}
                         className="px-3 py-1.5 bg-[#B81D1D]/10 text-[#B81D1D] hover:bg-[#B81D1D] hover:text-white border border-[#B81D1D]/30 rounded-xl text-xs font-bold transition-colors"
                       >
-                        रद्द / Refund
+                        {isEn ? 'Cancel / Refund' : 'रद्द / Refund'}
                       </button>
                     )}
                   </div>
@@ -868,7 +895,9 @@ export default function CustomerPortal({
         {activeTab === 'queue' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">लाइव कतार एवं AI गणना / Live Queue Telemetry</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Live Queue Telemetry' : 'लाइव कतार एवं AI गणना / Live Queue Telemetry'}
+              </h2>
               <p className="text-xs text-[#5C564E]">
                 Real-time queue tracking showing token progression across salon styling stations.
               </p>
@@ -876,7 +905,7 @@ export default function CustomerPortal({
 
             <div className="glass-panel p-6">
               <h3 className="text-xs font-mono font-bold text-[#5C564E] uppercase tracking-wider mb-4">
-                सक्रिय टोकन / Active Tokens in Queue
+                {isEn ? 'Active Tokens in Queue' : 'सक्रिय टोकन / Active Tokens in Queue'}
               </h3>
               <div className="space-y-2.5">
                 {queue.map((item) => {
@@ -930,7 +959,9 @@ export default function CustomerPortal({
             <div className="glass-panel p-4">
               <div className="flex items-center gap-2">
                 <Crown size={22} className="text-[#F5B82E]" />
-                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">डीलक्स उस्ताद वीआईपी क्लब / VIP Membership Club</h2>
+                <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'VIP Membership Club' : 'डीलक्स उस्ताद वीआईपी क्लब / VIP Membership Club'}
+                </h2>
               </div>
               <p className="text-xs text-[#5C564E]">
                 Unlock unlimited scissor cuts, complimentary monthly hair spas, and zero wait-time VIP priority.
@@ -945,7 +976,7 @@ export default function CustomerPortal({
                   </div>
                   <div>
                     <span className="text-[10px] font-mono font-bold text-[#D63927] uppercase tracking-wider block">
-                      सक्रिय सदस्यता • ACTIVE SUBSCRIPTION
+                      {isEn ? 'ACTIVE SUBSCRIPTION' : 'सक्रिय सदस्यता • ACTIVE SUBSCRIPTION'}
                     </span>
                     <h4 className="text-sm font-bold text-[#1C1B1A]">{activeCustomerPass}</h4>
                   </div>
@@ -966,7 +997,7 @@ export default function CustomerPortal({
                 >
                   {pass.status === 'Featured' && (
                     <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded bg-[#D63927] text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-2xs">
-                      MOST POPULAR / लोकप्रिय
+                      {isEn ? 'MOST POPULAR' : 'MOST POPULAR / लोकप्रिय'}
                     </div>
                   )}
 
@@ -997,7 +1028,7 @@ export default function CustomerPortal({
                         : 'btn-kitsch-primary'
                     }`}
                   >
-                    सदस्यता लें / Activate {pass.type}
+                    {isEn ? `Activate ${pass.type}` : `सदस्यता लें / Activate ${pass.type}`}
                   </button>
                 </div>
               ))}
@@ -1009,7 +1040,9 @@ export default function CustomerPortal({
         {activeTab === 'payments' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">भुगतान एवं रसीदें / Payments & Invoices</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Payments & Invoices' : 'भुगतान एवं रसीदें / Payments & Invoices'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Download digital invoices and inspect payment history.</p>
             </div>
 
@@ -1046,7 +1079,7 @@ export default function CustomerPortal({
                         })
                       }
                       className="p-2 bg-[#FFF9E6]/90 border border-[#1C1B1A]/20 rounded-xl hover:bg-[#F5B82E] text-[#1C1B1A] shadow-2xs transition-colors"
-                      title="रसीद डाउनलोड करें / View Ticket"
+                      title={isEn ? 'Download Receipt' : 'रसीद डाउनलोड करें / View Ticket'}
                     >
                       <Download size={15} />
                     </button>
@@ -1061,7 +1094,9 @@ export default function CustomerPortal({
         {activeTab === 'refunds' && (
           <div className="space-y-6">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">रिफंड एवं सुरक्षा नीति / Refunds & Protection</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Refunds & Protection Policy' : 'रिफंड एवं सुरक्षा नीति / Refunds & Protection'}
+              </h2>
               <p className="text-xs text-[#5C564E]">
                 Transparent cancellation policies with automatic tiered refund processing.
               </p>
@@ -1091,7 +1126,9 @@ export default function CustomerPortal({
 
             {/* Submit Refund Form */}
             <div className="glass-panel p-5">
-              <h3 className="text-sm font-bold text-[#1C1B1A] mb-3 font-hindi">रद्द या रिफंड अनुरोध / Request Cancellation</h3>
+              <h3 className="text-sm font-bold text-[#1C1B1A] mb-3 font-hindi">
+                {isEn ? 'Request Cancellation / Refund' : 'रद्द या रिफंड अनुरोध / Request Cancellation'}
+              </h3>
               {refundSuccessMsg && (
                 <div className="mb-3 p-2.5 bg-[#288D43]/10 text-[#288D43] border border-[#288D43]/30 rounded-xl text-xs font-bold">
                   {refundSuccessMsg}
@@ -1099,7 +1136,9 @@ export default function CustomerPortal({
               )}
               <form onSubmit={handleRefundSubmit} className="space-y-3 text-xs">
                 <div>
-                  <label className="block text-[#1C1B1A] mb-1 font-bold">अपॉइंटमेंट चुनें / Select Booking</label>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Select Booking' : 'अपॉइंटमेंट चुनें / Select Booking'}
+                  </label>
                   <select
                     value={refundAptId}
                     onChange={(e) => setRefundAptId(e.target.value)}
@@ -1113,7 +1152,9 @@ export default function CustomerPortal({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[#1C1B1A] mb-1 font-bold">कारण / Reason</label>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Reason for Cancellation' : 'कारण / Reason'}
+                  </label>
                   <textarea
                     rows={2}
                     required
@@ -1126,7 +1167,7 @@ export default function CustomerPortal({
                   type="submit"
                   className="btn-kitsch-primary px-4 py-2 text-xs"
                 >
-                  अनुरोध भेजें / Submit Refund Claim
+                  {isEn ? 'Submit Refund Claim' : 'अनुरोध भेजें / Submit Refund Claim'}
                 </button>
               </form>
             </div>
@@ -1134,7 +1175,7 @@ export default function CustomerPortal({
             {/* Existing Refund Requests */}
             <div className="glass-panel p-5">
               <h3 className="text-xs font-mono font-bold text-[#5C564E] uppercase tracking-wider mb-3">
-                रिफंड इतिहास / Your Refund Claims History
+                {isEn ? 'Your Refund Claims History' : 'रिफंड इतिहास / Your Refund Claims History'}
               </h3>
               {myRefunds.length === 0 ? (
                 <p className="text-xs text-[#5C564E] font-mono">No refund requests on record.</p>
@@ -1166,7 +1207,9 @@ export default function CustomerPortal({
         {activeTab === 'notifications' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">सूचनाएं एवं AI फोन कॉल / Notifications & AI Calls</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Notifications & AI Voice Calls' : 'सूचनाएं एवं AI फोन कॉल / Notifications & AI Calls'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Live operational alerts regarding your bookings and queue position.</p>
             </div>
             <div className="glass-panel p-5 space-y-3 text-xs">
@@ -1175,9 +1218,13 @@ export default function CustomerPortal({
                   <PhoneCall size={16} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#1C1B1A]">AI स्वचालित कॉल / AI Voice Call Alert</h4>
+                  <h4 className="font-bold text-[#1C1B1A]">
+                    {isEn ? 'AI Voice Call Alert' : 'AI स्वचालित कॉल / AI Voice Call Alert'}
+                  </h4>
                   <p className="text-[#1C1B1A] text-[11px] mt-0.5 font-serif italic">
-                    &ldquo;नमस्ते Rahul Sharma! डीलक्स सैलून में आपकी Executive Haircut की बारी 5 मिनट में आने वाली है। कृपया Station 1 पर पधारें।&rdquo;
+                    {isEn
+                      ? `“Hello Rahul Sharma! Your Executive Haircut appointment at Deluxe Salon is ready in 5 minutes. Please proceed to Station 1.”`
+                      : `“नमस्ते Rahul Sharma! डीलक्स सैलून में आपकी Executive Haircut की बारी 5 मिनट में आने वाली है। कृपया Station 1 पर पधारें।”`}
                   </p>
                   <span className="text-[10px] text-[#5C564E] font-mono mt-1 block">10 minutes ago</span>
                 </div>
@@ -1187,7 +1234,9 @@ export default function CustomerPortal({
                   <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#1C1B1A]">बुकिंग पक्की हुई / Booking Confirmed</h4>
+                  <h4 className="font-bold text-[#1C1B1A]">
+                    {isEn ? 'Booking Confirmed' : 'बुकिंग पक्की हुई / Booking Confirmed'}
+                  </h4>
                   <p className="text-[#5C564E] text-[11px] mt-0.5">
                     Your appointment for Executive Haircut & Styling has been confirmed with Suresh Kumar.
                   </p>
@@ -1201,7 +1250,9 @@ export default function CustomerPortal({
         {/* ==================== TAB 10: FEEDBACK ==================== */}
         {activeTab === 'feedback' && (
           <div className="max-w-xl mx-auto glass-panel p-6 shadow-glass-lg">
-            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">अपनी राय साझा करें / Share Salon Experience</h2>
+            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+              {isEn ? 'Share Salon Experience' : 'अपनी राय साझा करें / Share Salon Experience'}
+            </h2>
             <p className="text-xs text-[#5C564E] mt-0.5 mb-4">
               Help us maintain exceptional service standards by rating your stylist.
             </p>
@@ -1209,13 +1260,17 @@ export default function CustomerPortal({
             {feedbackSubmitted ? (
               <div className="p-4 bg-[#288D43]/10 border border-[#288D43]/40 rounded-xl text-center text-[#288D43] text-xs">
                 <CheckCircle2 size={24} className="mx-auto mb-1" />
-                <h4 className="font-bold text-sm">धन्यवाद! आपकी समीक्षा दर्ज कर ली गई है।</h4>
+                <h4 className="font-bold text-sm">
+                  {isEn ? 'Thank you! Your feedback has been recorded.' : 'धन्यवाद! आपकी समीक्षा दर्ज कर ली गई है।'}
+                </h4>
                 <p className="text-[11px] text-[#1C1B1A] mt-1">Your review helps improve our styling services.</p>
               </div>
             ) : (
               <form onSubmit={handleFeedbackSubmit} className="space-y-4 text-xs font-medium text-[#1C1B1A]">
                 <div>
-                  <label className="block text-[#1C1B1A] mb-1 font-bold">रेटिंग / Rating</label>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Rating' : 'रेटिंग / Rating'}
+                  </label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -1236,7 +1291,9 @@ export default function CustomerPortal({
                 </div>
 
                 <div>
-                  <label className="block text-[#1C1B1A] mb-1 font-bold">आपकी टिप्पणी / Your Comments</label>
+                  <label className="block text-[#1C1B1A] mb-1 font-bold">
+                    {isEn ? 'Your Comments' : 'आपकी टिप्पणी / Your Comments'}
+                  </label>
                   <textarea
                     rows={3}
                     required
@@ -1251,7 +1308,7 @@ export default function CustomerPortal({
                   type="submit"
                   className="w-full py-3 btn-kitsch-primary text-xs font-bold flex items-center justify-center gap-1.5"
                 >
-                  <Send size={14} /> राय भेजें / Submit Feedback
+                  <Send size={14} /> {isEn ? 'Submit Feedback' : 'राय भेजें / Submit Feedback'}
                 </button>
               </form>
             )}
@@ -1261,7 +1318,9 @@ export default function CustomerPortal({
         {/* ==================== TAB 11: PROFILE ==================== */}
         {activeTab === 'profile' && (
           <div className="max-w-xl mx-auto glass-panel p-6 shadow-glass-lg space-y-4">
-            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">ग्राहक प्रोफ़ाइल / Profile & Membership</h2>
+            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+              {isEn ? 'Profile & Membership' : 'ग्राहक प्रोफ़ाइल / Profile & Membership'}
+            </h2>
             <div className="space-y-3 text-xs font-mono">
               <div className="p-3 bg-[#F6EFE2]/80 rounded-xl border border-[#1C1B1A]/15 flex justify-between">
                 <span className="text-[#5C564E]">Full Name:</span>

@@ -71,7 +71,8 @@ export default function StaffPortal({
   onTriggerAiVoiceCall,
 }: StaffPortalProps) {
   const { user, logout } = useAuth()
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const isEn = language === 'en'
   const [activeTab, setActiveTab] = useState<
     | 'dashboard'
     | 'appointments'
@@ -183,7 +184,7 @@ export default function StaffPortal({
               }`}
             >
               <LayoutDashboard size={15} />
-              <span>{t('staffNavStations')}</span>
+              <span>{isEn ? 'Station Dashboard' : t('staffNavStations')}</span>
             </button>
 
             <button
@@ -195,7 +196,7 @@ export default function StaffPortal({
               }`}
             >
               <Calendar size={15} />
-              <span>आज की बुकिंग / Appointments</span>
+              <span>{isEn ? "Today's Appointments" : 'आज की बुकिंग / Appointments'}</span>
             </button>
 
             <button
@@ -207,7 +208,7 @@ export default function StaffPortal({
               }`}
             >
               <UserCheck size={15} />
-              <span>ग्राहक हाजिरी / Fast Check-In</span>
+              <span>{isEn ? 'Fast Check-In' : 'ग्राहक हाजिरी / Fast Check-In'}</span>
             </button>
 
             <button
@@ -219,7 +220,7 @@ export default function StaffPortal({
               }`}
             >
               <UserPlus size={15} />
-              <span>{t('staffNavWalkIn')}</span>
+              <span>{isEn ? 'Walk-In Intake' : t('staffNavWalkIn')}</span>
             </button>
 
             <button
@@ -231,7 +232,7 @@ export default function StaffPortal({
               }`}
             >
               <Clock size={15} />
-              <span>{t('staffNavQueue')}</span>
+              <span>{isEn ? 'Live Queue' : t('staffNavQueue')}</span>
               <span className="ml-auto px-1.5 py-0.2 rounded text-[10px] bg-[#D63927] text-white font-mono font-bold">
                 {queue.filter((q) => q.status !== 'Completed').length}
               </span>
@@ -246,7 +247,7 @@ export default function StaffPortal({
               }`}
             >
               <Search size={15} />
-              <span>ग्राहक खोज / Search Records</span>
+              <span>{isEn ? 'Search Records' : 'ग्राहक खोज / Search Records'}</span>
             </button>
 
             <button
@@ -258,7 +259,7 @@ export default function StaffPortal({
               }`}
             >
               <BookOpen size={15} />
-              <span>कुर्सी आवंटन / Station Schedule</span>
+              <span>{isEn ? 'Station Schedule' : 'कुर्सी आवंटन / Station Schedule'}</span>
             </button>
 
             <button
@@ -270,7 +271,7 @@ export default function StaffPortal({
               }`}
             >
               <CreditCard size={15} />
-              <span>बिलिंग & पीओएस / POS Billing</span>
+              <span>{isEn ? 'POS Billing' : 'बिलिंग & पीओएस / POS Billing'}</span>
             </button>
 
             <button
@@ -282,7 +283,7 @@ export default function StaffPortal({
               }`}
             >
               <RotateCcw size={15} />
-              <span>रिफंड टिकट / Refund Tickets</span>
+              <span>{isEn ? 'Refund Tickets' : 'रिफंड टिकट / Refund Tickets'}</span>
             </button>
 
             <button
@@ -294,7 +295,7 @@ export default function StaffPortal({
               }`}
             >
               <Activity size={15} />
-              <span>शिफ्ट उपस्थिति / Availability</span>
+              <span>{isEn ? 'Shift Availability' : 'शिफ्ट उपस्थिति / Availability'}</span>
             </button>
 
             <button
@@ -306,7 +307,7 @@ export default function StaffPortal({
               }`}
             >
               <User size={15} />
-              <span>प्रोफ़ाइल / Profile</span>
+              <span>{isEn ? 'Profile' : 'प्रोफ़ाइल / Profile'}</span>
             </button>
           </nav>
         </div>
@@ -318,7 +319,7 @@ export default function StaffPortal({
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-[#B81D1D]/10 hover:bg-[#B81D1D] text-[#B81D1D] hover:text-white font-bold text-xs border border-[#B81D1D]/25 transition-colors"
           >
             <LogOut size={15} />
-            <span>लॉग आउट / Sign Out</span>
+            <span>{isEn ? 'Sign Out' : 'लॉग आउट / Sign Out'}</span>
           </button>
         </div>
       </aside>
@@ -332,22 +333,26 @@ export default function StaffPortal({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-4">
               <div>
-                <h2 className="text-xl font-bold text-[#1C1B1A] font-hindi">कारीगर नियंत्रण कंसोल / Stylist Floor Console</h2>
+                <h2 className="text-xl font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Stylist Floor Console' : 'कारीगर नियंत्रण कंसोल / Stylist Floor Console'}
+                </h2>
                 <p className="text-xs text-[#5C564E]">
                   Real-time operational dashboard for chair management & appointments.
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#1C1B1A]">आपकी स्थिति / Status:</span>
+                <span className="text-xs font-bold text-[#1C1B1A]">
+                  {isEn ? 'Status:' : 'आपकी स्थिति / Status:'}
+                </span>
                 <select
                   value={currentStaff.status}
                   onChange={(e) => onUpdateStaffStatus(currentStaff.id, e.target.value as StaffAvailability)}
                   className="p-2 bg-[#FFF9E6]/90 border border-[#1C1B1A]/20 rounded-xl text-xs font-mono font-bold text-[#1C1B1A] outline-none shadow-xs"
                 >
-                  <option value="Available">🟢 Available (उपलब्ध)</option>
-                  <option value="Busy">🔵 Busy (कुर्सी पर व्यस्त)</option>
-                  <option value="On Break">🟡 On Break (चाय अवकाश)</option>
-                  <option value="On Leave">⚪ On Leave (छुट्टी पर)</option>
+                  <option value="Available">{isEn ? '🟢 Available' : '🟢 Available (उपलब्ध)'}</option>
+                  <option value="Busy">{isEn ? '🔵 Busy' : '🔵 Busy (कुर्सी पर व्यस्त)'}</option>
+                  <option value="On Break">{isEn ? '🟡 On Break' : '🟡 On Break (चाय अवकाश)'}</option>
+                  <option value="On Leave">{isEn ? '⚪ On Leave' : '⚪ On Leave (छुट्टी पर)'}</option>
                 </select>
               </div>
             </div>
@@ -355,23 +360,31 @@ export default function StaffPortal({
             {/* Quick Metrics (Glass Cards) */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">कुर्सी / STATION</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'STATION' : 'कुर्सी / STATION'}
+                </span>
                 <strong className="block text-lg font-bold text-[#1C1B1A] mt-1 font-mono">{currentStaff.station}</strong>
               </div>
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">आज संपन्न / COMPLETED</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'COMPLETED TODAY' : 'आज संपन्न / COMPLETED'}
+                </span>
                 <strong className="block text-lg font-bold text-[#288D43] mt-1 font-mono">
                   {currentStaff.totalCutsToday} Clients
                 </strong>
               </div>
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">प्रतीक्षारत / IN QUEUE</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'IN QUEUE' : 'प्रतीक्षारत / IN QUEUE'}
+                </span>
                 <strong className="block text-lg font-bold text-[#D63927] mt-1 font-mono">
                   {queue.filter((q) => q.status === 'Waiting').length} Waiting
                 </strong>
               </div>
               <div className="glass-card p-4">
-                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">कारीगर रेटिंग / RATING</span>
+                <span className="text-[11px] text-[#5C564E] font-bold font-mono uppercase">
+                  {isEn ? 'STYLIST RATING' : 'कारीगर रेटिंग / RATING'}
+                </span>
                 <strong className="block text-lg font-bold text-[#1C1B1A] mt-1 font-mono">
                   ⭐ {currentStaff.rating} / 5.0
                 </strong>
@@ -381,12 +394,14 @@ export default function StaffPortal({
             {/* Live Queue Operations Box */}
             <div className="glass-panel p-5">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#1C1B1A]/10">
-                <h3 className="text-sm font-bold text-[#1C1B1A] font-hindi">सैलून कतार एक्शन बोर्ड / Floor Action Board</h3>
+                <h3 className="text-sm font-bold text-[#1C1B1A] font-hindi">
+                  {isEn ? 'Floor Action Board' : 'सैलून कतार एक्शन बोर्ड / Floor Action Board'}
+                </h3>
                 <button
                   onClick={() => setActiveTab('walkins')}
                   className="btn-kitsch-haldi text-xs flex items-center gap-1"
                 >
-                  <Plus size={13} /> नया वॉक-इन जोड़ें
+                  <Plus size={13} /> {isEn ? 'Add Walk-In' : 'नया वॉक-इन जोड़ें'}
                 </button>
               </div>
 
@@ -407,7 +422,7 @@ export default function StaffPortal({
                         )}
                       </div>
                       <span className="text-[11px] text-[#5C564E] block mt-0.5 font-mono">
-                        {item.serviceName} • उस्ताद: {item.staffName} ({item.assignedStation})
+                        {item.serviceName} • {isEn ? 'Stylist:' : 'उस्ताद:'} {item.staffName} ({item.assignedStation})
                       </span>
                       {item.waitBreakdown && (
                         <span className="text-[10px] text-[#1E75B8] font-mono font-bold block mt-0.5">
@@ -433,7 +448,7 @@ export default function StaffPortal({
                             onClick={() => onUpdateQueueStatus(item.token, 'Called')}
                             className="btn-kitsch-secondary px-2.5 py-1 text-xs"
                           >
-                            बुलाएं / Call
+                            {isEn ? 'Call' : 'बुलाएं / Call'}
                           </button>
                         </>
                       )}
@@ -442,7 +457,7 @@ export default function StaffPortal({
                           onClick={() => onUpdateQueueStatus(item.token, 'In Service')}
                           className="btn-kitsch-limca px-2.5 py-1 text-xs font-bold"
                         >
-                          शुरू करें / Start
+                          {isEn ? 'Start' : 'शुरू करें / Start'}
                         </button>
                       )}
                       {item.status === 'In Service' && (
@@ -450,7 +465,7 @@ export default function StaffPortal({
                           onClick={() => onUpdateQueueStatus(item.token, 'Completed')}
                           className="btn-kitsch-primary px-2.5 py-1 text-xs font-bold"
                         >
-                          संपन्न / Checkout
+                          {isEn ? 'Checkout' : 'संपन्न / Checkout'}
                         </button>
                       )}
                     </div>
@@ -465,7 +480,9 @@ export default function StaffPortal({
         {activeTab === 'appointments' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">आज का बही-खाता / Today&apos;s Appointments Ledger</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? "Today's Appointments Ledger" : 'आज का बही-खाता / Today\'s Appointments Ledger'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Active schedule of booked customer visits for the day.</p>
             </div>
             <div className="glass-panel divide-y divide-[#1C1B1A]/10">
@@ -491,7 +508,7 @@ export default function StaffPortal({
                         onClick={() => onUpdateAppointmentStatus(apt.id, 'In Service')}
                         className="btn-kitsch-limca px-2.5 py-1 text-xs"
                       >
-                        कुर्सी पर बैठाएं
+                        {isEn ? 'Seat Client' : 'कुर्सी पर बैठाएं'}
                       </button>
                     )}
                     {apt.status === 'In Service' && (
@@ -499,7 +516,7 @@ export default function StaffPortal({
                         onClick={() => onUpdateAppointmentStatus(apt.id, 'Completed')}
                         className="btn-kitsch-primary px-2.5 py-1 text-xs"
                       >
-                        सेवा पूरी हुई
+                        {isEn ? 'Complete Service' : 'सेवा पूरी हुई'}
                       </button>
                     )}
                     {apt.status === 'Pending' && (
@@ -507,7 +524,7 @@ export default function StaffPortal({
                         onClick={() => onUpdateAppointmentStatus(apt.id, 'No-show')}
                         className="px-2.5 py-1 bg-[#B81D1D]/10 text-[#B81D1D] hover:bg-[#B81D1D] hover:text-white border border-[#B81D1D]/30 rounded-xl text-xs font-bold transition-colors"
                       >
-                        गैर-हाजिर / No-Show
+                        {isEn ? 'No-Show' : 'गैर-हाजिर / No-Show'}
                       </button>
                     )}
                   </div>
@@ -521,7 +538,9 @@ export default function StaffPortal({
         {activeTab === 'checkin' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">तुरंत ग्राहक हाजिरी / Fast Check-In</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Fast Check-In' : 'तुरंत ग्राहक हाजिरी / Fast Check-In'}
+              </h2>
               <p className="text-xs text-[#5C564E]">
                 Search by customer phone number, booking ID, or name to issue immediate floor queue token.
               </p>
@@ -555,7 +574,7 @@ export default function StaffPortal({
                         onClick={() => onUpdateAppointmentStatus(apt.id, 'In Service')}
                         className="btn-kitsch-limca px-3.5 py-1.5 text-xs font-bold"
                       >
-                        हाजिरी & टोकन दें
+                        {isEn ? 'Check-In & Issue Token' : 'हाजिरी & टोकन दें'}
                       </button>
                     ) : (
                       <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#F6EFE2] text-[#1C1B1A] border border-[#1C1B1A]/15">
@@ -574,9 +593,11 @@ export default function StaffPortal({
           <div className="max-w-xl mx-auto glass-panel p-6 shadow-glass-lg">
             <div className="mb-4 pb-3 border-b border-[#1C1B1A]/15">
               <span className="text-[10px] font-mono font-bold text-[#D63927] uppercase tracking-wider bg-[#F6EFE2] px-2 py-0.5 rounded border border-[#1C1B1A]/15">
-                रिसेप्शन पर्ची • WALK-IN FAST INTAKE
+                {isEn ? 'WALK-IN FAST INTAKE' : 'रिसेप्शन पर्ची • WALK-IN FAST INTAKE'}
               </span>
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi mt-1.5">वॉक-इन ग्राहक पर्ची बनाएं / Register Walk-In</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi mt-1.5">
+                {isEn ? 'Register Walk-In Customer' : 'वॉक-इन ग्राहक पर्ची बनाएं / Register Walk-In'}
+              </h2>
             </div>
 
             {walkInSuccessMsg && (
@@ -588,7 +609,9 @@ export default function StaffPortal({
 
             <form onSubmit={handleWalkInSubmit} className="space-y-4 text-xs font-bold text-[#1C1B1A]">
               <div>
-                <label className="block text-[#1C1B1A] mb-1">ग्राहक का पूरा नाम / Customer Name</label>
+                <label className="block text-[#1C1B1A] mb-1">
+                  {isEn ? 'Customer Full Name' : 'ग्राहक का पूरा नाम / Customer Name'}
+                </label>
                 <input
                   type="text"
                   required
@@ -600,7 +623,9 @@ export default function StaffPortal({
               </div>
 
               <div>
-                <label className="block text-[#1C1B1A] mb-1">फ़ोन नंबर (AI कॉल के लिए) / Phone Number</label>
+                <label className="block text-[#1C1B1A] mb-1">
+                  {isEn ? 'Phone Number (for AI Arrival Call)' : 'फ़ोन नंबर (AI कॉल के लिए) / Phone Number'}
+                </label>
                 <input
                   type="tel"
                   required
@@ -612,7 +637,9 @@ export default function StaffPortal({
               </div>
 
               <div>
-                <label className="block text-[#1C1B1A] mb-1">सेवा चुनें / Select Service</label>
+                <label className="block text-[#1C1B1A] mb-1">
+                  {isEn ? 'Select Service' : 'सेवा चुनें / Select Service'}
+                </label>
                 <select
                   value={walkInService}
                   onChange={(e) => setWalkInService(e.target.value)}
@@ -627,7 +654,9 @@ export default function StaffPortal({
               </div>
 
               <div>
-                <label className="block text-[#1C1B1A] mb-1">कारीगर आवंटित करें / Assign Stylist</label>
+                <label className="block text-[#1C1B1A] mb-1">
+                  {isEn ? 'Assign Stylist' : 'कारीगर आवंटित करें / Assign Stylist'}
+                </label>
                 <select
                   value={walkInStaff}
                   onChange={(e) => setWalkInStaff(e.target.value)}
@@ -649,7 +678,7 @@ export default function StaffPortal({
                 type="submit"
                 className="w-full py-3 btn-kitsch-haldi text-xs font-bold"
               >
-                टोकन जारी करें एवं कतार में जोड़ें / Issue Token
+                {isEn ? 'Issue Token & Add to Queue' : 'टोकन जारी करें एवं कतार में जोड़ें / Issue Token'}
               </button>
             </form>
           </div>
@@ -659,7 +688,9 @@ export default function StaffPortal({
         {activeTab === 'queue' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">कतार नियंत्रक एवं AI ऑटो-कॉलर / Queue Controller</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Queue Controller & AI Auto-Caller' : 'कतार नियंत्रक एवं AI ऑटो-कॉलर / Queue Controller'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Trigger automated voice announcements and seat clients.</p>
             </div>
             <div className="glass-panel p-5 space-y-3">
@@ -699,19 +730,19 @@ export default function StaffPortal({
                       onClick={() => onUpdateQueueStatus(item.token, 'Called')}
                       className="btn-kitsch-secondary px-2.5 py-1.5 text-xs"
                     >
-                      बुलाएं
+                      {isEn ? 'Call' : 'बुलाएं'}
                     </button>
                     <button
                       onClick={() => onUpdateQueueStatus(item.token, 'In Service')}
                       className="btn-kitsch-limca px-2.5 py-1.5 text-xs font-bold"
                     >
-                      शुरू
+                      {isEn ? 'Start' : 'शुरू'}
                     </button>
                     <button
                       onClick={() => onUpdateQueueStatus(item.token, 'Completed')}
                       className="btn-kitsch-primary px-2.5 py-1.5 text-xs font-bold"
                     >
-                      संपन्न
+                      {isEn ? 'Complete' : 'संपन्न'}
                     </button>
                   </div>
                 </div>
@@ -724,7 +755,9 @@ export default function StaffPortal({
         {activeTab === 'customers' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">ग्राहक रिकॉर्ड खोज / Customer Records</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Customer Records Search' : 'ग्राहक रिकॉर्ड खोज / Customer Records'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Lookup past service history and customer contacts.</p>
             </div>
             <div className="relative">
@@ -760,7 +793,9 @@ export default function StaffPortal({
         {activeTab === 'bookings' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">कुर्सी एवं शिफ्ट समय सारिणी / Station Schedule</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Station & Shift Schedule' : 'कुर्सी एवं शिफ्ट समय सारिणी / Station Schedule'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Manage appointment assignments and buffer times for active salon stations.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -785,7 +820,9 @@ export default function StaffPortal({
         {activeTab === 'payments' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">पीओएस बिलिंग एवं रसीद काउंटर / POS Billing Counter</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'POS Billing & Receipt Counter' : 'पीओएस बिलिंग एवं रसीद काउंटर / POS Billing Counter'}
+              </h2>
               <p className="text-xs text-[#5C564E]">
                 Collect payments, verify customer phone number for automated AI voice calls, and trigger automated AI email receipts.
               </p>
@@ -849,7 +886,7 @@ export default function StaffPortal({
                         }
                         className="btn-kitsch-secondary px-3 py-1.5 text-xs font-bold flex items-center gap-1.5"
                       >
-                        <Printer size={13} /> रसीद प्रिंट करें / Print
+                        <Printer size={13} /> {isEn ? 'Print Receipt' : 'रसीद प्रिंट करें / Print'}
                       </button>
                     )}
                   </div>
@@ -863,7 +900,9 @@ export default function StaffPortal({
         {activeTab === 'refunds' && (
           <div className="space-y-4">
             <div className="glass-panel p-4">
-              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">ग्राहक रिफंड दावे / Customer Refund Tickets</h2>
+              <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Customer Refund Tickets' : 'ग्राहक रिफंड दावे / Customer Refund Tickets'}
+              </h2>
               <p className="text-xs text-[#5C564E]">Review and process cancellation refunds.</p>
             </div>
             <div className="glass-panel p-5 divide-y divide-[#1C1B1A]/10 text-xs">
@@ -888,7 +927,9 @@ export default function StaffPortal({
         {/* ==================== TAB 10: AVAILABILITY ==================== */}
         {activeTab === 'availability' && (
           <div className="max-w-xl mx-auto glass-panel p-6 shadow-glass-lg space-y-4 text-xs font-mono">
-            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">कारीगर उपस्थिति एवं शिफ्ट / Staff Shift</h2>
+            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+              {isEn ? 'Staff Shift & Attendance' : 'कारीगर उपस्थिति एवं शिफ्ट / Staff Shift'}
+            </h2>
             <div className="p-4 bg-[#F6EFE2]/80 rounded-xl border border-[#1C1B1A]/15 space-y-3">
               <div className="flex justify-between">
                 <span className="text-[#5C564E]">Stylist Name:</span>
@@ -909,7 +950,9 @@ export default function StaffPortal({
         {/* ==================== TAB 11: PROFILE ==================== */}
         {activeTab === 'profile' && (
           <div className="max-w-xl mx-auto glass-panel p-6 shadow-glass-lg space-y-4 text-xs font-mono">
-            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">कारीगर प्रोफ़ाइल / Staff Profile</h2>
+            <h2 className="text-lg font-bold text-[#1C1B1A] font-hindi">
+              {isEn ? 'Staff Profile' : 'कारीगर प्रोफ़ाइल / Staff Profile'}
+            </h2>
             <div className="space-y-3">
               <div className="p-3 bg-[#F6EFE2]/80 rounded-xl border border-[#1C1B1A]/15 flex justify-between">
                 <span className="text-[#5C564E]">Name:</span>

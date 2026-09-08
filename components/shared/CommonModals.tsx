@@ -3,6 +3,7 @@
 import React from 'react'
 import { X, Printer, CheckCircle2, Scissors } from 'lucide-react'
 import { ReceiptData } from '@/lib/types'
+import { useLanguage } from '@/lib/language'
 
 export function PaymentReceiptModal({
   receipt,
@@ -11,6 +12,9 @@ export function PaymentReceiptModal({
   receipt: ReceiptData
   onClose: () => void
 }) {
+  const { language } = useLanguage()
+  const isEn = language === 'en'
+
   return (
     <div className="fixed inset-0 bg-[#1C1B1A]/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
       <div className="glass-modal max-w-md w-full p-6 text-[#1C1B1A]">
@@ -23,7 +27,9 @@ export function PaymentReceiptModal({
               <span className="text-[10px] font-bold text-[#288D43] uppercase tracking-wider block font-mono">
                 Official Tax Invoice
               </span>
-              <h3 className="text-base font-bold text-[#1C1B1A] font-hindi">डीलक्स उस्ताद रसीद</h3>
+              <h3 className="text-base font-bold text-[#1C1B1A] font-hindi">
+                {isEn ? 'Deluxe Salon Receipt' : 'डीलक्स उस्ताद रसीद'}
+              </h3>
             </div>
           </div>
           <button
@@ -39,12 +45,12 @@ export function PaymentReceiptModal({
         <div className="p-5 ticket-perforated rounded-xl my-4 text-xs font-mono space-y-3 relative shadow-inner">
           {/* Stamped Red Rubber Seal */}
           <div className="absolute right-4 top-4 stamped-seal text-xs">
-            [ P A I D / भुगतान ]
+            {isEn ? '[ P A I D ]' : '[ P A I D / भुगतान ]'}
           </div>
 
           <div className="text-center pb-3 border-b border-dashed border-[#1C1B1A]/20">
             <h4 className="font-extrabold text-[#1C1B1A] text-sm font-hindi">
-              डीलक्स उस्ताद सैलून (DELUXE SALON OPS)
+              {isEn ? 'DELUXE SALON OPERATIONS' : 'डीलक्स उस्ताद सैलून (DELUXE SALON OPS)'}
             </h4>
             <span className="text-[10px] text-[#5C564E] font-mono">
               TAX INVOICE #{receipt.receiptNumber}
@@ -65,7 +71,7 @@ export function PaymentReceiptModal({
               <b>{receipt.serviceName}</b>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#5C564E]">Stylist / Karigar:</span>
+              <span className="text-[#5C564E]">{isEn ? 'Stylist:' : 'Stylist / Karigar:'}</span>
               <b>{receipt.staffName}</b>
             </div>
             {receipt.preferredStylistFee ? (
@@ -109,7 +115,7 @@ export function PaymentReceiptModal({
             onClick={() => window.print()}
             className="px-4 py-2 btn-kitsch-primary text-xs flex items-center gap-1.5"
           >
-            <Printer size={14} /> Print Receipt (रसीद प्रिंट)
+            <Printer size={14} /> {isEn ? 'Print Receipt' : 'Print Receipt (रसीद प्रिंट)'}
           </button>
         </div>
       </div>

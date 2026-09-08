@@ -13,7 +13,7 @@ export default function LanguageSwitcher({
   variant = 'header',
   className = '',
 }: LanguageSwitcherProps) {
-  const { language, setLanguage, currentLanguageOption } = useLanguage()
+  const { language, setLanguage, currentLanguageOption, t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -63,7 +63,7 @@ export default function LanguageSwitcher({
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-card text-xs font-bold text-[#1C1B1A] hover:border-[#D63927] transition-all cursor-pointer shadow-xs"
-          title="Change System Language"
+          title={t('changeLanguage')}
         >
           <Globe size={14} className="text-[#D63927]" />
           <span>{currentLanguageOption.flag}</span>
@@ -74,7 +74,7 @@ export default function LanguageSwitcher({
         {isOpen && (
           <div className="absolute right-0 mt-1.5 w-44 rounded-xl glass-modal z-50 py-1.5 shadow-glass-lg border border-[#1C1B1A]/20 animate-fadeIn">
             <div className="px-3 py-1 border-b border-[#1C1B1A]/10 text-[10px] font-mono uppercase text-[#5C564E] font-bold">
-              भाषा चुनें / Select Language
+              {t('selectLanguage')}
             </div>
             {SUPPORTED_LANGUAGES.map((lang) => (
               <button
@@ -110,7 +110,7 @@ export default function LanguageSwitcher({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#2B2927] hover:bg-[#383532] text-[#FFFDF9] border border-white/20 text-xs font-bold transition-all shadow-xs cursor-pointer"
-        title="Change Language / भाषा बदलें"
+        title={t('changeLanguage')}
       >
         <Globe size={13} className="text-[#F5B82E]" />
         <span className="text-sm leading-none">{currentLanguageOption.flag}</span>
@@ -121,7 +121,7 @@ export default function LanguageSwitcher({
       {isOpen && (
         <div className="absolute right-0 mt-1.5 w-44 rounded-xl bg-[#1C1B1A] text-[#FFFDF9] z-50 py-1.5 shadow-kitsch-lg border-2 border-[#F5B82E] animate-fadeIn font-sans">
           <div className="px-3 py-1 border-b border-white/10 text-[9px] font-mono uppercase text-[#E8DAC1] font-bold">
-            भाषा चयन / Language
+            {t('languageSelection')}
           </div>
           {SUPPORTED_LANGUAGES.map((lang) => (
             <button
