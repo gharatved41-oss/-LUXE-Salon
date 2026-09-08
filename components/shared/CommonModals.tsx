@@ -16,39 +16,39 @@ export function PaymentReceiptModal({
   const isEn = language === 'en'
 
   return (
-    <div className="fixed inset-0 bg-[#1C1B1A]/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
-      <div className="glass-modal max-w-md w-full p-6 text-[#1C1B1A]">
-        <div className="flex justify-between items-center pb-3 border-b border-dashed border-[#1C1B1A]/20">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#288D43] text-white flex items-center justify-center shadow-xs">
-              <Scissors size={16} />
+    <div className="fixed inset-0 bg-[#1C1B1A]/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn font-body">
+      <div className="neo-modal max-w-md w-full p-6 text-[#1C1B1A]">
+        <div className="flex justify-between items-center pb-3 border-b-2 border-dashed border-[#1C1B1A]/30">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-[#288D43] text-white flex items-center justify-center border-2 border-[#1C1B1A] shadow-xs">
+              <Scissors size={18} />
             </div>
             <div>
-              <span className="text-[10px] font-bold text-[#288D43] uppercase tracking-wider block font-mono">
+              <span className="text-[10px] font-extrabold text-[#288D43] uppercase tracking-wider block font-mono">
                 Official Tax Invoice
               </span>
-              <h3 className="text-base font-bold text-[#1C1B1A] font-hindi">
+              <h3 className="text-base font-extrabold text-[#1C1B1A] font-hindi">
                 {isEn ? 'Deluxe Salon Receipt' : 'डीलक्स उस्ताद रसीद'}
               </h3>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-[#5C564E] hover:text-[#1C1B1A] rounded"
+            className="p-1.5 text-[#5C564E] hover:text-[#1C1B1A] rounded-lg border border-[#1C1B1A]/20 hover:bg-[#E8DAC1]"
             aria-label="Close modal"
           >
             <X size={18} />
           </button>
         </div>
 
-        {/* Vintage Perforated Railway/Matchbox Ticket Card with Glass Substrate */}
-        <div className="p-5 ticket-perforated rounded-xl my-4 text-xs font-mono space-y-3 relative shadow-inner">
+        {/* Vintage Perforated Railway/Matchbox Ticket Card */}
+        <div className="p-5 ticket-perforated rounded-xl my-4 text-xs font-mono space-y-3 relative shadow-kitsch-sm">
           {/* Stamped Red Rubber Seal */}
           <div className="absolute right-4 top-4 stamped-seal text-xs">
             {isEn ? '[ P A I D ]' : '[ P A I D / भुगतान ]'}
           </div>
 
-          <div className="text-center pb-3 border-b border-dashed border-[#1C1B1A]/20">
+          <div className="text-center pb-3 border-b-2 border-dashed border-[#1C1B1A]/20">
             <h4 className="font-extrabold text-[#1C1B1A] text-sm font-hindi">
               {isEn ? 'DELUXE SALON OPERATIONS' : 'डीलक्स उस्ताद सैलून (DELUXE SALON OPS)'}
             </h4>
@@ -108,17 +108,17 @@ export function PaymentReceiptModal({
             </div>
           </div>
 
-          <div className="pt-3 border-t border-dashed border-[#1C1B1A]/20 flex justify-between items-center text-sm font-bold text-[#1C1B1A]">
+          <div className="pt-3 border-t-2 border-dashed border-[#1C1B1A]/20 flex justify-between items-center text-sm font-bold text-[#1C1B1A]">
             <span>TOTAL COLLECTED:</span>
-            <span className="text-[#D63927] font-mono text-base">₹{receipt.amount}.00</span>
+            <span className="text-[#D63927] font-mono text-base font-extrabold">₹{receipt.amount}.00</span>
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-dashed border-[#1C1B1A]/20">
+        <div className="flex justify-end gap-2 pt-3 border-t-2 border-dashed border-[#1C1B1A]/20">
           <button
             type="button"
             onClick={onClose}
-            className="px-3.5 py-2 text-[#5C564E] hover:text-[#1C1B1A] rounded-lg font-bold text-xs"
+            className="px-4 py-2 btn-kitsch-secondary text-xs"
           >
             Close
           </button>

@@ -62,18 +62,18 @@ export default function LanguageSwitcher({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-card text-xs font-bold text-[#1C1B1A] hover:border-[#D63927] transition-all cursor-pointer shadow-xs"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FFFDF9] border-2 border-[#1C1B1A] text-xs font-bold text-[#1C1B1A] hover:bg-[#F6EFE2] transition-all cursor-pointer shadow-kitsch-sm"
           title={t('changeLanguage')}
         >
           <Globe size={14} className="text-[#D63927]" />
           <span>{currentLanguageOption.flag}</span>
-          <span>{currentLanguageOption.nativeName}</span>
-          <ChevronDown size={12} className={`text-slate-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <span className="font-bold">{currentLanguageOption.nativeName}</span>
+          <ChevronDown size={12} className={`text-[#1C1B1A] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-1.5 w-44 rounded-xl glass-modal z-50 py-1.5 shadow-glass-lg border border-[#1C1B1A]/20 animate-fadeIn">
-            <div className="px-3 py-1 border-b border-[#1C1B1A]/10 text-[10px] font-mono uppercase text-[#5C564E] font-bold">
+          <div className="absolute right-0 mt-1.5 w-44 rounded-xl neo-modal z-50 py-1.5 shadow-kitsch-lg animate-fadeIn">
+            <div className="px-3 py-1 border-b-2 border-dashed border-[#1C1B1A]/20 text-[10px] font-mono uppercase text-[#5C564E] font-bold">
               {t('selectLanguage')}
             </div>
             {SUPPORTED_LANGUAGES.map((lang) => (
@@ -83,18 +83,18 @@ export default function LanguageSwitcher({
                 onClick={() => handleSelect(lang.code)}
                 className={`w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-left transition-colors ${
                   language === lang.code
-                    ? 'bg-[#D63927]/10 text-[#D63927]'
-                    : 'text-[#1C1B1A] hover:bg-[#1C1B1A]/5'
+                    ? 'bg-[#D63927] text-white'
+                    : 'text-[#1C1B1A] hover:bg-[#F5B82E]/20'
                 }`}
               >
                 <div className="flex items-center gap-2">
                   <span>{lang.flag}</span>
                   <div>
                     <div className="font-bold leading-none">{lang.nativeName}</div>
-                    <div className="text-[10px] text-[#5C564E] font-mono leading-none mt-0.5">{lang.label}</div>
+                    <div className={`text-[10px] font-mono leading-none mt-0.5 ${language === lang.code ? 'text-white/80' : 'text-[#5C564E]'}`}>{lang.label}</div>
                   </div>
                 </div>
-                {language === lang.code && <Check size={14} className="text-[#D63927]" />}
+                {language === lang.code && <Check size={14} className="text-white" />}
               </button>
             ))}
           </div>

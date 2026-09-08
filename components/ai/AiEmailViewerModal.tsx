@@ -30,17 +30,17 @@ export default function AiEmailViewerModal({
   if (!email) return null
 
   return (
-    <div className="fixed inset-0 bg-[#1C1B1A]/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn font-sans">
-      <div className="glass-modal max-w-lg w-full overflow-hidden text-[#1C1B1A] flex flex-col">
+    <div className="fixed inset-0 bg-[#1C1B1A]/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn font-sans">
+      <div className="neo-modal max-w-lg w-full overflow-hidden text-[#1C1B1A] flex flex-col">
         {/* Email Client Header Bar */}
-        <div className="p-3.5 bg-[#D63927]/90 backdrop-blur-md text-white flex items-center justify-between border-b border-white/20">
+        <div className="p-3.5 bg-[#D63927] text-white flex items-center justify-between border-b-2 border-[#1C1B1A]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#F5B82E] text-[#1C1B1A] border border-white/40 shadow-xs flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-lg bg-[#F5B82E] text-[#1C1B1A] border-2 border-[#1C1B1A] shadow-xs flex items-center justify-center font-bold">
               <Mail size={16} />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-mono font-bold bg-[#1C1B1A] text-[#F5B82E] px-1.5 py-0.2 rounded uppercase">
+                <span className="text-[10px] font-mono font-extrabold bg-[#1C1B1A] text-[#F5B82E] px-1.5 py-0.5 rounded uppercase">
                   {isEn ? 'AI DISPATCH' : 'डाक • AI DISPATCH'}
                 </span>
               </div>
@@ -49,7 +49,7 @@ export default function AiEmailViewerModal({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 bg-[#1C1B1A]/80 text-white hover:bg-[#B81D1D] rounded-lg border border-white/30 transition-colors"
+            className="p-1.5 bg-[#1C1B1A] text-white hover:bg-[#B81D1D] rounded-lg border border-white/30 transition-colors"
             aria-label="Close email modal"
           >
             <X size={16} />
@@ -57,7 +57,7 @@ export default function AiEmailViewerModal({
         </div>
 
         {/* Email Meta Bar */}
-        <div className="p-3.5 bg-[#F6EFE2]/70 backdrop-blur-sm border-b border-[#1C1B1A]/10 text-xs space-y-1.5 font-mono">
+        <div className="p-3.5 bg-[#FFF9E6] border-b-2 border-dashed border-[#1C1B1A]/20 text-xs space-y-1.5 font-mono">
           <div className="flex justify-between text-[#5C564E] text-[11px]">
             <span>To: <b className="text-[#1C1B1A]">{email.recipientName}</b> &lt;{email.recipientEmail}&gt;</span>
             <span className="font-bold text-[#1C1B1A]">{email.timestamp}</span>
@@ -73,8 +73,8 @@ export default function AiEmailViewerModal({
         {/* Rendered HTML Email Body */}
         <div className="p-5 space-y-4 text-xs overflow-y-auto max-h-[440px] bg-transparent">
           {/* Email Branding Hero */}
-          <div className="p-4 bg-[#1C1B1A] rounded-xl text-white text-center space-y-1.5 border border-white/20 shadow-sm">
-            <div className="w-10 h-10 rounded-xl bg-[#F5B82E] text-[#1C1B1A] border border-white flex items-center justify-center mx-auto shadow-xs">
+          <div className="p-4 bg-[#1C1B1A] rounded-xl text-white text-center space-y-1.5 border-2 border-[#1C1B1A] shadow-kitsch-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#F5B82E] text-[#1C1B1A] border-2 border-white flex items-center justify-center mx-auto shadow-xs">
               <Scissors size={20} />
             </div>
             <h2 className="text-lg font-hindi font-bold tracking-wide text-[#F5B82E]">
@@ -85,26 +85,26 @@ export default function AiEmailViewerModal({
             </p>
           </div>
 
-          {/* AI Customer Memory Note Card (The requested core feature!) */}
-          <div className="p-4 bg-[#FFF9E6]/85 backdrop-blur-sm border border-[#F5B82E]/40 rounded-xl space-y-2 shadow-xs">
+          {/* AI Customer Memory Note Card */}
+          <div className="p-4 bg-[#FFF9E6] border-2 border-[#1C1B1A] rounded-xl space-y-2 shadow-kitsch-sm">
             <div className="flex items-center gap-2 text-[#B81D1D] font-bold text-xs">
               <Sparkles size={15} className="text-[#D63927]" />
-              <span className="font-hindi tracking-wide text-sm">
+              <span className="font-hindi tracking-wide text-sm font-extrabold">
                 {isEn ? 'Personalized AI Customer Memory Note' : 'ग्राहक स्मृति • Personalized AI Customer Memory Note'}
               </span>
             </div>
-            <p className="text-[#1C1B1A] text-xs leading-relaxed italic bg-white/90 p-2.5 rounded-lg border border-[#F5B82E]/40 font-serif">
+            <p className="text-[#1C1B1A] text-xs leading-relaxed italic bg-white p-2.5 rounded-lg border border-[#1C1B1A]/20 font-serif font-medium">
               &ldquo;{email.customerMemoryNote}&rdquo;
             </p>
           </div>
 
           {/* Itemized Service & Payment Summary */}
-          <div className="p-4 bg-[#F6EFE2]/75 backdrop-blur-sm border border-[#1C1B1A]/15 rounded-xl space-y-2.5 font-mono shadow-xs">
-            <div className="flex justify-between items-center text-xs pb-1.5 border-b border-dashed border-[#1C1B1A]/20">
+          <div className="p-4 bg-[#FFFDF9] border-2 border-[#1C1B1A] rounded-xl space-y-2.5 font-mono shadow-kitsch-sm">
+            <div className="flex justify-between items-center text-xs pb-1.5 border-b-2 border-dashed border-[#1C1B1A]/20">
               <span className="text-[#5C564E]">{isEn ? 'Service:' : 'सेवा / Service:'}</span>
               <strong className="text-[#1C1B1A]">{email.serviceName}</strong>
             </div>
-            <div className="flex justify-between items-center text-xs pb-1.5 border-b border-dashed border-[#1C1B1A]/20">
+            <div className="flex justify-between items-center text-xs pb-1.5 border-b-2 border-dashed border-[#1C1B1A]/20">
               <span className="text-[#5C564E]">{isEn ? 'Stylist:' : 'कारीगर / Stylist:'}</span>
               <strong className="text-[#1C1B1A]">{email.staffName}</strong>
             </div>
@@ -115,21 +115,21 @@ export default function AiEmailViewerModal({
           </div>
 
           {/* Post-Care Advice */}
-          <div className="p-3 bg-[#288D43]/10 border border-[#288D43]/30 rounded-xl text-[11px] text-[#1C1B1A] space-y-1">
+          <div className="p-3 bg-[#288D43]/10 border-2 border-[#288D43] rounded-xl text-[11px] text-[#1C1B1A] space-y-1">
             <span className="font-bold text-[#288D43] flex items-center gap-1">
               {isEn ? '✨ Stylist Aftercare Advice:' : '✨ उस्ताद सलाह / Stylist Aftercare Advice:'}
             </span>
-            <p className="text-[#1C1B1A] leading-normal font-sans">
+            <p className="text-[#1C1B1A] leading-normal font-sans font-medium">
               For best styling longevity, avoid direct heat treatments for 24 hours. Book your next maintenance trim in 3 to 4 weeks!
             </p>
           </div>
         </div>
 
         {/* Footer Actions */}
-        <div className="p-3.5 bg-[#F6EFE2]/70 backdrop-blur-md border-t border-[#1C1B1A]/15 flex justify-end gap-2">
+        <div className="p-3.5 bg-[#FFFDF9] border-t-2 border-[#1C1B1A] flex justify-end gap-2">
           <button
             onClick={onClose}
-            className="btn-kitsch-primary px-4 py-1.5 text-xs"
+            className="btn-kitsch-primary px-4 py-2 text-xs"
           >
             {isEn ? 'Close Email' : 'बंद करें / Close Email'}
           </button>
